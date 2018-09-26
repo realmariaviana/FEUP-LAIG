@@ -31,7 +31,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        // File reading 
+        // File reading
         this.reader = new CGFXMLreader();
 
         /*
@@ -392,12 +392,78 @@ class MySceneGraph {
             else
                 return "ambient component undefined for ID = " + lightId;
 
-            // TODO: Retrieve the diffuse component
+            //Retrieve the diffuse component
 
-            // TODO: Retrieve the specular component
+            var diffuseIllumination = [];
+            if (diffuseIndex != -1) {
+                // R
+                var r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R component of the diffuse illumination for ID = " + lightId;
+                else
+                    diffuseIllumination.push(r);
 
-            // TODO: Store Light global information.
-            //this.lights[lightId] = ...;
+                // G
+                var g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G component of the diffuse illumination for ID = " + lightId;
+                else
+                    diffuseIllumination.push(g);
+
+                // B
+                var b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B component of the diffuse illumination for ID = " + lightId;
+                else
+                    diffuseIllumination.push(b);
+
+                // A
+                var a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                    return "unable to parse A component of the diffuse illumination for ID = " + lightId;
+                else
+                    diffuseIllumination.push(a);
+            }
+            else
+                return "diffuse component undefined for ID = " + lightId;
+
+            // Retrieve the specular component
+
+            var specularIllumination = [];
+            if (specularIndex != -1) {
+                // R
+                var r = this.reader.getFloat(grandChildren[specularIndex], 'r');
+                if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                    return "unable to parse R component of the specularillumination for ID = " + lightId;
+                else
+                    specularIllumination.push(r);
+
+                // G
+                var g = this.reader.getFloat(grandChildren[specularIndex], 'g');
+                if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                    return "unable to parse G component of the specular illumination for ID = " + lightId;
+                else
+                    specularIllumination.push(g);
+
+                // B
+                var b = this.reader.getFloat(grandChildren[specularIndex], 'b');
+                if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                    return "unable to parse B component of the specular illumination for ID = " + lightId;
+                else
+                    specularIllumination.push(b);
+
+                // A
+                var a = this.reader.getFloat(grandChildren[specularIndex], 'a');
+                if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                    return "unable to parse A component of the specular illumination for ID = " + lightId;
+                else
+                    specularIllumination.push(a);
+            }
+            else
+                return "specular component undefined for ID = " + lightId;
+
+            // Store Light global information.
+            this.lights[lightId] = [enableLight, positionLight, ambientIllumination, diffuseIllumination, specularIllumination];
             numLights++;
         }
 
@@ -412,7 +478,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <TEXTURES> block. 
+     * Parses the <TEXTURES> block.
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
