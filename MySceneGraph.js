@@ -261,7 +261,7 @@ class MySceneGraph {
 
         var children = illuminationNode.children;
 
-        this.nodeNames= [];
+        var nodeNames= [];
         for (var i=0; i<children.length;i++){
           nodeNames.push(children[i].nodeName);
         }
@@ -269,7 +269,77 @@ class MySceneGraph {
         var ambientIndex = nodeNames.indexOf("ambient");
         var backgroundIndex = nodeNames.indexOf("background");
 
-      // FAZER O RESTO !!!!!!!!!
+        //ambient
+
+        var ambientIlumination = [];
+        this.ambientIllumination = [0, 0, 0, 1];
+        if (ambientIndex!= -1) {
+            // R
+            var r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
+            if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                return "unable to parse R component of the illumination block";
+            else
+                this.ambientIllumination[0] = r;
+
+            // G
+            var g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
+            if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                return "unable to parse G component of the illumination block";
+            else
+                this.ambientIllumination[1] = g;
+
+            // B
+            var b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
+            if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                return "unable to parse B component of the illumination block";
+            else
+                this.ambientIllumination[2] = b;
+
+            // A
+            var a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
+            if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                return "unable to parse A component of the illumination block";
+            else
+                this.ambientIllumination[13 = a;
+        }
+        else
+            return "ambient illumination component undefined";
+
+        //background
+
+        var backgroundIlumination = [];
+        this.backgroundIllumination = [0, 0, 0, 1];
+        if (backgroundIndex!= -1) {
+            // R
+            var r = this.reader.getFloat(grandChildren[backgroundIndex], 'r');
+            if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                return "unable to parse R component of the illumination block";
+            else
+                this.backgroundIllumination[0] = r;
+
+            // G
+            var g = this.reader.getFloat(grandChildren[backgroundIndex], 'g');
+            if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                return "unable to parse G component of the illumination block";
+            else
+                this.backgroundIllumination[1] = g;
+
+            // B
+            var b = this.reader.getFloat(grandChildren[backgroundIndex], 'b');
+            if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                return "unable to parse B component of the illumination block";
+            else
+                this.backgroundIllumination[2] = b;
+
+            // A
+            var a = this.reader.getFloat(grandChildren[backgroundIndex], 'a');
+            if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                return "unable to parse A component of the illumination block";
+            else
+                this.backgroundIllumination[13 = a;
+        }
+        else
+            return "background illumination component undefined";
 
         this.log("Parsed illumination");
 
