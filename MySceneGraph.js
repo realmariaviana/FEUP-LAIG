@@ -108,11 +108,16 @@ class MySceneGraph {
      */
     parseScene(sceneNode) {
 
+
         // Get root - still don't know where to store this
             var root = this.reader.getString(sceneNode, 'root');
             if (root == null)
                 return "no root defined for scene";
 
+
+            var axis_length = this.reader.getString(sceneNode, 'axis_length');
+            if (axis_length == null || isNaN(axis_length))
+                return "no axis_length defined for scene";
 
         this.log("Parsed scene");
 
