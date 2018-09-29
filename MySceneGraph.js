@@ -564,12 +564,77 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-        // TODO: Parse block
+      this.textures = [];
+      var children = texturesNode.children;
+
+      for (var i=0; i<children.length; i++){
+        var nodeName = children[i].nodeName;
+        if (nodeName == "TEXTURE"){
+          var textureId = this.reader.getString(children[i], 'id');
+          if (textureId == null)
+            return "no ID defined for texture";
+
+          if (this.textures[textureId] != null)
+            return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+
+          grandChildren = children[i].children;
+          var filepath = null;
+          var amplifFactorS = null;
+          var amplifFactorT = null;
+
+          for(var j = 0; j < grandChildren.length; j++){
+            var name = grandChildren[j].nodeName;
+
+            if(name == "file"){
+
+              if(filepath != null)
+                return "duplicate file path in textur with ID=" + textureId;
+
+              filepath = this.reader.getString(grandChildren[j], 'path');
+
+              if(filepath == null)
+                return "unable to parse texture filepath for ID=" + textureId;
+
+            }
+
+            else if(name == "amplif_factor"){
+
+              if(amplifFactorS != null || amplifFactorT != null)
+                return "duplicate amplificate factors in texturd with ID=" + textureId;
+
+              amplifFactorS = this.reader.getFloat(texSpecs[j], 's');
+              amplifFactorT = this.reader.getFloat(texSpecs[j], 't');
+
+              if (amplifFactorS == null || amplifFactorT == null)
+                return "unable to parse texture amplificate factor for ID=" + textureId;
+              else if (isNaN(amplifFactorT))
+                return "amplifFactor T is a non numeric value";
+              else if (isNaN(amplifFactorS))
+                return "amplifFactor S is a non numeric value";
+              else if (amplifFactorT <= 0 || amplifFactorS <= 0)
+                return "ampliFactors must be positive"
+          }
+
+          else
+            this.onXMLMinorErro("unkown tag <" + name + ">");
+        }
+
+        if (filepath == null)
+          return "filepath undefined for texture with ID=" + textureId;
+        else if (amplifFactorT == null)
+          return "amplifFactorT undefined for texture with ID=" + textureId;
+        else if (amplifFactorS== null)
+          return "amplifFactorS undefined for texture with ID=" + textureId;
+
+      }
+      else
+          this.onXMLMinorError("unkown tag <" + nodeName + ">");
+        }
 
         console.log("Parsed textures");
 
         return null;
-    }
+      }
 
     /**
      * Parses the <MATERIALS> node.
@@ -591,7 +656,7 @@ class MySceneGraph {
           return "no ID defined for material";
 
         if (this.materials[materialsId] != null)
-          return "ID must be unique for each material (conflict: ID = " + materialId + ")";
+          return "ID must be unique for each material (conflict: ID = " + materialsId + ")";
 
         grandChildren = children[i].children;
 
@@ -769,7 +834,12 @@ class MySceneGraph {
      * @param {nodes block element} nodesNode
      */
     parseNodes(nodesNode) {
-        // TODO: Parse block
+        var children = nodesNode.children;
+
+        for(var i = 0; i< children.length; i++){
+
+
+        }
         this.log("Parsed nodes");
         return null;
     }
