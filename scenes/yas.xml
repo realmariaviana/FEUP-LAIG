@@ -1,0 +1,93 @@
+<yas>
+
+    <scene root="ss" axis_length="ff" />
+
+    <views default="ss" >
+
+        <perspective id="ss" near="ff" far="ff" angle="ff">
+            <from x="ff" y="ff" z="ff" />
+            <to x="ff" y="ff" z="ff" />
+        </perspective>
+    </views>
+
+    <ambient>
+    <ambient r="ff" g="ff" b="ff" a="ff" />
+    <background r="ff" g="ff" b="ff" a="ff" />
+    </ambient>
+
+    <lights>
+        <omni id="ss" enabled="tt" >
+            <location x="ff" y="ff" z="ff" w="ff" />
+            <ambient r="ff" g="ff" b="ff" a="ff" />
+            <diffuse r="ff" g="ff" b="ff" a="ff" />
+            <specular r="ff" g="ff" b="ff" a="ff" />
+        </omni>
+
+    </lights>
+
+
+    <textures>
+        <texture id="ss" file="ss" />
+    </textures>
+
+
+    <materials>
+        <material id="ss" shininess = "ff" >
+        <emission r="ff" g="ff" b="ff" a="ff" />
+        <ambient r="ff" g="ff" b="ff" a="ff" />
+        <diffuse r="ff" g="ff" b="ff" a="ff" />
+        <specular r="ff" g="ff" b="ff" a="ff" />
+        </material>
+    </materials>
+
+
+    <transformations>
+        <transformation id="ss">
+        <translate x="ff" y="ff" z="ff" />
+        <rotate axis="cc" angle="ff" />
+        <scale x="ff" y="ff" z="ff" />
+        </transformation>
+    </transformations>
+
+
+
+    <primitives>
+        <primitive id="ss">
+        <rectangle x1="ff" y1="ff" x2="ff" y2="ff" />
+        <triangle x1="ff" y1="ff" z1="ff"
+                    x2="ff" y2="ff" z2="ff"
+                    x3="ff" y3="ff" z3="ff" />
+        <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
+        <sphere radius="ff" slices="ii" stacks="ii" />
+        <torus inner="ff" outer="ff" slices="ii" loops="ii" />
+        </primitive >
+    </primitives >
+
+
+    <components>
+        <component id="ss">
+
+            <transformation>
+                <transformationref id="ss" />
+                <translate x="ff" y="ff" z="ff" />
+                <rotate axis="cc" angle="ff" />
+                <scale x="ff" y="ff" z="ff" />
+            </transformation>
+            
+
+            <materials>
+                <material id="ss" />
+            </materials>
+        
+
+            <texture id="ss" length_s="ff" length_t="ff" />
+        
+            <children>
+                <componentref id="ss" />
+                <primitiveref id="ss" />
+            </children>
+
+        </component>
+    </components>
+
+ </yas>
