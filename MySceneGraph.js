@@ -31,7 +31,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        // File reading 
+        // File reading
         this.reader = new CGFXMLreader();
 
         /*
@@ -100,14 +100,14 @@ class MySceneGraph {
         }
     }
 
-    
+
 
     /**
      * Parses the <scene> block.
-     * @param {illumination block element} illuminationNode
+     * @param {scene block element} sceneNode
      */
     parseScene(sceneNode) {
-        
+
         // Get root - still don't know where to store this
             var root = this.reader.getString(sceneNode, 'root');
             if (root == null)
@@ -120,7 +120,99 @@ class MySceneGraph {
     }
 
 
+    /**
+     * Parses the <ambient> node.
+     * @param {ambient block element} ambientNode
+     */
+    parseAmbient(ambientNode){
 
+      var children = ambientNode.children;
+      var nodeNames= [];
+
+      for (var i=0; i<children.length;i++){
+        nodeNames.push(children[i].nodeName);
+      }
+
+      var ambientIndex = nodeNames.indexOf("ambient");
+      var backgroundIndex = nodeNames.indexOf("background");
+
+      //ambient
+
+      this.ambientAmbient = [0, 0, 0, 1];
+
+      if (ambientIndex!= -1) {
+      // R
+      var r = this.reader.getFloat(children[ambientIndex], 'r');
+
+      if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+        return "unable to parse R component of the ambient block";
+          else
+              this.ambientAmbient[0] = r;
+      // G
+      var g = this.reader.getFloat(children[ambientIndex], 'g');
+
+      if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+        return "unable to parse G component of the ambient block";
+            else
+                this.ambientAmbient[1] = g;
+       // B
+      var b = this.reader.getFloat(children[ambientIndex], 'b');
+
+      if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+        return "unable to parse B component of the ambient block";
+            else
+                this.ambientAmbient[2] = b;
+       // A
+      var a = this.reader.getFloat(children[ambientIndex], 'a');
+
+      if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+        return "unable to parse A component of the ambient block";
+            else
+                this.ambientAmbient[1] = a;
+        }
+        else
+            return "ambient component undefined";
+
+      //background
+      this.backgroundAmbient = [0, 0, 0, 1];
+
+        if (backgroundIndex!= -1) {
+        // R
+        var r = this.reader.getFloat(children[backgroundIndex], 'r');
+
+        if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+          return "unable to parse R component of the ambient block";
+            else
+                this.backgroundAmbient[0] = r;
+        // G
+        var g = this.reader.getFloat(children[backgroundIndex], 'g');
+
+        if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+          return "unable to parse G component of the ambient block";
+            else
+                this.backgroundAmbient[1] = g;
+        // B
+        var b = this.reader.getFloat(children[backgroundIndex], 'b');
+
+        if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+          return "unable to parse B component of the ambient block";
+            else
+                this.backgroundAmbient[2] = b;
+        // A
+        var a = this.reader.getFloat(children[backgroundIndex], 'a');
+
+        if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+          return "unable to parse A component of the ambient block";
+            else
+                this.backgroundAmbient[1] = a;
+        }
+          else
+              return "background component undefined";
+
+      this.log("Parsed ambient");
+
+      return null;
+    }
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
