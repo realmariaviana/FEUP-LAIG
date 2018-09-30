@@ -11,8 +11,8 @@
     </views>
 
     <ambient>
-    <ambient r="ff" g="ff" b="ff" a="ff" />
-    <background r="ff" g="ff" b="ff" a="ff" />
+        <ambient r="ff" g="ff" b="ff" a="ff" />
+        <background r="ff" g="ff" b="ff" a="ff" />
     </ambient>
 
     <lights>

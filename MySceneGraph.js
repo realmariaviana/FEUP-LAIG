@@ -1,12 +1,16 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
-var INITIALS_INDEX = 0;
-var ILLUMINATION_INDEX = 1;
-var LIGHTS_INDEX = 2;
-var TEXTURES_INDEX = 3;
-var MATERIALS_INDEX = 4;
-var NODES_INDEX = 5;
+var scene_index = 0;
+var views_index = 1;
+var ambient_index = 2;
+var lights_index = 3;
+var textures_index = 4;
+var materials_index = 5;
+var transformations_index = 6;
+var primitives_index = 7;
+var components_index = 8;
+
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -86,16 +90,42 @@ class MySceneGraph {
 
         // Processes each node, verifying errors.
 
-        // <views>
+        // <scene>
         var index;
         if ((index = nodeNames.indexOf("scene")) == -1)
             return "tag <scene> missing";
         else {
-            if (index != INITIALS_INDEX)
+            if (index != scene_index)
                 this.onXMLMinorError("tag <scene> out of order");
 
-            //Parse INITIAL block
+            //Parse scene block
             if ((error = this.parseScene(nodes[index])) != null)
+                return error;
+        }
+
+        // <views>
+        var index;
+        if ((index = nodeNames.indexOf("views")) == -1)
+            return "tag <views> missing";
+        else {
+            if (index != views_index)
+                this.onXMLMinorError("tag <views> out of order");
+
+            //Parse scene block
+            if ((error = this.parseViews(nodes[index])) != null)
+                return error;
+        }
+
+        // <ambient>
+        var index;
+        if ((index = nodeNames.indexOf("ambient")) == -1)
+            return "tag <ambient> missing";
+        else {
+            if (index != ambient_index)
+                this.onXMLMinorError("tag <ambient> out of order");
+
+            //Parse scene block
+            if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
     }
@@ -110,7 +140,36 @@ class MySceneGraph {
 
 
         // Get root - still don't know where to store this
-            var root = this.reader.getString(sceneNode, 'root');
+            this.idRoot = this.reader.getString(sceneNode, 'root');
+            if (root == null)
+                return "no root defined for scene";
+
+
+            var axis_length = this.reader.getString(sceneNode, 'axis_length');
+            if (axis_length == null || isNaN(axis_length))
+                return "no axis_length defined for scene";
+
+        this.log("Parsed scene");
+
+        return null;
+    }
+
+
+    /**
+     * Parses the <scene> block.
+     * @param {scene block element} sceneNode
+     */
+    //parseView(sceneNode){}
+
+    /**
+     * Parses the <scene> block.
+     * @param {scene block element} sceneNode
+     */
+    parseScene(sceneNode) {
+
+
+        // Get root - still don't know where to store this
+            this.idRoot = this.reader.getString(sceneNode, 'root');
             if (root == null)
                 return "no root defined for scene";
 
