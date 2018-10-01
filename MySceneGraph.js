@@ -37,6 +37,7 @@ class MySceneGraph {
 
         this.perspectiveViews = [];
         this.orthoViews = [];
+        this.views = [this.perspectiveViews,this.orthoViews];
 
         // File reading
         this.reader = new CGFXMLreader();
@@ -69,7 +70,7 @@ class MySceneGraph {
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
+        //this.scene.onGraphLoaded();
     }
 
     /**
@@ -131,6 +132,20 @@ class MySceneGraph {
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
+
+        // <lights>
+        var index;
+        if ((index = nodeNames.indexOf("lights")) == -1)
+            return "tag <lights> missing";
+        else {
+            if (index != ambient_index)
+                this.onXMLMinorError("tag <lights> out of order");
+
+            //Parse lights block
+            if ((error = this.parseLights(nodes[index])) != null)
+                return error;
+        }
+    
 
 
     }
@@ -213,6 +228,16 @@ class MySceneGraph {
     }
 
 
+    addArrayAttrToArray(array,attr){
+
+        for(var i =0; i <array.length;i++){
+            if( attr[0]== array[i]) return -1;
+        }
+
+        if(this.array.length==0)
+            this.array[this.array.length]=attr;
+        else this.array[this.array.length+1]=attr;
+    }
 
 
     /**
@@ -253,10 +278,13 @@ class MySceneGraph {
         }
         for(var i=0; i<nodeNames.length;i++){
 
-            this.log(nodeNames[i]);
+            if(i==0)
+
             if(nodeNames[i] == "perspective") this.parsePerspectiveView(children[i]);
             else if(nodeNames[i] == "ortho") this.parseOrthoView(children[i]);
-            else this.log("View tag is undefined");
+            else{
+                if(i==0) return "View tag is undefined";
+            }
         }
 
         return null;
@@ -272,7 +300,6 @@ class MySceneGraph {
         var view=[];
 
         var viewId = this.reader.getString(orthoNode, 'id');
-        this.log(viewId+ "\n");
         var near = this.reader.getString(orthoNode, 'near');
         var far = this.reader.getString(orthoNode, 'far');
         var left = this.reader.getString(orthoNode, 'left');
@@ -288,7 +315,9 @@ class MySceneGraph {
         view[5]=top;
         view[6]=bottom;
 
-        this.orthoViews[this.orthoViews.length+1] = view;
+        if(this.perspectiveViews.length==0)
+            this.orthoViews[this.orthoViews.length]=view;
+        else this.orthoViews[this.orthoViews.length+1]=view;
 
         this.log("Parsed ortho view")
     }
@@ -299,7 +328,6 @@ class MySceneGraph {
      */
     parsePerspectiveView(perspectiveNode){
         var idView = this.reader.getString(perspectiveNode, 'id');
-        this.log(idView+ "\n");
         var near = this.reader.getString(perspectiveNode, 'near');
         var far = this.reader.getString(perspectiveNode, 'far');
         var angle = this.reader.getString(perspectiveNode, 'angle');
@@ -324,7 +352,6 @@ class MySceneGraph {
             
         }
 
-
         //to
         if (toNode) {
             if(this.parseXYZ(toNode) == -1) return "unable to parse R component of the views to block";
@@ -342,9 +369,11 @@ class MySceneGraph {
         view[1]=near;
         view[2] = far;
         view[3] = angle;
-        view[4] = toCoords;
-        view[5] = fromCoords;
-        this.perspectiveViews[this.perspectiveViews.length+1]=view;
+        view[5] = toCoords;
+        view[4] = fromCoords;
+        if(this.perspectiveViews.length==0)
+            this.perspectiveViews[this.perspectiveViews.length]=view;
+        else this.perspectiveViews[this.perspectiveViews.length+1]=view;
 
         this.log("Parsed Perspective view");
     }
@@ -431,6 +460,26 @@ class MySceneGraph {
       return null;
     }
 
+
+    parseLights(lightsNose){
+        
+        var children = lightsNose.children;      
+        var nodeNames= []; 
+
+        for (var i=0; i<children.length;i++){
+            nodeNames.push(children[i].nodeName);
+        }
+        for(var i=0; i<nodeNames.length;i++){
+
+            if(nodeNames[i] == "omni") this.log("omni");//this.parseOmniLights(children[i]);
+            else if(nodeNames[i] == "spot") this.log("spot");//this.parseSpotLights(children[i]);
+            else{
+                if(i==0) return "View tag is undefined";
+            }
+        }
+
+        return null;
+    }
 
 
     /*
