@@ -3,10 +3,14 @@
     <scene root="ss" axis_length="5" />
 
     <views default="ss" >
-        <perspective id="ss" near="1" far="2" angle="20">
+        <perspective id="oi" near="1" far="2" angle="20">
             <from x="1" y="2" z="3" />
             <to x="1" y="4" z="5" />
         </perspective>
+
+
+
+        <ortho id="up" near="1" far="1" left="1" right="1" top="1" bottom="1" />
     </views>
 
     <ambient>

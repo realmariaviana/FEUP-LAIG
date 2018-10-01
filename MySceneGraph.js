@@ -35,6 +35,9 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
+        this.perspectiveViews = [];
+        this.orthoViews = [];
+
         // File reading
         this.reader = new CGFXMLreader();
 
@@ -128,8 +131,18 @@ class MySceneGraph {
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
+
+
     }
 
+    /**
+     * Checks if attribute is valid: not null, number and inbetween limits 
+     * @param {*} attribute 
+     * @param {*} canBeNull 
+     * @param {*} isNumber 
+     * @param {*} limit1 
+     * @param {*} limit2 
+     */
     isAttrValid(attribute, canBeNull, isNumber, limit1, limit2){
         if((!canBeNull && attribute==null) 
             || (isNumber && isNaN(attribute))
@@ -140,28 +153,32 @@ class MySceneGraph {
         else return 1;    
     }
 
-
+    /**
+     * Parses RGB components and returns array
+     * @param {*} node 
+     */
     parseRGB(node){
 
         var arr=[0,0,0];
+        var temp;
 
         // R
-        var r = this.reader.getFloat(node, 'r');
+        temp = this.reader.getFloat(node, 'r');
     
-        if(!this.isAttrValid(r,0,1,0,1)) return -1;
-        else arr[0] = r;
+        if(!this.isAttrValid(temp,0,1,0,1)) return -1;
+        else arr[0] = temp;
 
         // G
-        var g = this.reader.getFloat(node, 'g');
+        temp = this.reader.getFloat(node, 'g');
     
-        if(!this.isAttrValid(g,0,1,0,1)) return -2;
-        else arr[1] = g;
+        if(!this.isAttrValid(temp,0,1,0,1)) return -2;
+        else arr[1] = temp;
 
         // B
-        var b = this.reader.getFloat(node, 'b');
+        temp = this.reader.getFloat(node, 'b');
     
-        if(!this.isAttrValid(b,0,1,0,1)) return -3;
-        else arr[2] = b;
+        if(!this.isAttrValid(temp,0,1,0,1)) return -3;
+        else arr[2] = temp;
 
         return arr;        
     }
@@ -223,62 +240,131 @@ class MySceneGraph {
      * @param {scene block element} sceneNode
      */
     parseViews(viewsNode){
-        this.viewId = this.reader.getString(viewsNode, 'default');
+        this.defaultView = this.reader.getString(viewsNode, 'default');
 
-        if (this.viewId == null)
-                return "no default defined for scene";
+        if (this.defaultView == null)
+                return "no default view defined for scene";
 
-        //perspective        
-        var perspectiveNode = viewsNode.children[0];
-        this.idPerspective = this.reader.getString(perspectiveNode, 'id');
-        this.near = this.reader.getString(perspectiveNode, 'near');
-        this.far = this.reader.getString(perspectiveNode, 'far');
-        this.angle = this.reader.getString(perspectiveNode, 'angle');
-
-        //perspective's children
-        var children = perspectiveNode.children;
-
-        var nodeNames= [];
+        var children = viewsNode.children;      
+        var nodeNames= []; 
 
         for (var i=0; i<children.length;i++){
             nodeNames.push(children[i].nodeName);
         }
+        for(var i=0; i<nodeNames.length;i++){
 
-        var toIndex = nodeNames.indexOf("to");
-        var fromIndex = nodeNames.indexOf("from");
+            this.log(nodeNames[i]);
+            if(nodeNames[i] == "perspective") this.parsePerspectiveView(children[i]);
+            else if(nodeNames[i] == "ortho") this.parseOrthoView(children[i]);
+            else this.log("View tag is undefined");
+        }
 
-        this.toCoords = [0, 0, 0];
-        this.fromCoords = [0, 0, 0];
+        return null;
 
-        //x
-        if (fromIndex!= -1) {
-            if(this.parseXYZ(children[fromIndex]) == -1) return "unable to parse x component of the views from block";
-            else if(this.parseXYZ(children[fromIndex]) == -2) return "unable to parse y component of the views from block";
-            else if(this.parseXYZ(children[fromIndex]) == -3) return "unable to parse z component of the views from block";
+    }
+
+    /**
+     * Parses a ortho view
+     * @param {*} orthoNode 
+     */
+    parseOrthoView(orthoNode){
+
+        var view=[];
+
+        var viewId = this.reader.getString(orthoNode, 'id');
+        this.log(viewId+ "\n");
+        var near = this.reader.getString(orthoNode, 'near');
+        var far = this.reader.getString(orthoNode, 'far');
+        var left = this.reader.getString(orthoNode, 'left');
+        var right = this.reader.getString(orthoNode, 'right');
+        var top = this.reader.getString(orthoNode, 'top');
+        var bottom = this.reader.getString(orthoNode, 'bottom');
+
+        view[0] = viewId;
+        view[1]=near;
+        view[2]=far;
+        view[3]=left;
+        view[4]=right;
+        view[5]=top;
+        view[6]=bottom;
+
+        this.orthoViews[this.orthoViews.length+1] = view;
+
+        this.log("Parsed ortho view")
+    }
+
+    /**
+     * Parses a perspective view 
+     * @param {*} perspectiveNode 
+     */
+    parsePerspectiveView(perspectiveNode){
+        var idView = this.reader.getString(perspectiveNode, 'id');
+        this.log(idView+ "\n");
+        var near = this.reader.getString(perspectiveNode, 'near');
+        var far = this.reader.getString(perspectiveNode, 'far');
+        var angle = this.reader.getString(perspectiveNode, 'angle');
+
+        //perspective's children
+        
+        var toNode = this.getChildNode(perspectiveNode,"to");
+        var fromNode = this.getChildNode(perspectiveNode,"from");
+
+        var toCoords = [0, 0, 0];
+        var fromCoords = [0, 0, 0];
+
+        //from
+        if (fromNode) {
+            if(this.parseXYZ(fromNode) == -1) return "unable to parse x component of the views from block";
+            else if(this.parseXYZ(fromNode) == -2) return "unable to parse y component of the views from block";
+            else if(this.parseXYZ(fromNode) == -3) return "unable to parse z component of the views from block";
             else {
                 for(var i = 0; i<3;i++)
-                this.fromCoords[i] = this.parseXYZ(children[fromIndex])[i];   
+                fromCoords[i] = this.parseXYZ(fromNode)[i];   
             }
             
         }
 
 
         //to
-        //x
-        if (toIndex!= -1) {
-            if(this.parseXYZ(children[toIndex]) == -1) return "unable to parse R component of the views to block";
-            else if(this.parseXYZ(children[toIndex]) == -2) return "unable to parse G component of the views to block";
-            else if(this.parseXYZ(children[toIndex]) == -3) return "unable to parse B component of the views to block";
+        if (toNode) {
+            if(this.parseXYZ(toNode) == -1) return "unable to parse R component of the views to block";
+            else if(this.parseXYZ(toNode) == -2) return "unable to parse G component of the views to block";
+            else if(this.parseXYZ(toNode) == -3) return "unable to parse B component of the views to block";
             else {
                 for(var i = 0; i<3;i++)
-                this.toCoords[i] = this.parseXYZ(children[toIndex])[i];   
+                toCoords[i] = this.parseXYZ(toNode)[i];   
             }
             
         }
 
-        this.log("Parsed views");
+        var view=[];
+        view[0]=idView;
+        view[1]=near;
+        view[2] = far;
+        view[3] = angle;
+        view[4] = toCoords;
+        view[5] = fromCoords;
+        this.perspectiveViews[this.perspectiveViews.length+1]=view;
 
-        return null;
+        this.log("Parsed Perspective view");
+    }
+
+
+    /**
+     * Returns a node's child with the tag name tagName
+     * @param {*} node 
+     * @param {*} tagName 
+     */
+    getChildNode(node, tagName){
+        var children = node.children;
+        var nodeNames= [];
+
+        for (var i=0; i<children.length;i++){
+            nodeNames.push(children[i].nodeName);
+        }
+
+        if(nodeNames.indexOf(tagName) != -1) return children[nodeNames.indexOf(tagName)];
+        else return null;
 
     }
 
@@ -289,31 +375,25 @@ class MySceneGraph {
      */
    parseAmbient(ambientNode){
 
-      var children = ambientNode.children;
-      var nodeNames= [];
+      var ambientN = this.getChildNode(ambientNode, "ambient");
+      var backgroundN = this.getChildNode(ambientNode, "background");
 
-      for (var i=0; i<children.length;i++){
-        nodeNames.push(children[i].nodeName);
-      }
-
-      var ambientIndex = nodeNames.indexOf("ambient");
       this.temp = [0, 0, 0, 1];
-      var backgroundIndex = nodeNames.indexOf("background");
 
       //ambient
-      if (ambientIndex!= -1) {
+      if (ambientN) {
 
         //RBG
-        if(this.parseRGB(children[ambientIndex]) == -1) return "unable to parse R component of the ambient block";
-         if(this.parseRGB(children[ambientIndex]) == -2) return "unable to parse G component of the ambient block";
-        else if(this.parseRGB(children[ambientIndex]) == -3) return "unable to parse B component of the ambient block";
+        if(this.parseRGB(ambientN) == -1) return "unable to parse R component of the ambient block";
+         if(this.parseRGB(ambientN) == -2) return "unable to parse G component of the ambient block";
+        else if(this.parseRGB(ambientN) == -3) return "unable to parse B component of the ambient block";
         else {
             for(var i = 0; i<3;i++)
-            this.temp[i] = this.parseRGB(children[ambientIndex])[i];   
+            this.temp[i] = this.parseRGB(ambientN)[i];   
         }
 
        // A
-      var a = this.reader.getFloat(children[ambientIndex], 'a');
+      var a = this.reader.getFloat(ambientN, 'a');
 
       if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
         return "unable to parse A component of the ambient block";
@@ -325,20 +405,20 @@ class MySceneGraph {
 
             
       //background
-        if (backgroundIndex!= -1) {
-            if(this.parseRGB(children[backgroundIndex]) == -1) return "unable to parse R component of the ambient block";
-            else if(this.parseRGB(children[backgroundIndex]) == -2) return "unable to parse G component of the ambient block";
-            else if(this.parseRGB(children[backgroundIndex]) == -3) return "unable to parse B component of the ambient block";
+        if (backgroundN) {
+            if(this.parseRGB(backgroundN) == -1) return "unable to parse R component of the ambient back block";
+            else if(this.parseRGB(backgroundN) == -2) return "unable to parse G component of the ambient block";
+            else if(this.parseRGB(backgroundN) == -3) return "unable to parse B component of the ambient block";
             else {
                 for(var i = 0; i<3;i++)
-                this.temp[i] = this.parseRGB(children[backgroundIndex])[i];   
+                this.temp[i] = this.parseRGB(backgroundN)[i];   
             }
 
         
         // A
-        var a = this.reader.getFloat(children[backgroundIndex], 'a');
+        var a = this.reader.getFloat(backgroundN, 'a');
 
-        if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+        if (!this.isAttrValid(a,0,0,0,1))
           return "unable to parse A component of the ambient block";
             else
                 this.temp[1] = a;
