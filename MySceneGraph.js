@@ -107,6 +107,7 @@ class MySceneGraph {
         }
 
         // <views>
+        var index;
         if ((index = nodeNames.indexOf("views")) == -1)
             return "tag <views> missing";
         else {
@@ -119,6 +120,7 @@ class MySceneGraph {
         }
 
         // <ambient>
+        var index;
         if ((index = nodeNames.indexOf("ambient")) == -1)
             return "tag <ambient> missing";
         else {
@@ -127,18 +129,6 @@ class MySceneGraph {
 
             //Parse ambient block
             if ((error = this.parseAmbient(nodes[index])) != null)
-                return error;
-        }
-
-        // <lights>
-        if ((index = nodeNames.indexOf("lights")) == -1)
-            return "tag <lights> missing";
-        else {
-            if (index != lights_index)
-                this.onXMLMinorError("tag <lights> out of order");
-
-            //Parse lights block
-            if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
 
@@ -263,9 +253,10 @@ class MySceneGraph {
         }
         for(var i=0; i<nodeNames.length;i++){
 
+            this.log(nodeNames[i]);
             if(nodeNames[i] == "perspective") this.parsePerspectiveView(children[i]);
             else if(nodeNames[i] == "ortho") this.parseOrthoView(children[i]);
-            else return "View tag is undefined";
+            else this.log("View tag is undefined");
         }
 
         return null;
@@ -281,6 +272,7 @@ class MySceneGraph {
         var view=[];
 
         var viewId = this.reader.getString(orthoNode, 'id');
+        this.log(viewId+ "\n");
         var near = this.reader.getString(orthoNode, 'near');
         var far = this.reader.getString(orthoNode, 'far');
         var left = this.reader.getString(orthoNode, 'left');
@@ -307,6 +299,7 @@ class MySceneGraph {
      */
     parsePerspectiveView(perspectiveNode){
         var idView = this.reader.getString(perspectiveNode, 'id');
+        this.log(idView+ "\n");
         var near = this.reader.getString(perspectiveNode, 'near');
         var far = this.reader.getString(perspectiveNode, 'far');
         var angle = this.reader.getString(perspectiveNode, 'angle');
