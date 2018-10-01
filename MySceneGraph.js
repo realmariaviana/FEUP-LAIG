@@ -132,6 +132,7 @@ class MySceneGraph {
 
 
 
+
     /**
      * Parses the <scene> block.
      * @param {scene block element} sceneNode
@@ -141,12 +142,12 @@ class MySceneGraph {
 
         // Get root - still don't know where to store this
             this.idRoot = this.reader.getString(sceneNode, 'root');
-            if (root == null)
+            if (this.idRoot == null)
                 return "no root defined for scene";
 
 
-            var axis_length = this.reader.getString(sceneNode, 'axis_length');
-            if (axis_length == null || isNaN(axis_length))
+            this.axis_length = this.reader.getString(sceneNode, 'axis_length');
+            if (this.axis_length == null || isNaN(axis_length))
                 return "no axis_length defined for scene";
 
         this.log("Parsed scene");
@@ -155,32 +156,101 @@ class MySceneGraph {
     }
 
 
-    /**
-     * Parses the <scene> block.
+     /**
+     * Parses the <view> block.
      * @param {scene block element} sceneNode
      */
-    //parseView(sceneNode){}
+    parseView(viewsNode){
+        this.viewId = this.reader.getString(sceneNode, 'default');
 
-    /**
-     * Parses the <scene> block.
-     * @param {scene block element} sceneNode
-     */
-    parseScene(sceneNode) {
+        if (this.viewId == null)
+                return "no default defined for scene";
+
+        //perspective        
+        var perspectiveNode = viewsNode.children;
+        this.idPerspective = this.reader.getString(perspectiveNode, 'id');
+        this.near = this.reader.getString(perspectiveNode, 'near');
+        this.far = this.reader.getString(perspectiveNode, 'far');
+        this.angle = this.reader.getString(perspectiveNode, 'angle');
+
+        //perspective's children
+        var children = ambientNode.children;
+
+        var nodeNames= [];
+
+        for (var i=0; i<children.length;i++){
+            nodeNames.push(children[i].nodeName);
+        }
+
+        var toIndex = nodeNames.indexOf("to");
+        var fromIndex = nodeNames.indexOf("from");
+
+        this.toCoords = [0, 0, 0];
+        this.fromCoords = [0, 0, 0];
+
+        //x
+        if (fromIndex!= -1) {
+            var x = this.reader.getFloat(children[ambientIndex], 'x');
+
+            if (x != null || !isNaN(x) )
+                return "unable to parse x component of from perspective";
+            else
+                this.toCoords[0] = x;
+        }
+
+        //y
+        if (fromIndex!= -1) {
+            var y = this.reader.getFloat(children[ambientIndex], 'y');
+
+            if (y != null || !isNaN(y) )
+                return "unable to parse x component of from perspective";
+            else
+                this.toCoords[1] = y;
+        }
+
+        //z
+        if (fromIndex!= -1) {
+            var z = this.reader.getFloat(children[ambientIndex], 'z');
+
+            if (z != null || !isNaN(z) )
+                return "unable to parse x component of from perspective";
+            else
+                this.toCoords[2] = z;
+        }
 
 
-        // Get root - still don't know where to store this
-            this.idRoot = this.reader.getString(sceneNode, 'root');
-            if (root == null)
-                return "no root defined for scene";
+        //to
+        //x
+        if (fromIndex!= -1) {
 
+            if (x != null || !isNaN(x) )
+                return "unable to parse x component of from perspective";
+            else
+                this.toCoords[0] = x;
+        }
 
-            var axis_length = this.reader.getString(sceneNode, 'axis_length');
-            if (axis_length == null || isNaN(axis_length))
-                return "no axis_length defined for scene";
+        //y
+        if (fromIndex!= -1) {
 
-        this.log("Parsed scene");
+            if (y != null || !isNaN(y) )
+                return "unable to parse x component of from perspective";
+            else
+                this.toCoords[1] = y;
+        }
+
+        //z
+        if (fromIndex!= -1) {
+
+            if (z != null || !isNaN(z) )
+                return "unable to parse x component of from perspective";
+            else
+                this.toCoords[2] = z;
+        }
+
+        this.log("Parsed views");
 
         return null;
+
     }
 
 

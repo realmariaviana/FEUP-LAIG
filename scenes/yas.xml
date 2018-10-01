@@ -3,7 +3,6 @@
     <scene root="ss" axis_length="ff" />
 
     <views default="ss" >
-
         <perspective id="ss" near="ff" far="ff" angle="ff">
             <from x="ff" y="ff" z="ff" />
             <to x="ff" y="ff" z="ff" />
