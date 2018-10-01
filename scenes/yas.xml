@@ -1,17 +1,17 @@
 <yas>
 
-    <scene root="ss" axis_length="ff" />
+    <scene root="ss" axis_length="5" />
 
     <views default="ss" >
-        <perspective id="ss" near="ff" far="ff" angle="ff">
-            <from x="ff" y="ff" z="ff" />
-            <to x="ff" y="ff" z="ff" />
+        <perspective id="ss" near="1" far="2" angle="20">
+            <from x="1" y="2" z="3" />
+            <to x="1" y="4" z="5" />
         </perspective>
     </views>
 
     <ambient>
-        <ambient r="ff" g="ff" b="ff" a="ff" />
-        <background r="ff" g="ff" b="ff" a="ff" />
+        <ambient r="1" g="1" b="1" a="0.1" />
+        <background r="1" g="1" b="1" a="0.1" />
     </ambient>
 
     <lights>

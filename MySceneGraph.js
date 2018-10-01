@@ -111,7 +111,7 @@ class MySceneGraph {
             if (index != views_index)
                 this.onXMLMinorError("tag <views> out of order");
 
-            //Parse scene block
+            //Parse views block
             if ((error = this.parseViews(nodes[index])) != null)
                 return error;
         }
@@ -124,10 +124,75 @@ class MySceneGraph {
             if (index != ambient_index)
                 this.onXMLMinorError("tag <ambient> out of order");
 
-            //Parse scene block
+            //Parse ambient block
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
+    }
+
+    isAttrValid(attribute, canBeNull, isNumber, limit1, limit2){
+        if((!canBeNull && attribute==null) 
+            || (isNumber && isNaN(attribute))
+            || (limit1!=null && attribute < limit1)
+            || (limit2!=null && attribute > limit2)) 
+            
+            return null;
+        else return 1;    
+    }
+
+
+    parseRGB(node){
+
+        var arr=[0,0,0];
+
+        // R
+        var r = this.reader.getFloat(node, 'r');
+    
+        if(!this.isAttrValid(r,0,1,0,1)) return -1;
+        else arr[0] = r;
+
+        // G
+        var g = this.reader.getFloat(node, 'g');
+    
+        if(!this.isAttrValid(g,0,1,0,1)) return -2;
+        else arr[1] = g;
+
+        // B
+        var b = this.reader.getFloat(node, 'b');
+    
+        if(!this.isAttrValid(b,0,1,0,1)) return -3;
+        else arr[2] = b;
+
+        return arr;        
+    }
+
+    /**
+    * Parses x,y,z coordinates into an array
+    * @param {*} node 
+    */
+    parseXYZ(node){
+
+        var arr=[0,0,0];
+        var temp;
+
+        // X
+        temp = this.reader.getFloat(node, 'x');
+        if(!this.isAttrValid(temp,0,1,null,null)) return -1;
+        else arr[0] = temp;
+
+        // Y
+        temp = this.reader.getFloat(node, 'y');
+    
+        if(!this.isAttrValid(temp,0,1,null,null)) return -2;
+        else arr[1] = temp;
+
+        // Z
+        temp= this.reader.getFloat(node, 'z');
+
+        if(!this.isAttrValid(temp,0,1,null,null)) return -3;
+        else arr[2] = temp;
+
+        return arr;        
     }
 
 
@@ -139,15 +204,12 @@ class MySceneGraph {
      */
     parseScene(sceneNode) {
 
-
-        // Get root - still don't know where to store this
             this.idRoot = this.reader.getString(sceneNode, 'root');
             if (this.idRoot == null)
                 return "no root defined for scene";
 
-
             this.axis_length = this.reader.getString(sceneNode, 'axis_length');
-            if (this.axis_length == null || isNaN(axis_length))
+            if (this.axis_length == null || isNaN(this.axis_length))
                 return "no axis_length defined for scene";
 
         this.log("Parsed scene");
@@ -160,21 +222,21 @@ class MySceneGraph {
      * Parses the <view> block.
      * @param {scene block element} sceneNode
      */
-    parseView(viewsNode){
-        this.viewId = this.reader.getString(sceneNode, 'default');
+    parseViews(viewsNode){
+        this.viewId = this.reader.getString(viewsNode, 'default');
 
         if (this.viewId == null)
                 return "no default defined for scene";
 
         //perspective        
-        var perspectiveNode = viewsNode.children;
+        var perspectiveNode = viewsNode.children[0];
         this.idPerspective = this.reader.getString(perspectiveNode, 'id');
         this.near = this.reader.getString(perspectiveNode, 'near');
         this.far = this.reader.getString(perspectiveNode, 'far');
         this.angle = this.reader.getString(perspectiveNode, 'angle');
 
         //perspective's children
-        var children = ambientNode.children;
+        var children = perspectiveNode.children;
 
         var nodeNames= [];
 
@@ -190,61 +252,28 @@ class MySceneGraph {
 
         //x
         if (fromIndex!= -1) {
-            var x = this.reader.getFloat(children[ambientIndex], 'x');
-
-            if (x != null || !isNaN(x) )
-                return "unable to parse x component of from perspective";
-            else
-                this.toCoords[0] = x;
-        }
-
-        //y
-        if (fromIndex!= -1) {
-            var y = this.reader.getFloat(children[ambientIndex], 'y');
-
-            if (y != null || !isNaN(y) )
-                return "unable to parse x component of from perspective";
-            else
-                this.toCoords[1] = y;
-        }
-
-        //z
-        if (fromIndex!= -1) {
-            var z = this.reader.getFloat(children[ambientIndex], 'z');
-
-            if (z != null || !isNaN(z) )
-                return "unable to parse x component of from perspective";
-            else
-                this.toCoords[2] = z;
+            if(this.parseXYZ(children[fromIndex]) == -1) return "unable to parse x component of the views from block";
+            else if(this.parseXYZ(children[fromIndex]) == -2) return "unable to parse y component of the views from block";
+            else if(this.parseXYZ(children[fromIndex]) == -3) return "unable to parse z component of the views from block";
+            else {
+                for(var i = 0; i<3;i++)
+                this.fromCoords[i] = this.parseXYZ(children[fromIndex])[i];   
+            }
+            
         }
 
 
         //to
         //x
-        if (fromIndex!= -1) {
-
-            if (x != null || !isNaN(x) )
-                return "unable to parse x component of from perspective";
-            else
-                this.toCoords[0] = x;
-        }
-
-        //y
-        if (fromIndex!= -1) {
-
-            if (y != null || !isNaN(y) )
-                return "unable to parse x component of from perspective";
-            else
-                this.toCoords[1] = y;
-        }
-
-        //z
-        if (fromIndex!= -1) {
-
-            if (z != null || !isNaN(z) )
-                return "unable to parse x component of from perspective";
-            else
-                this.toCoords[2] = z;
+        if (toIndex!= -1) {
+            if(this.parseXYZ(children[toIndex]) == -1) return "unable to parse R component of the views to block";
+            else if(this.parseXYZ(children[toIndex]) == -2) return "unable to parse G component of the views to block";
+            else if(this.parseXYZ(children[toIndex]) == -3) return "unable to parse B component of the views to block";
+            else {
+                for(var i = 0; i<3;i++)
+                this.toCoords[i] = this.parseXYZ(children[toIndex])[i];   
+            }
+            
         }
 
         this.log("Parsed views");
@@ -258,7 +287,7 @@ class MySceneGraph {
      * Parses the <ambient> node.
      * @param {ambient block element} ambientNode
      */
-    parseAmbient(ambientNode){
+   parseAmbient(ambientNode){
 
       var children = ambientNode.children;
       var nodeNames= [];
@@ -268,77 +297,51 @@ class MySceneGraph {
       }
 
       var ambientIndex = nodeNames.indexOf("ambient");
+      this.temp = [0, 0, 0, 1];
       var backgroundIndex = nodeNames.indexOf("background");
 
       //ambient
-
-      this.ambientAmbient = [0, 0, 0, 1];
-
       if (ambientIndex!= -1) {
-      // R
-      var r = this.reader.getFloat(children[ambientIndex], 'r');
 
-      if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-        return "unable to parse R component of the ambient block";
-          else
-              this.ambientAmbient[0] = r;
-      // G
-      var g = this.reader.getFloat(children[ambientIndex], 'g');
+        //RBG
+        if(this.parseRGB(children[ambientIndex]) == -1) return "unable to parse R component of the ambient block";
+         if(this.parseRGB(children[ambientIndex]) == -2) return "unable to parse G component of the ambient block";
+        else if(this.parseRGB(children[ambientIndex]) == -3) return "unable to parse B component of the ambient block";
+        else {
+            for(var i = 0; i<3;i++)
+            this.temp[i] = this.parseRGB(children[ambientIndex])[i];   
+        }
 
-      if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-        return "unable to parse G component of the ambient block";
-            else
-                this.ambientAmbient[1] = g;
-       // B
-      var b = this.reader.getFloat(children[ambientIndex], 'b');
-
-      if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-        return "unable to parse B component of the ambient block";
-            else
-                this.ambientAmbient[2] = b;
        // A
       var a = this.reader.getFloat(children[ambientIndex], 'a');
 
       if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
         return "unable to parse A component of the ambient block";
             else
-                this.ambientAmbient[1] = a;
+                this.temp[1] = a;
         }
         else
             return "ambient component undefined";
 
+            
       //background
-      this.backgroundAmbient = [0, 0, 0, 1];
-
         if (backgroundIndex!= -1) {
-        // R
-        var r = this.reader.getFloat(children[backgroundIndex], 'r');
+            if(this.parseRGB(children[backgroundIndex]) == -1) return "unable to parse R component of the ambient block";
+            else if(this.parseRGB(children[backgroundIndex]) == -2) return "unable to parse G component of the ambient block";
+            else if(this.parseRGB(children[backgroundIndex]) == -3) return "unable to parse B component of the ambient block";
+            else {
+                for(var i = 0; i<3;i++)
+                this.temp[i] = this.parseRGB(children[backgroundIndex])[i];   
+            }
 
-        if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-          return "unable to parse R component of the ambient block";
-            else
-                this.backgroundAmbient[0] = r;
-        // G
-        var g = this.reader.getFloat(children[backgroundIndex], 'g');
-
-        if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-          return "unable to parse G component of the ambient block";
-            else
-                this.backgroundAmbient[1] = g;
-        // B
-        var b = this.reader.getFloat(children[backgroundIndex], 'b');
-
-        if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-          return "unable to parse B component of the ambient block";
-            else
-                this.backgroundAmbient[2] = b;
+        
         // A
         var a = this.reader.getFloat(children[backgroundIndex], 'a');
 
         if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
           return "unable to parse A component of the ambient block";
             else
-                this.backgroundAmbient[1] = a;
+                this.temp[1] = a;
         }
           else
               return "background component undefined";
@@ -347,6 +350,8 @@ class MySceneGraph {
 
       return null;
     }
+
+
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
@@ -381,4 +386,10 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
     }
+
+
+
+
 }
+
+
