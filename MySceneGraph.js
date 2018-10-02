@@ -130,18 +130,13 @@ class MySceneGraph {
                 return error;
         }
 
-        // <lights>
-        if ((index = nodeNames.indexOf("lights")) == -1)
-            return "tag <lights> missing";
-        else {
-            if (index != lights_index)
-                this.onXMLMinorError("tag <lights> out of order");
-
-            //Parse lights block
-            if ((error = this.parseLights(nodes[index])) != null)
-                return error;
-        }
-
+         // <lights> 
+         if ((index = nodeNames.indexOf("lights")) == -1) 
+         return "tag <lights> missing"; 
+     else { 
+         if (index != lights_index) 
+             this.onXMLMinorError("tag <lights> out of order"); 
+     }
 
     }
 
