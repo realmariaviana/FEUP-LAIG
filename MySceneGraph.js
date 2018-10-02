@@ -277,6 +277,8 @@ class MySceneGraph {
      */
     parseViews(viewsNode){
         this.defaultView = this.reader.getString(viewsNode, 'default');
+        var id;
+        var ids= [];
 
         if (this.defaultView == null)
                 return "no default view defined for scene";
@@ -288,10 +290,15 @@ class MySceneGraph {
             nodeNames.push(children[i].nodeName);
         }
         for(var i=0; i<nodeNames.length;i++){
+            id = this.reader.getString(children[i], 'id');
 
-            if(nodeNames[i] == "perspective") this.parsePerspectiveView(children[i]);
-            else if(nodeNames[i] == "ortho") this.parseOrthoView(children[i]);
-            else return "View tag is undefined";
+            if (this.existsID( ids, this.reader.getString(children[i], "id"))) 
+                return "ID must be unique for each view (conflict: ID = " + id + ")";
+            else{
+                if(nodeNames[i] == "perspective") {this.parsePerspectiveView(children[i]); ids.push(id);}
+                else if(nodeNames[i] == "ortho") {this.parseOrthoView(children[i]);ids.push(id);}
+                else return "View tag is undefined";
+            }
         }
 
         return null;
@@ -721,6 +728,10 @@ class MySceneGraph {
     }
 
 
+    /**
+     * Parses Materials
+     * @param {*} materialsNode 
+     */
     parseMaterials(materialsNode){
         var children = materialsNode.children;      
         var nodeNames= []; 
@@ -743,6 +754,12 @@ class MySceneGraph {
         this.log("Parsed Materials");
     }
 
+    /**
+     * Parses a single Material
+     * @param {*} materialNode 
+     * @param {*} id 
+     * @param {*} shininess 
+     */
     parseMaterial(materialNode, id, shininess){
         
         var emission=[];
@@ -802,7 +819,11 @@ class MySceneGraph {
 
     }
 
-
+    /**
+     * Check id id exists in the first element of the array's arrays
+     * @param {*} array 
+     * @param {*} id 
+     */
     existsID(array, id){
         var temp;
         for(var i = 0; i<array.length;i++){
@@ -845,10 +866,4 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
     }
-
-
-
-
 }
-
-
