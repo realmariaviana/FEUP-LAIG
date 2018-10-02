@@ -45,6 +45,8 @@
             
         </omni>
 
+
+
         <spot id="ss" enabled="0" angle="ff" exponent="ff">
         <!-- atencao, "target" e' diferente de "direction" -->
             <location x="1" y="1" z="1" w="1" />
@@ -58,19 +60,18 @@
      <textures>
         <!-- Deve existir um ou mais blocos "texture" -->
          <!-- Os identificadores "id" nao podem ser repetidos -->
-        <texture id="ss" file="ss" />
+        <texture id="ss" file="leaves.jpg" />
 
     </textures>
 
      <materials>
 
         <material id="ss" shininess = "ff" >
-            <emission r="ff" g="ff" b="ff" a="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+            <emission r="1" g="1" b="1" a="1" />
+            <ambient r="1" g="1" b="1" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
         </material>
-
     </materials>
     <!-- Deve existir um ou mais blocos "material" -->
     <!-- Os identificadores "id" nao podem ser repetidos -->

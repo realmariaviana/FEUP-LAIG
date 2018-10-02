@@ -39,6 +39,8 @@ class MySceneGraph {
         this.orthoViews = [];
         this.views = [this.perspectiveViews, this.orthoViews ];
 
+        this.materials = [];
+
         // File reading
         this.reader = new CGFXMLreader();
 
@@ -133,14 +135,38 @@ class MySceneGraph {
 
          // <lights> 
          if ((index = nodeNames.indexOf("lights")) == -1) 
-         return "tag <lights> missing"; 
-     else { 
-         if (index != lights_index) 
-             this.onXMLMinorError("tag <lights> out of order"); 
+            return "tag <lights> missing"; 
+        else { 
+            if (index != lights_index) 
+                this.onXMLMinorError("tag <lights> out of order"); 
 
-             //Parse ambient block
-            if ((error = this.parseLights(nodes[index])) != null)
-            return error;
+                //Parse ambient block
+                if ((error = this.parseLights(nodes[index])) != null)
+                return error;
+
+        // <textures>
+        if ((index = nodeNames.indexOf("textures")) == -1)
+            return "tag <textures> missing";
+        else {
+            if (index != textures_index)
+                this.onXMLMinorError("tag <textures> out of order");
+
+            //Parse ambient block
+            if ((error = this.parseTextures(nodes[index])) != null)
+                return error;
+        } 
+        
+        // <materials>
+        if ((index = nodeNames.indexOf("materials")) == -1)
+            return "tag <materials> missing";
+        else {
+            if (index != materials_index)
+                this.onXMLMinorError("tag <materials> out of order");
+
+            //Parse ambient block
+            if ((error = this.parseMaterials(nodes[index])) != null)
+                return error;
+        } 
      }
 
     }
@@ -682,7 +708,7 @@ class MySceneGraph {
             if(textureFile==null)
                 this.onXMLMinorError("filepath missing for ID = " + textureId);
             else{
-            var texture = new CGFtexture(this.scene,"./scenes/" + textureFile);
+            var texture = new CGFtexture(this.scene,"./scenes/images/" + textureFile);
             this.textures[textureId] = [texture];
             oneTextureDefined = true;
             }
@@ -692,6 +718,98 @@ class MySceneGraph {
             return "at least one texture must be defined in the TEXTURES block";
 
      console.log("Parsed textures");
+    }
+
+
+    parseMaterials(materialsNode){
+        var children = materialsNode.children;      
+        var nodeNames= []; 
+        var ids = [];
+        var matId;
+
+        for (var i=0; i<children.length;i++){
+            nodeNames.push(children[i].nodeName);
+        }
+        for(var i=0; i<nodeNames.length;i++){
+            if(nodeNames[i] == "material"){
+                matId = this.reader.getString(children[i], 'id');
+
+                if (this.existsID(this.materials, matId)) return "ID must be unique for each material (conflict: ID = " + matId + ")";
+                else this.parseMaterial(children[i], matId, this.reader.getString(children[i],"shininess"));
+            } 
+            else this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+        }
+
+        this.log("Parsed Materials");
+    }
+
+    parseMaterial(materialNode, id, shininess){
+        
+        var emission=[];
+        var ambient=[];
+        var diffuse=[];
+        var specular=[];
+        var emissionN = this.getChildNode(materialNode, "emission");
+        var ambientN = this.getChildNode(materialNode, "ambient");
+        var diffuseN = this.getChildNode(materialNode, "diffuse");
+        var specularN = this.getChildNode(materialNode, "specular");
+
+        //RBG emission
+        if(this.parseRGB(emissionN) == -1) return "unable to parse R component of the  material id= " + id;
+         if(this.parseRGB(emissionN) == -2) return "unable to parse G component of the  material id= " + id;
+        else if(this.parseRGB(emissionN) == -3) return "unable to parse B component of the  material id= " + id;
+        else {
+            for(var i = 0; i<3;i++){
+            emission[i] = this.parseRGB(emissionN)[i];   
+            }
+        }
+
+        //RBG ambientN
+        if(this.parseRGB(ambientN) == -1) return "unable to parse R component of the  material id= " + id;
+         if(this.parseRGB(ambientN) == -2) return "unable to parse G component of the  material id= " + id;
+        else if(this.parseRGB(ambientN) == -3) return "unable to parse B component of the  material id= " + id;
+        else {
+            for(var i = 0; i<3;i++){
+                ambient[i] = this.parseRGB(ambientN)[i];   
+            }
+        }
+
+        //RBG diffuseN
+        if(this.parseRGB(diffuseN) == -1) return "unable to parse R component of the  material id= " + id;
+         if(this.parseRGB(diffuseN) == -2) return "unable to parse G component of the  material id= " + id;
+        else if(this.parseRGB(diffuseN) == -3) return "unable to parse B component of the  material id= " + id;
+        else {
+            for(var i = 0; i<3;i++){
+                diffuse[i] = this.parseRGB(diffuseN)[i];   
+            }
+        }
+
+        //RBG specularN
+        if(this.parseRGB(specularN) == -1) return "unable to parse R component of the  material id= " + id;
+         if(this.parseRGB(specularN) == -2) return "unable to parse G component of the  material id= " + id;
+        else if(this.parseRGB(specularN) == -3) return "unable to parse B component of the  material id= " + id;
+        else {
+            for(var i = 0; i<3;i++){
+                specular[i] = this.parseRGB(specularN)[i];   
+            }
+        }
+
+        var temp = [];
+        temp.push(id, shininess, emission, ambient, diffuse, specular);
+        
+        
+        this.materials.push(temp);
+
+    }
+
+
+    existsID(array, id){
+        var temp;
+        for(var i = 0; i<array.length;i++){
+            temp = array[0];
+            if(temp[0]==id) return true;
+        }
+        return false;
     }
 
     /*
