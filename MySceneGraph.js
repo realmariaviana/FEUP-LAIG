@@ -40,6 +40,7 @@ class MySceneGraph {
         this.views = [this.perspectiveViews, this.orthoViews ];
 
         this.materials = [];
+        this.textures = [];
 
         // File reading
         this.reader = new CGFXMLreader();
@@ -522,7 +523,6 @@ class MySceneGraph {
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
-                this.log(grandChildren[j].nodeName);
             }
  
             // Gets indices of each element.
@@ -533,7 +533,6 @@ class MySceneGraph {
  
             // Retrieves the light position.
             var positionLight = [];
-            this.log(grandChildren[0]);
             if (positionIndex != -1) {
                 // x
                 var x = this.reader.getFloat(grandChildren[positionIndex], 'x');
@@ -689,7 +688,7 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
 
-        this.textures = [];
+        var ids = [];
         var children = texturesNode.children;
         var oneTextureDefined = false;
 
@@ -707,7 +706,7 @@ class MySceneGraph {
                 return "no ID defined for texture";
 
             // Checks for repeated IDs.
-            if (this.textures[textureId] != null)
+            if (this.existsID(ids, textureId))
                 return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
 
             // Texture file
@@ -716,7 +715,8 @@ class MySceneGraph {
                 this.onXMLMinorError("filepath missing for ID = " + textureId);
             else{
             var texture = new CGFtexture(this.scene,"./scenes/images/" + textureFile);
-            this.textures[textureId] = [texture];
+            ids.push(textureId);
+            this.textures.push(texture);    
             oneTextureDefined = true;
             }
         }
@@ -745,8 +745,10 @@ class MySceneGraph {
             if(nodeNames[i] == "material"){
                 matId = this.reader.getString(children[i], 'id');
 
-                if (this.existsID(this.materials, matId)) return "ID must be unique for each material (conflict: ID = " + matId + ")";
-                else this.parseMaterial(children[i], matId, this.reader.getString(children[i],"shininess"));
+                if (this.existsID(ids, matId)) return "ID must be unique for each material (conflict: ID = " + matId + ")";
+                else {this.parseMaterial(children[i], matId, this.reader.getString(children[i],"shininess"));
+                    ids.push(matId);
+                }
             } 
             else this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
         }
@@ -811,9 +813,8 @@ class MySceneGraph {
             }
         }
 
-        var temp = [];
-        temp.push(id, shininess, emission, ambient, diffuse, specular);
-        
+        var temp;
+        temp = new CGFappearance(ambient, diffuse,specular, shininess);
         
         this.materials.push(temp);
 
@@ -827,8 +828,7 @@ class MySceneGraph {
     existsID(array, id){
         var temp;
         for(var i = 0; i<array.length;i++){
-            temp = array[0];
-            if(temp[0]==id) return true;
+            if(array[0]==id) return true;
         }
         return false;
     }
