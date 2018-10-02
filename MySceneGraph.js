@@ -644,9 +644,50 @@ class MySceneGraph {
 
         return null;
     }
+    
+    /**
+     * Parses the <TEXTURES> node.
+     * @param {textures block element} texturesNode
+     */
+    parseTextures(texturesNode) {
 
+        this.textures = [];
+        var children = texturesNode.children;
+        var oneTextureDefined = false;
 
+        // Any number of texture.
+        for (var i = 0; i < children.length; i++) {
+            var nodeName = children[i].nodeName;
+            if (children[i].nodeName != "texture") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
 
+            // Get id of the current texture.
+            var textureId = this.reader.getString(children[i], 'id');
+            if (textureId == null)
+                return "no ID defined for texture";
+
+            // Checks for repeated IDs.
+            if (this.textures[textureId] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+
+            // Texture file
+            var textureFile = this.reader.getString(children[i], 'file');
+            if(textureFile==null)
+                this.onXMLMinorError("filepath missing for ID = " + textureId);
+            else{
+            var texture = new CGFtexture(this.scene,"./scenes/" + textureFile);
+            this.textures[textureId] = [texture];
+            oneTextureDefined = true;
+            }
+        }
+
+        if (!oneTextureDefined)
+            return "at least one texture must be defined in the TEXTURES block";
+
+     console.log("Parsed textures");
+    }
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
