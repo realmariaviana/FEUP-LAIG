@@ -169,7 +169,20 @@ class MySceneGraph {
             if ((error = this.parseMaterials(nodes[index])) != null)
                 return error;
         }
+
+         // <transformations>
+         if ((index = nodeNames.indexOf("transformations")) == -1)
+         return "tag <transformations> missing";
+     else {
+         if (index != transformations_index)
+             this.onXMLMinorError("tag <transformations> out of order");
+
+         //Parse ambient block
+         if ((error = this.parseTransformations(nodes[index])) != null)
+             return error;
      }
+       
+    }
 
     }
 
@@ -1017,6 +1030,92 @@ class MySceneGraph {
         this.materials.push(temp);
 
     }
+
+    /**
+     * Parses the <TRANSFORMATIONS> node.
+     * @param {transformations block element} transformationsNode
+     */
+    parseTransformations(transformationsNode){
+        this.transformations = [];
+        var children = transformationsNode.children;
+        var grandChildren = [];
+        var nodeNames = [];
+
+        // Any number of transformations
+        for (var i = 0; i < children.length; i++) {
+            var nodeName = children[i].nodeName;
+            if (children[i].nodeName != "transformation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current texture.
+            var transformationId = this.reader.getString(children[i], 'id');
+            if (transformationId == null)
+                return "no ID defined for transformation";
+
+            // Checks for repeated IDs.
+            if (this.transformations[transformationId] != null)
+                return "ID must be unique for each transformation (conflict: ID = " + transformationId + ")";
+
+            grandChildren = children[i].children;
+
+            //transformations's children
+        
+            var translateNode = this.getChildNode(transformationsNode,"translate");
+            var scaleNode = this.getChildNode(transformationsNode,"scale");
+            var rotateNode = this.getChildNode(transformationsNode, 'rotate');
+
+            var translateCoords = [0, 0, 0];
+            var scaleCoords = [0, 0, 0];
+
+            //translate
+            if (translateNode) {
+                if(this.parseXYZ(translateNode) == -1) return "unable to parse x component of the views from block";
+                else if(this.parseXYZ(translateNode) == -2) return "unable to parse y component of the views from block";
+                else if(this.parseXYZ(translateNode) == -3) return "unable to parse z component of the views from block";
+                else {
+                    for(var i = 0; i<3;i++)
+                    translateCoords[i] = this.parseXYZ(translateNode)[i];   
+                }
+            }
+
+            //rotate
+            if(rotateNode){
+
+            var axis = this.reader.getString(children[i], 'axis');
+            if (axis == null) {
+                this.onXMLMinorError("unable to parse rotation axis");
+                break;
+            }
+                   
+            var angle = this.reader.getFloat(children[i], 'angle');
+            if (angle == null ) {
+                this.onXMLMinorError("unable to parse rotation angle");
+                break;
+            }
+                else if (isNaN(angle))
+                return "non-numeric value for rotation angle ID = " + transformationId;
+           
+            }
+            //scale
+            if (scaleNode) {
+                if(this.parseXYZ(scaleNode) == -1) return "unable to parse x component of the views from block";
+                else if(this.parseXYZ(scaleNode) == -2) return "unable to parse y component of the views from block";
+                else if(this.parseXYZ(scaleNode) == -3) return "unable to parse z component of the views from block";
+                else {
+                    for(var i = 0; i<3;i++)
+                    scaleCoords[i] = this.parseXYZ(scaleNode)[i];   
+                }
+            
+            }
+
+        }
+
+     console.log("Parsed transformations");
+
+    }
+
 
     /**
      * Check id id exists in the first element of the array's arrays
