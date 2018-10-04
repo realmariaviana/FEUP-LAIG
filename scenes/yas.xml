@@ -15,14 +15,14 @@
     <!-- deve definir-se um objeto para raiz da arvore, assim -->
     <!-- como o comprimento dos tres eixos (cilindros) -->
  
-    <scene root="ss" axis_length="5" />
+    <scene root="ss" axis_length="100" />
  
-    <views default="ss" >
+    <views default="oi" >
     <!-- tem de existir, pelo menos, uma vista de -->
     <!-- entre as seguintes (perspective ou ortho) -->
         <perspective id="oi" near="0.1" far="500" angle="20">
-            <from x="1" y="2" z="3" />
-            <to x="1" y="4" z="5" />
+            <from x="15" y="15" z="15" />
+            <to x="0" y="0" z="0" />
         </perspective>
  
  
@@ -30,14 +30,14 @@
     </views>
  
     <ambient>
-        <ambient r="1" g="1" b="1" a="0.1" />
-        <background r="1" g="1" b="1" a="0.1" />
+        <ambient r="1" g="1" b="1" a="0.5" />
+        <background r="0" g="0" b="0" a="1" />
     </ambient>
  
     <lights>
         <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <omni id="ss" enabled="0" >
+        <omni id="light1" enabled="0" >
             <location x="1" y="1" z="1" w="1" />
             <ambient r="1" g="1" b="1" a="1" />
             <diffuse r="1" g="1" b="1" a="1" />
@@ -47,7 +47,7 @@
 
 
 
-        <spot id="oi" enabled="0" angle="5" exponent="7">
+        <spot id="light2" enabled="0" angle="ff" exponent="ff">
         <!-- atencao, "target" e' diferente de "direction" -->
             <location x="1" y="1" z="1" w="1" />
             <ambient r="1" g="1" b="1" a="1" />
@@ -103,12 +103,15 @@
         <!-- os parametros devem ser interpretados, genericamente, -->
         <!-- como em WebGL; o cilindro deve adicionalmente ter tampas -->
 
-            <rectangle x1="ff" y1="ff" x2="ff" y2="ff" />
+            <rectangle x1="1" y1="1" x2="2" y2="2" />
+            <!--
             <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
             <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
             <sphere radius="ff" slices="ii" stacks="ii" />
-            <torus inner="ff" outer="ff" slices="ii" loops="ii" />
+            <torus inner="ff" outer="ff" slices="ii" loops="ii" /> 
+            -->
         </primitive >
+        
     </primitives >
 
 
