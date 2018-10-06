@@ -39,6 +39,9 @@
         <texture id="boardtxt" file="images/board.jpg" />
         <texture id="banktxt" file="images/bank.jpg" />
         <texture id="floortxt" file="images/wood.jpg" />
+        <texture id="rugtxt" file="images/rug.jpg" />
+        <texture id="redtxt" file="images/red.jpg" />
+
     </textures>
 
      <materials>
@@ -76,8 +79,8 @@
      <primitives>
         <primitive id="MyRectangle">
             <rectangle x1="1" y1="1" x2="2" y2="2" />
-        </primitive >
-    </primitives >
+        </primitive>
+    </primitives>
 
 
      <components>
@@ -97,6 +100,8 @@
                 <primitiveref id="MyRectangle" />
                 <componentref id="s1" />
                 <componentref id="board" />
+                <componentref id="rug" />
+                <componentref id="cube" />
             </children>
          </component>
 
@@ -138,7 +143,6 @@
 
         <!-- Board -->
          <component id="board">
-            
              <transformation>
                 <translate x="1.05" y="1" z="0" />
                  <scale x="0.3" y="0.3" z="1" />
@@ -153,8 +157,133 @@
             <children>
                 <primitiveref id="MyRectangle" />
             </children>
-
          </component>
+
+         <!-- Rug -->
+         <component id="rug">
+             <transformation>
+                <translate x="0.5" y="1.001" z="0.2" />
+                <rotate axis="x" angle= "90"/> 
+                <scale x="0.7" y="0.3" z="1" />
+            </transformation>
+
+            <materials>
+                <material id="ss" />
+            </materials>
+        
+            <texture id="rugtxt" length_s="1" length_t="1" />
+
+            <children>
+                <primitiveref id="MyRectangle" />
+            </children>
+         </component>
+
+
+        <component id="cube-lado1">
+            <transformation>
+                <translate x="0" y="0" z="1.5"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+        </component>
+
+       <component id="cube-lado2">
+            <transformation>
+                <translate x="0" y="0" z="2.5"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyRectangle"/>
+
+            </children>
+        </component>
+
+        <component id="cube-lado3">
+            <transformation>
+                <translate x="0" y="1" z="0.5"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyRectangle"/>
+
+            </children>
+        </component>
+
+        <component id="cube-lado4">
+            <transformation>
+                <translate x="0" y="2" z="0.5"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyRectangle"/>
+
+            </children>
+        </component>
+
+         <component id="cube-lado5">
+            <transformation>
+                <translate x="1" y="0" z="3.5"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyRectangle"/>
+
+            </children>
+        </component>
+
+         <component id="cube-lado6">
+            <transformation>
+                <translate x="2" y="0" z="3.5"/>
+                <rotate axis="y" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+        </component>
+
+        <component id="cube">
+            <transformation>
+                <translate x="0.5" y="2" z="0"/>
+                <scale x="0.7" y="-0.1" z="0.3" />
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="redtxt" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+        </component>
+
     
     </components>
   </yas> 
