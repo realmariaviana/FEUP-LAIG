@@ -1,25 +1,8 @@
-<!-- Os comentarios devem ter espacos no inicio e no fim, a -->
-<!-- separar dos hifens -->
-<!-- Nao devem ser usados caracteres especiais (p.ex. acentos) -->
-<!-- Todas as tags e atributos sao obrigatorios, exceto onde for -->
-<!-- referido o contrario -->
-<!-- Na descricao abaixo, os simbolos utilizados tem o seguinte significado: -->
-    <!-- ii: integer value -->
-    <!-- ff: float value -->
-    <!-- ss: string value -->
-    <!-- cc: character "x" or "y" or "z" -->
-    <!-- tt: "0" or "1" with Boolean significance -->
- 
-<yas>
- 
-    <!-- deve definir-se um objeto para raiz da arvore, assim -->
-    <!-- como o comprimento dos tres eixos (cilindros) -->
- 
+ <yas>
+
     <scene root="ss" axis_length="5" />
  
     <views default="view1" >
-    <!-- tem de existir, pelo menos, uma vista de -->
-    <!-- entre as seguintes (perspective ou ortho) -->
         <perspective id="view1" near="0.1" far="500" angle="20">
             <from x="15" y="15" z="15" />
             <to x="0" y="0" z="0" />
@@ -35,8 +18,6 @@
     </ambient>
  
     <lights>
-        <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
-        <!-- Os identificadores "id" nao podem ser repetidos -->
         <omni id="light1" enabled="1" >
             <location x="5" y="7" z="15" w="1"/>
             <ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
@@ -45,25 +26,19 @@
             
         </omni>
 
-
-
         <spot id="light2" enabled="0" angle="20" exponent="15">
-        <!-- atencao, "target" e' diferente de "direction" -->
             <location x="1" y="1" z="1" w="1" />
              <target x="45" y="0" z="10"/>
             <ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
             <diffuse r="1" g="1" b="1" a="1" />
-            <specular r="1" g="1" b="1" a="1" />
-            
+            <specular r="1" g="1" b="1" a="1" /> 
         </spot>
-
      </lights>
+
      <textures>
-        <!-- Deve existir um ou mais blocos "texture" -->
-         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <texture id="board" file="images/board.jpg" />
-        <texture id="bank" file="images/bank.jpg" />
-        <texture id="floor" file="images/wood.jpeg" />
+        <texture id="boardtxt" file="images/board.jpg" />
+        <texture id="banktxt" file="images/bank.jpg" />
+        <texture id="floortxt" file="images/wood.jpg" />
     </textures>
 
      <materials>
@@ -75,138 +50,111 @@
             <specular r="1" g="1" b="1" a="1" />
         </material>
     </materials>
-    <!-- Deve existir um ou mais blocos "material" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
 
-     <transformations>
-    <!-- Deve existir um ou mais blocos "transformation" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
-    <!-- Os angulos sao expressos em graus -->
-        
+     <transformations>  
+       
         <transformation id="wall1">
-        <translate x="5" y="5" z="0" />
+            <translate x="5" y="5" z="0" />
             <scale x="10" y="10" z="10" />>
             <translate x="-1.5" y="-1.5" z="0" />
         </transformation>
 
         <transformation id="wall2">
-        <translate x="-0.5" y="0" z="0.5" />
-         <rotate axis="y" angle= "90"/>
-         <translate x="-1.5" y="0" z="1.5" />
+            <translate x="-0.5" y="0" z="0.5" />
+            <rotate axis="y" angle= "90"/>
+            <translate x="-1.5" y="0" z="1.5" />
          </transformation>
          
          <transformation id="floor">
-         <translate x="0" y="1" z="-1" />
-         <rotate axis="x" angle= "90"/>
-            
+            <translate x="0" y="1" z="-1" />
+            <rotate axis="x" angle= "90"/>   
         </transformation>
         
     </transformations>
 
 
      <primitives>
-     <!-- Uma "primitive" e' uma primitiva e pode ser usada em nos folha -->
-    <!-- Deve existir um ou mais blocos "primitive" -->
-    <!-- Os identificadores "id" nao podem ser repetidos -->
-
         <primitive id="MyRectangle">
-        <!-- apenas pode existir UMA das seguintes tags: -->
-        <!-- rectangle, triangle, cylinder, sphere, torus -->
-        <!-- os parametros devem ser interpretados, genericamente, -->
-        <!-- como em WebGL; o cilindro deve adicionalmente ter tampas -->
-
             <rectangle x1="1" y1="1" x2="2" y2="2" />
-            <!--
-            <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
-            <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
-            <sphere radius="ff" slices="ii" stacks="ii" />
-            <torus inner="ff" outer="ff" slices="ii" loops="ii" /> 
-            -->
         </primitive >
-        
     </primitives >
 
 
      <components>
-
+        <!-- Wall1 -->
         <component id="ss">
-             <transformation>
-
+            <transformation>
                 <transformationref id="wall1" />
-
             </transformation>
 
-             <materials>
+            <materials>
                 <material id="ss" />
             </materials>
         
-             <texture id="bank" length_s="1" length_t="1" />
+             <texture id="banktxt" length_s="1" length_t="1" />
 
             <children>
-
                 <primitiveref id="MyRectangle" />
                 <componentref id="s1" />
                 <componentref id="board" />
             </children>
          </component>
 
+        <!-- Wall2 -->
          <component id="s1">
-             <transformation>
-
+            <transformation>
                 <transformationref id="wall2" />
-
             </transformation>
 
-             <materials>
+            <materials>
                 <material id="ss" />
             </materials>
         
-             <texture id="bank" length_s="1" length_t="1" />
+             <texture id="banktxt" length_s="1" length_t="1" />
 
             <children>
-
                 <primitiveref id="MyRectangle" />
                 <componentref id="s2" />
             </children>
          </component>
 
+         <!-- Floor -->
          <component id="s2">
              <transformation>
-
                 <transformationref id="floor" />
-
             </transformation>
 
-             <materials>
+            <materials>
                 <material id="ss" />
             </materials>
         
-             <texture id="floor" length_s="1" length_t="1" />
+            <texture id="floortxt" length_s="1" length_t="1" />
 
             <children>
-
                 <primitiveref id="MyRectangle" />
             </children>
          </component>
 
+
+        <!-- Board -->
          <component id="board">
+            
              <transformation>
                 <translate x="1.05" y="1" z="0" />
                  <scale x="0.3" y="0.3" z="1" />
             </transformation>
 
-             <materials>
+            <materials>
                 <material id="ss" />
             </materials>
         
-             <texture id="board" length_s="1" length_t="1" />
+            <texture id="boardtxt" length_s="1" length_t="1" />
 
             <children>
-
                 <primitiveref id="MyRectangle" />
             </children>
-         </component>
 
-         
+         </component>
+    
     </components>
   </yas> 
