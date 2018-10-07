@@ -1,19 +1,19 @@
 <yas>
 
-    <scene root="ss" axis_length="5" />
+    <scene root="ss" axis_length="5"/>
  
     <views default="view1" >
         <perspective id="view1" near="0.1" far="500" angle="20">
-            <from x="15" y="15" z="15" />
-            <to x="0" y="0" z="0" />
+            <from x="15" y="15" z="15"/>
+            <to x="0" y="0" z="0"/>
         </perspective>
  
  
-        <ortho id="view2" near="1" far="1" left="1" right="1" top="1" bottom="1" />
+        <ortho id="view2" near="1" far="1" left="1" right="1" top="1" bottom="1"/>
     </views>
  
     <ambient>
-        <ambient r="0.4" g="0.4" b="0.4" a="1.0"/>
+        <ambient r="1" g="1" b="1" a="1.0"/>
         <background r="0.34" g="0.69" b="0.96" a="1.0"/>
     </ambient>
 
@@ -96,6 +96,10 @@
 
         <primitive id="MySphere">
            <sphere radius="1" stacks="32" slices="64"/>
+        </primitive>
+
+        <primitive id="MyTorus">
+             <torus inner="1" outer="2" slices="32" loops="1"/>
         </primitive>
     </primitives>
 
@@ -460,7 +464,6 @@
             <transformation>
                 <translate x="1.1" y="1.455" z="0.1"/>
                  <scale x="0.05" y="0.05" z="0.05"/>
-                
             </transformation>
             <materials>
                 <material id="ss"/>
@@ -470,8 +473,8 @@
                 <primitiveref id="MySphere"/>
             </children>
         </component>
-         
-         <component id="torus">
+
+        <component id="torus">
             <transformation> 
                 <translate x="1.1" y="1.455" z="0.1"/>
                 <scale x="0.017" y="0.02" z="0.017"/>
