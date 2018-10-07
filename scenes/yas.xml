@@ -1,6 +1,6 @@
 <yas>
 
-    <scene root="ss" axis_length="5"/>
+    <scene root="root" axis_length="5"/>
  
     <views default="view1" >
         <perspective id="view1" near="0.1" far="500" angle="20">
@@ -99,14 +99,14 @@
         </primitive>
 
         <primitive id="MyTorus">
-             <torus inner="1" outer="2" slices="32" loops="1"/>
+             <torus inner="1" outer="2.1" slices="32" loops="1"/>
         </primitive>
     </primitives>
 
 
      <components>
         <!-- Wall1 -->
-        <component id="ss">
+        <component id="root">
             <transformation>
                 <transformationref id="wall1"/>
             </transformation>
@@ -118,8 +118,9 @@
              <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>
-                <primitiveref id="MyRectangle"/>
-                <componentref id="wall"/>
+                <componentref id="wall1"/>
+                <componentref id="wall2"/>
+                <componentref id="floor"/>
                 <componentref id="board"/>
                 <componentref id="rug"/>
                 <componentref id="table"/>
@@ -131,8 +132,23 @@
             </children>
          </component>
 
-        <!-- Wall2 -->
-         <component id="wall">
+        <!-- Wall-->
+         <component id="wall1">
+            <transformation>
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="walltxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+          <component id="wall2">
             <transformation>
                 <transformationref id="wall2"/>
             </transformation>
@@ -145,12 +161,11 @@
 
             <children>
                 <primitiveref id="MyRectangle"/>
-                <componentref id="s2"/>
             </children>
          </component>
 
          <!-- Floor -->
-         <component id="s2">
+         <component id="floor">
              <transformation>
                 <transformationref id="floor"/>
             </transformation>
@@ -530,6 +545,7 @@
                 <primitiveref id="MyRectangle"/>
             </children>
          </component>
-    
-    </components>
+
+           </components>
   </yas> 
+
