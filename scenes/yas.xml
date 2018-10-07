@@ -410,6 +410,7 @@
                 <componentref id="cabo1"/>
                 <componentref id="suporte"/>
                 <componentref id="sphere"/>
+                <componentref id="torus"/>
             </children>
         </component>
 
@@ -467,6 +468,21 @@
             <texture id="spheretxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MySphere"/>
+            </children>
+        </component>
+         
+         <component id="torus">
+            <transformation> 
+                <translate x="1.1" y="1.455" z="0.1"/>
+                <scale x="0.017" y="0.02" z="0.017"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="ss"/>
+            </materials>
+            <texture id="metaltxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyTorus"/>
             </children>
         </component>
 
