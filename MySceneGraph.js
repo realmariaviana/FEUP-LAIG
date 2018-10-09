@@ -210,7 +210,7 @@ class MySceneGraph {
             || (isNumber && isNaN(attribute))
             || (limit1!=null && attribute < limit1)
             || (limit2!=null && attribute > limit2)
-            || (isInteger && !isInteger(attribute))) 
+            || (isInteger && !(parseInt(attribute)==attribute)))
             
             return null;
         else return 1;    
@@ -372,8 +372,6 @@ class MySceneGraph {
         var far = this.reader.getString(perspectiveNode, 'far');
         var angle = this.reader.getString(perspectiveNode, 'angle');
 
-
-
         //perspective's children
         
         var toNode = this.getChildNode(perspectiveNode,"to");
@@ -383,6 +381,7 @@ class MySceneGraph {
         var fromCoords = [0, 0, 0];
 
         //from
+
         if (fromNode) {
             if(this.parseXYZ(fromNode) == -1) return "unable to parse x component of the views from block";
             else if(this.parseXYZ(fromNode) == -2) return "unable to parse y component of the views from block";
@@ -410,8 +409,6 @@ class MySceneGraph {
         if(idView == this.defaultView){
             this.near = near;
             this.far = far;
-            this.toCoords = toCoords;
-            this.fromCoords  = fromCoords;
             this.angle = angle;
             this.position = fromCoords;
             this.target = toCoords;
@@ -512,6 +509,8 @@ class MySceneGraph {
                 continue;
             }
         }
+
+        console.log(this.lights);
     }
 
      /**
@@ -945,7 +944,7 @@ class MySceneGraph {
             if(textureFile==null)
                 this.onXMLMinorError("filepath missing for ID = " + textureId);
             else{
-            var texture = new CGFtexture(this.scene,"./scenes/images/" + textureFile);
+            var texture = new CGFtexture(this.scene,"./scenes/" + textureFile);
             this.textures.push([textureId, texture]);   
             ids.push(textureId);
             oneTextureDefined = true;
@@ -1067,7 +1066,6 @@ class MySceneGraph {
                 if (this.existsID(ids, pID)) return "ID must be unique for each material (conflict: ID = " + pID + ")";
                     ids.push(pID);
                 
-                primitives
                 //check more than one tag inbetween primitive tags
                 var primitive = primitives[i].children;
                 if(primitive.length>1) return "Primitives can't have more than one tag (conflict ID = " + pID + ")";
@@ -1095,10 +1093,10 @@ class MySceneGraph {
             return this.parseTriangle(node,id);
 
             case 'sphere':
-            return this.parseScene(node, id);
+            return this.parseSphere(node, id);
 
             case 'cylinder':
-            return this.parseCylinder;
+            return this.parseCylinder(node, id);
         }
     }
 
@@ -1116,12 +1114,15 @@ class MySceneGraph {
         var y2 = this.reader.getString(node, "y2");
         if(!this.isAttrValid(y2,null, 1)) return "Attribute y2 in primitive ID = " + id + " invalid";
 
-        this.primitives.push([id,x1,y1,x2,y2]);
+        //this.primitives.push([id,x1,y1,x2,y2]);
+        this.primitives.push(new MyQuad(this.scene));
 
         return null;
     }
 
     parseTriangle(node, id){
+        this.log("done");
+
 
         var x1 = this.reader.getString(node, "x1");
         if(!this.isAttrValid(x1,null,1)) return "Attribute x1 in primitive ID = " + id + " invalid";
@@ -1151,7 +1152,7 @@ class MySceneGraph {
         if(!this.isAttrValid(z3,null,1)) return "Attribute z3 in primitive ID = " + id + "invalid";
 
 
-        this.primitives.push([id, x1,y1,z1,x2,y2,z2,x3,y3,x3]);
+        this.primitives.push(new MyTriangle( this.scene,x1,y1,z1,x2,y2,z2,x3,y3,x3));
 
         return null;
     }
@@ -1159,37 +1160,38 @@ class MySceneGraph {
 
     parseCylinder(node, id){
         var base = this.reader.getString(node, 'base');
-        if(!this.isAttrValid(base,null, 1)) return "Attribute base in primitive ID = " + id + " invalid";
+        if(!this.isAttrValid(base,0,1)) return "Attribute base in primitive ID = " + id + " invalid";
 
         var top = this.reader.getString(node, 'top');
-        if(!this.isAttrValid(top,null, 1)) return "Attribute top in primitive ID = " + id + " invalid";
+        if(!this.isAttrValid(top,0, 1)) return "Attribute top in primitive ID = " + id + " invalid";
 
         var height = this.reader.getString(node, 'height');
-        if(!this.isAttrValid(height,null, 1)) return "Attribute top in primitive ID = " + height + " invalid";
+        if(!this.isAttrValid(height,null, 1)) return "Attribute height in primitive ID = " + id + " invalid";
 
-        var slices = this.reader.getString(slices, 'slices');
-        if(!this.isAttrValid(slices,null, 1,1)) return "Attribute top in primitive ID = " + slices + " invalid";
+        var stacks = this.reader.getString(node, 'stacks');
+        if(!this.isAttrValid(stacks,null,1,1)) return "Attribute stacks in primitive ID = " + id + " invalid";
 
-        var stacks = this.reader.getString(stacks, 'stacks');
-        if(!this.isAttrValid(stacks,null, 1,1)) return "Attribute top in primitive ID = " + stacks + " invalid";
+        var slices = this.reader.getString(node, 'slices');
+        if(!this.isAttrValid(slices,null, 1,1)) return "Attribute slices in primitive ID = " + id + " invalid";
 
-        this.primitives.push([id, base, top, height, slices, stacks]);
+        this.primitives.push(new MyCylinder(this.scene, base, top, height, slices, stacks));
         return null;
 
 
     }
 
     parseSphere(node, id){
-        var radius = this.reader.getString(stacks, 'radius');
+        var radius = this.reader.getString(node, 'radius');
         if(!this.isAttrValid(radius,null, 1)) return "Attribute radius in primitive ID = " + id + " invalid";
 
-        var slices = this.reader.getString(slices, 'slices');
-        if(!this.isAttrValid(slices,null, 1,1)) return "Attribute top in primitive ID = " + slices + " invalid";
+        var slices = this.reader.getString(node, 'slices');
+        if(!this.isAttrValid(slices,null, 1,1)) return "Attribute slices in primitive ID = " + id + " invalid";
 
-        var stacks = this.reader.getString(stacks, 'stacks');
-        if(!this.isAttrValid(stacks,null, 1,1)) return "Attribute top in primitive ID = " + stacks + " invalid";
+        var stacks = this.reader.getString(node, 'stacks');
+        if(!this.isAttrValid(stacks,null, 1,1)) return "Attribute stacks in primitive ID = " + id + " invalid";
 
-        this.primitives.push([id, radius, slices, stacks]);
+        this.primitives.push(new MySphere(this.scene,radius,slices,stacks));
+        return null;
 
     }
 
@@ -1328,8 +1330,9 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        // entry point for graph rendering
-        //TODO: Render loop starting at root of graph
+        this.primitives.forEach(element => {
+            element.display();
+        });
         
     }
 }

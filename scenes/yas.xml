@@ -13,7 +13,7 @@
     </views>
  
     <ambient>
-        <ambient r="1" g="1" b="1" a="1.0"/>
+        <ambient r="0" g="0" b="0" a="1.0"/>
         <background r="0.34" g="0.69" b="0.96" a="1.0"/>
     </ambient>
 
@@ -86,20 +86,14 @@
 
 
      <primitives>
-        <primitive id="MyRectangle">
-            <rectangle x1="1" y1="1" x2="2" y2="2"/>
-        </primitive>
-
-        <primitive id="MyCylinder">
-           <cylinder base="1" top="1" height="1" stacks="1" slices="64"/>
-        </primitive>
-
-        <primitive id="MySphere">
-           <sphere radius="1" stacks="32" slices="64"/>
-        </primitive>
+       
 
         <primitive id="MyTorus">
              <torus inner="1" outer="2.1" slices="32" loops="1"/>
+        </primitive>
+
+         <primitive id="MyTriangle">
+             <triangle x1="1" x2="1.5" x3="2" y1="1" y2="1.5" y3="2" z1="1" z2="1" z3="1"/>
         </primitive>
     </primitives>
 

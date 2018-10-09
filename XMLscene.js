@@ -64,6 +64,7 @@ class XMLscene extends CGFscene {
                 this.lights[i].setSpecular(light[4][0], light[4][1], light[4][2], light[4][3]);
 
                 this.lights[i].setVisible(true);
+
                 if (light[0])
                     this.lights[i].enable();
                 else
@@ -81,11 +82,13 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.camera.near = parseInt(this.graph.near);
-        this.camera.far = parseInt(this.graph.far);
-        this.camera.position = this.graph.position;
-        this.camera.target = this.graph.target;
-        this.camera.fov = this.graph.angle;
+        this.camera.setPosition(this.graph.position);
+        this.camera.setTarget(this.graph.target);
+
+        this.camera.near = parseFloat(this.graph.near);
+        this.camera.far = parseFloat(this.graph.far);
+        this.camera.fov = this.graph.angle * DEGREE_TO_RAD;
+
 
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.axis_length);
@@ -94,13 +97,13 @@ class XMLscene extends CGFscene {
         this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
 
         // TODO: Change ambient and background details according to parsed graph
-        this.camera.direction = this.camera.calculateDirection();
+        
         this.initLights();
 
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 
-        this.sceneInited = false;
+        this.sceneInited = true;
     }
 
 
@@ -113,6 +116,7 @@ class XMLscene extends CGFscene {
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();

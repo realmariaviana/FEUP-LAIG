@@ -4,56 +4,53 @@
  */
 class MyCylinder extends CGFobject
 {
-	constructor(scene, slices, stacks)
+	constructor(scene, base, top, height, slices, stacks)
 	{
 		super(scene);
 
+		this.scene = scene;
 		this.slices = slices;
 		this.stacks = stacks;
+		this.height = height;
+		this.trad = top;
+		this.brad = base;
+
+
+
+		this.baselessCylinder = new MyBaselessCylinder(scene, base, top, height, slices, stacks);
+
+		this.top = new MyCircle(scene, slices);
+		this.bottom = new MyCircle(scene, slices);
 
 		this.initBuffers();
 	};
 
-	initBuffers()
-	{
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-		this.texCoords = [];
 
-		let step_angle = 2*Math.PI/this.slices;
-		let stack_step = 1/this.stacks;
+	display(){
+		this.baselessCylinder.display();
 
-		for(let i = 0; i <= this.slices; ++i) {
-
-			for(let j = 0; j <= this.stacks; ++j) {
-
-				this.vertices.push(
-					Math.cos(step_angle*i), Math.sin(step_angle*i), j*stack_step
-				);
-
-				this.texCoords.push(
-					i*1/this.slices, j*1/this.stacks
-				);
-
-				this.normals.push(
-					Math.cos(step_angle*i), Math.sin(step_angle*i), 0
-				);
-
-			}
-
-		}
-
-		for (let i = 0; i < this.slices; ++i) {
-			for(let j = 0; j < this.stacks; ++j) {
-				this.indices.push(
-					(i+1)*(this.stacks+1) + j, i*(this.stacks+1) + j+1, i*(this.stacks+1) + j,
-					i*(this.stacks+1) + j+1, (i+1)*(this.stacks+1) + j, (i+1)*(this.stacks+1) + j+1
-				);
-			}
-		}
-
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
+		this.scene.pushMatrix();
+		this.scene.translate(0, 0, this.height);
+	
+		  this.scene.pushMatrix();
+		  this.scene.scale(this.trad,this.trad,1);
+		  this.top.display();
+		  this.scene.popMatrix();
+	
+		this.scene.popMatrix();
+	
+		this.scene.pushMatrix();
+		this.scene.rotate(Math.PI, 0, 1, 0);
+		this.scene.scale(-1, -1, 1);
+	
+	
+		  this.scene.pushMatrix();
+		  this.scene.scale(this.brad,this.brad,1);
+		  this.bottom.display();
+		  this.scene.popMatrix();
+	
+	
+		this.scene.popMatrix();
 	};
+
 };
