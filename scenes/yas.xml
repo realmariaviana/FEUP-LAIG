@@ -86,14 +86,24 @@
 
 
      <primitives>
-       
+        <primitive id="MyRectangle">
+            <rectangle x1="1" y1="1" x2="2" y2="2"/>
+        </primitive>
+
+        <primitive id="MyCylinder">
+           <cylinder base="1" top="1" height="1" stacks="1" slices="64"/>
+        </primitive>
+
+        <primitive id="MySphere">
+           <sphere radius="1" stacks="32" slices="64"/>
+        </primitive>
 
         <primitive id="MyTorus">
              <torus inner="1" outer="2.1" slices="32" loops="1"/>
         </primitive>
 
          <primitive id="MyTriangle">
-             <triangle x1="1" x2="1.5" x3="2" y1="1" y2="1.5" y3="2" z1="1" z2="1" z3="1"/>
+             <triangle x1="1" y1="0" z1="0" x2="0" y2="1" z2="0" x3="0" y3="0" z3="2"/>
         </primitive>
     </primitives>
 
