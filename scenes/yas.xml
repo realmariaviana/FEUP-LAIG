@@ -433,7 +433,7 @@
                 <componentref id="cabo1"/>
                 <componentref id="suporte"/>
                 <componentref id="sphere"/>
-                <componentref id="torus"/>
+               <!-- <componentref id="torus"/> -->
             </children>
         </component>
 

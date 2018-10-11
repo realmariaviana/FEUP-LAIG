@@ -1028,7 +1028,7 @@ class MySceneGraph {
         if(!this.isAttrValid(z3,null,1)) return "Attribute z3 in primitive ID = " + id + "invalid";
 
 
-        this.primitives.push([id,new MyTriangle( this.scene,x1,y1,z1,x2,y2,z2,x3,y3,x3)]);
+        this.primitives.push([id,new MyTriangle( this.scene,x1,y1,z1,x2,y2,z2,x3,y3,z3)]);
 
         return null;
     }
@@ -1192,6 +1192,7 @@ class MySceneGraph {
                 else if(axis == 'z') temp = [0,0,1];
                     
                 var angle = this.reader.getFloat(node, 'angle')*DEGREE_TO_RAD;
+                console.log(angle);
                 if(!this.isAttrValid(angle,0,1)) message= "unable to parse angle of the transformations from block";
                 return mat4.rotate(matrix,matrix,angle,temp);  
         }
@@ -1254,11 +1255,16 @@ class MySceneGraph {
                 }
 
             this.components.push(new MyComponent(this.scene,id,transformationsMatrix,material,textureInfo,children)); 
-            this.referenceComponents();   
          }
+         this.referenceComponents(); 
      }
 
+    
+     /**
+      * 
+      */
      referenceComponents(){
+         var children = [];
          //go through components
          for(let i = 0; i < this.components.length; i++){
              var compRefs = this.components[i].childComponents;
@@ -1268,13 +1274,14 @@ class MySceneGraph {
                 
                 //go through components again to reference object
                 for(let k = 0; k<this.components.length;k++){
-                    if(this.components[k].id==compRefs[j].id)
-                        this.components[i].childComponents[j] = this.components[k]; 
+                    if(this.components[k].id==compRefs[j]){
+                        children.push(this.components[k]); 
+                    }
                 }
-             }
-
-             this.log(this.components[i].childComponents);
-         }
+            }
+            this.components[i].childComponents = children;
+            children = [];
+        }
      }
 
      /**
@@ -1302,8 +1309,7 @@ class MySceneGraph {
      parseComponentTransformations(nodes,id){
         var matrixes = [];
         var transfNodes = [];
-        var temp = [];
-        var m ;
+        var m;
         var flag = false;
 
         for(let i = 0; i<nodes.length;i++){
@@ -1326,6 +1332,7 @@ class MySceneGraph {
         for(let j = 0; j <matrixes.length ; j++){
             mat4.multiply(m,m,matrixes[j]);
         }
+        return m;
      }
 
      /**
@@ -1390,7 +1397,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        
-        
+            this.components[0].display();
     }
 }
