@@ -1082,6 +1082,7 @@ class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
         var ids = [];
+        var message = null;
 
          // Any number of transformations
         for (var i = 0; i < children.length; i++) {
@@ -1101,8 +1102,8 @@ class MySceneGraph {
                 
              grandChildren = children[i].children;
 
-            if(this.parseSingleTransformation(grandChildren, transformationId)!=null) return this.parseSingleTransformation(grandChildren, transformationId);
-
+            this.parseSingleTransformation(grandChildren, transformationId, message);
+            if(message) return message;
             
             ids.push(transformationId);  
          }
@@ -1114,34 +1115,36 @@ class MySceneGraph {
       * @param {*} trfNodes 
       * @param {*} id 
       */
-     parseSingleTransformation(trfNodes, id){
+     parseSingleTransformation(trfNodes, id, message){
         
          var trans = [];
          var ro = [];
          var sc = [];
          var transformation = []; 
          var matrix=null;
-         var message = null;
 
         for(var i = 0; i < trfNodes.length; i++){
             if(trfNodes[i].nodeName  == 'translate'){
                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('translate', trfNodes[i],message));
 
             }else if(trfNodes[i].nodeName  == 'scale'){
-                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('scale', trfNodes[i]));
+                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('scale', trfNodes[i],message));
 
             } else if(trfNodes[i].nodeName  == 'rotate'){
-                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('rotate', trfNodes[i]));
+                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('rotate', trfNodes[i],message));
             }
-
-            if(message) return message;
         }
 
-        this.transformations.push(id, matrix);
-        return null;
+        if(id) this.transformations.push([id, matrix]);
+        return matrix;
     }
 
 
+    /**
+     * 
+     * @param {*} matrix1 
+     * @param {*} matrix2 
+     */
     multiplyMatrixs(matrix1, matrix2){
         if(matrix1) return mat4.multiply(matrix1 , matrix1, matrix2);
         else return matrix2;
@@ -1149,6 +1152,9 @@ class MySceneGraph {
 
     /**
      * 
+     * @param {*} tagName 
+     * @param {*} node 
+     * @param {*} message 
      */
     getTranformationMatrix(tagName,node, message){
         var matrix = mat4.create();
@@ -1192,6 +1198,10 @@ class MySceneGraph {
     }
 
 
+    /**
+     * 
+     * @param {*} node 
+     */
      getChildrensNames(node){
         var nodeNames = [];
         for (var i=0; i<node.length;i++){
@@ -1201,12 +1211,16 @@ class MySceneGraph {
     }
 
 
+    /**
+     * 
+     * @param {*} componentsNode 
+     */
      parseComponents(componentsNode){
          var components = componentsNode.children;
-         var id;
-         var content;
-         var contentTagNames=[];
-         var component = [];
+         var id, content, transformationsMatrix, material, textureInfo,children;
+         var contentTagNames=[], component = [];
+         this.components = [];
+        
 
          for(var i = 0; i<components.length; i++){
              id=this.reader.getString(components[i],'id');
@@ -1215,33 +1229,122 @@ class MySceneGraph {
              contentTagNames = this.getChildrensNames(content);
 
              if(contentTagNames[0]!='transformation') return "Component (ID:" + id + " must have transformation tag";
-             /*else{
-                parse transformations
-             }*/
+             else{
+                 if(content[0].children) transformationsMatrix = this.parseComponentTransformations(content[0].children,id);
+             }
 
              if(contentTagNames[1]!='materials') return "Component (ID:" + id + " must have materials tag";
              else{
                 var matId = this.reader.getString(content[1].children[0],'id');
+                material = this.findGraphElement(this.materials,matId);
             }
             
             if (contentTagNames[2]!='texture') return "Component (ID:" + id + " must have materials tag";
             else{
                 var textId = this.reader.getString(content[2],'id');
+                var texture = this.findGraphElement(this.textures,textId);
                 var length_s = this.reader.getString(content[2],'length_s');
                 var length_t = this.reader.getString(content[2],'length_t');
+                textureInfo = [texture,length_s,length_t];
             }
             
             if (contentTagNames[3]!='children') return "Component (ID:" + id + " must have children tag";    
-             /*else{
-                 //parse children
-                }*/
+            else{
+                children = this.parseChildren(content[3].children);
+                }
+
+            this.components.push(new MyComponent(this.scene,id,transformationsMatrix,material,textureInfo,children)); 
+            this.referenceComponents();   
          }
      }
 
+     referenceComponents(){
+         //go through components
+         for(let i = 0; i < this.components.length; i++){
+             var compRefs = this.components[i].childComponents;
+             
+             //go through a comonent's refs
+             for(let j = 0; j < compRefs.length;j++){
+                
+                //go through components again to reference object
+                for(let k = 0; k<this.components.length;k++){
+                    if(this.components[k].id==compRefs[j].id)
+                        this.components[i].childComponents[j] = this.components[k]; 
+                }
+             }
 
-     parseComponentTransformations(){
-
+             this.log(this.components[i].childComponents);
+         }
      }
+
+     /**
+      * 
+      * @param {*} nodes 
+      */
+     parseChildren(nodes){
+         var primitiveChildren = [];
+         var componentChildren = [];
+
+         for(let i = 0; i< nodes.length; i++){
+             if(nodes[i].nodeName == 'primitiveref'){
+                 primitiveChildren.push(this.findGraphElement(this.primitives,this.reader.getString(nodes[i],'id')));
+             } 
+             else componentChildren.push(this.reader.getString(nodes[i],'id'));
+         }
+         return [primitiveChildren,componentChildren];
+     }
+
+
+     /**
+      * 
+      * @param {*} nodes 
+      */
+     parseComponentTransformations(nodes,id){
+        var matrixes = [];
+        var transfNodes = [];
+        var temp = [];
+        var m ;
+        var flag = false;
+
+        for(let i = 0; i<nodes.length;i++){
+            if(nodes[i].nodeName== 'transformationref'){
+               m = this.findGraphElement(this.transformations,this.reader.getString(nodes[i],'id'));
+               //this.log(m);
+               matrixes.push(m);
+            }else{
+                transfNodes.push(nodes[i]);
+                flag = true;
+            }
+        }
+
+        
+        if(flag){
+            matrixes.push(this.parseSingleTransformation(transfNodes,id,null));
+        } 
+        m = mat4.create();
+
+        for(let j = 0; j <matrixes.length ; j++){
+            mat4.multiply(m,m,matrixes[j]);
+        }
+     }
+
+     /**
+      * 
+      * @param {*} red 
+      */
+     findGraphElement(array,id){
+
+         for(let i = 0; i<array.length;i++){
+             var e = array[i];
+             if(e[0]==id) {
+                 return e[1];
+            }
+        }
+        return null;
+     }
+
+
+
 
 
     /**
