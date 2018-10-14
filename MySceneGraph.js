@@ -834,7 +834,7 @@ class MySceneGraph {
             case 'cylinder':
             return this.parseCylinder(node, id);
 
-            case 'cylinder':
+            case 'torus':
             return this.parseTorus(node, id);
         }
     }
@@ -945,6 +945,7 @@ class MySceneGraph {
         if(!this.isAttrValid(loops,null, 1,1)) return "Attribute loops in primitive ID = " + id + " invalid";
 
         this.primitives.push([id,new MyTorus(this.scene,inner, outer, slices, loops)]);
+        console.log(new MyTorus(this.scene,inner, outer, slices, loops));
         return null;
 
     }
@@ -1146,9 +1147,9 @@ class MySceneGraph {
          for(let i = 0; i < this.components.length; i++){
              var compRefs = this.components[i].childComponents;
              
-             //go through a comonent's refs
+             //go through a component's refs
              for(let j = 0; j < compRefs.length;j++){
-                
+
                 //go through components again to reference object
                 for(let k = 0; k<this.components.length;k++){
                     if(this.components[k].id==compRefs[j]){
