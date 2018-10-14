@@ -69,12 +69,28 @@ class XMLscene extends CGFscene {
                     this.lights[i].enable();
                 else
                     this.lights[i].disable();
-
+                    
+                if(light[5]!=null){
+                    this.lights[i].setSpotCutOff(light[5]);
+                    this.lights[i].setSpotExponent(light[6]);
+                    this.lights[i].setSpotExponent(this.calculateLightDirection(light[1], light[6]));
+                }
                 this.lights[i].update();
 
                 i++;
             }
         }
+    }
+
+
+    calculateLightDirection(pos,target){
+        let x, y, z;
+
+        x = (target[0]-pos[0]);
+        y = (target[1]-pos[1]);
+        z = (target[2]-pos[2]);
+
+        return [x,y,z];
     }
 
 

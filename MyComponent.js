@@ -15,12 +15,15 @@ class MyComponent
         this.length_t = textureInfo[2];
         this.childComponents = children[1];
         this.primitives = children[0];
+        
     };
 
     display(){
         this.scene.pushMatrix();
-        //console.log(this.transformationsMatrix);
         this.scene.multMatrix(this.transformationsMatrix);
+        this.material.setTexture(this.texture);
+        this.material.apply();
+
         for(let i = 0; i<this.primitives.length;i++){
             this.primitives[i].display();
         }

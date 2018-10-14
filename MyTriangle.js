@@ -4,40 +4,57 @@
  */
 class MyTriangle extends CGFobject
 {
-	constructor(scene, x0, y0, z0, x1, y1, z1, x2, y2, z2)
+	constructor(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3)
 	{
-		console.log("done");
 
 		super(scene);
 
-		this.p1 = [x0, y0, z0];
-		this.p2 = [x1, y1, z1];
-		this.p3 = [x2, y2, z2];
+		 this.v1 = vec3.fromValues(x1, y1, z1);
+		 this.v2 = vec3.fromValues(x2, y2, z2);
+		 this.v3 = vec3.fromValues(x3, y3, z3);
+	 
 		this.initBuffers();
 	};
 
 	initBuffers()
 	{
-		var p1 = this.p1;
-		var p2 = this.p2;
-		var p3 = this.p3;
 		this.vertices = [
-				p1[0],p1[1], p1[2],
-				p2[0],p2[1], p2[2],
-				p3[0],p3[1], p3[2]
-				];
-
-		this.normals = [
-			0, 0, 1,
-			0, 0, 1,
-			0, 0, 1
-		]
-
+			this.v1[0], this.v1[1], this.v1[2],
+			this.v2[0], this.v2[1], this.v2[2],
+			this.v3[0], this.v3[1], this.v3[2],
+	
+		];
+	
 		this.indices = [
 			0, 1, 2
 		];
-
-
+	
+		var V21 = vec3.create();  //vetor do ponto 1 ao ponto 2
+		var V21 =[this.v2[0]-this.v1[0],
+				  this.v2[1]-this.v1[1],
+				  this.v2[2]-this.v1[2]];
+	
+		var V32 = vec3.create(); //vetor do ponto 2 ao ponto 3
+		var V32 =[this.v3[0]-this.v2[0],
+				  this.v3[1]-this.v2[1],
+				  this.v3[2]-this.v3[2]];
+	
+		var N =vec3.create() //n - normal ao triangulo
+		vec3.cross(N, V21, V32);
+		  vec3.normalize(N, N);
+	
+		  this.normals = [
+			  N[0], N[1], N[2],
+			  N[0], N[1], N[2],
+			  N[0], N[1], N[2],];
+	
+		this.texCoords = [
+			0, 1, //this.minS, this.maxT,
+			1, 1, //this.maxS, this.maxT,
+			0, 0, //this.minS, this.minT,
+			1, 0 //this.maxS, this.minT
+		];
+	
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	};

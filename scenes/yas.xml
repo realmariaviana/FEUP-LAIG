@@ -18,70 +18,62 @@
     </ambient>
 
     <lights>
-        <omni id="light-1" enabled="1">
-            <location x="0" y="15" z="0" w="0"/>
-            <ambient r="0" g="0" b="0" a="1.0"/>
+        <omni id="light 1 (omni)" enabled="1">
+            <location x="1" y="13" z="1" w="1"/>
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0"/>
             <diffuse r="0.9" g="0.9" b="0.9" a="1"/>
             <specular r="0.6" g="0.7" b="1.0" a="1.0"/>
         </omni>
 
-         <omni id="light-2" enabled="1">
-            <location x="0" y="5" z="8" w="1"/>
-            <ambient r="0.15" g="0.15" b="0.15" a="1.0"/>
+         <omni id="light 2 (omni)" enabled="1">
+            <location x="6" y="5" z="8" w="1"/>
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0"/>
             <diffuse r="0.35" g="0.35" b="0.35" a="1.0"/>
             <specular r="0.8" g="0.8" b="0.8" a="1.0"/>
         </omni>
 
-        <spot id="light-3" enabled="1" angle="30" exponent="15">
-            <location x="5" y="15" z="5" w="10"/>
-            <target x="10" y="10" z="10"/>
-            <ambient r="0.10" g="0.1" b="0.1" a="1"/>
-            <diffuse r="1" g="1" b="1" a="1"/>
+        <spot id=" lamp light (spot)" enabled="1" angle="0" exponent="10">
+            <location x="1" y="4" z="1" w="1"/>
+            <target x="0" y="0" z="0"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="1"/>
+            <diffuse r="0.5" g="0.5" b="0.5" a="1"/>
             <specular r="1" g="1" b="1" a="1"/>
         </spot>
     </lights>
 
      <textures>
-        <texture id="boardtxt" file="images/board.jpg"/>
-        <texture id="walltxt" file="images/wall.jpg"/>
-        <texture id="floortxt" file="images/wood.jpg"/>
-        <texture id="rugtxt" file="images/rug.jpg"/>
-        <texture id="blacktxt" file="images/table.jpg"/>
-        <texture id="spheretxt" file="images/white.jpg"/>
-        <texture id="gametxt" file="images/trivial.jpg"/>
-        <texture id="metaltxt" file="images/metal.jpg"/>
-        <texture id="visortxt" file="images/visor.jpg"/>
+        <texture id="boardtxt" file="scenes/images/board.jpg"/>
+        <texture id="walltxt" file="scenes/images/wall.jpg"/>
+        <texture id="floortxt" file="scenes/images/wood.jpg"/>
+        <texture id="rugtxt" file="scenes/images/rug.jpg"/>
+        <texture id="blacktxt" file="scenes/images/table.jpg"/>
+        <texture id="whitetxt" file="scenes/images/white.jpg"/>
+        <texture id="gametxt" file="scenes/images/trivial.jpg"/>
+        <texture id="metaltxt" file="scenes/images/metal.jpg"/>
+        <texture id="visortxt" file="scenes/images/visor.jpg"/>
 
     </textures>
 
      <materials>
         <material id="ss" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="0"/>
+            <emission r="0.1" g="0.1" b="0.1" a="0"/>
             <ambient r="0.7" g="0.7" b="0.7" a="1"/>
+            <diffuse r="0.7" g="0.7" b="0.5" a="1"/>
+            <specular r="0.5" g="0.7" b="0.8" a="1"/>
+        </material>
+
+        <material id="mirror" shininess="10">
+            <emission r="0.3" g="0.3" b="0.3" a="0"/>
+            <ambient r="0.9" g="0.9" b="0.9" a="1"/>
             <diffuse r="0.7" g="0.7" b="0.5" a="1"/>
             <specular r="0.5" g="0.7" b="0.8" a="1"/>
         </material>
     </materials>
 
      <transformations>  
-       
-        <transformation id="wall1">
-            <translate x="5" y="5" z="0"/>
-            <scale x="10" y="10" z="10"/>
+        <transformation id="to_origin">
             <translate x="-1.5" y="-1.5" z="0"/>
-        </transformation>
-
-        <transformation id="wall2">
-            <translate x="-0.5" y="0" z="0.5"/>
-            <rotate axis="y" angle= "90"/>
-            <translate x="-1.5" y="0" z="1.5"/>
          </transformation>
-         
-         <transformation id="floor">
-            <translate x="0" y="1" z="-1"/>
-            <rotate axis="x" angle= "90"/>   
-        </transformation>
-        
     </transformations>
 
 
@@ -99,11 +91,19 @@
         </primitive>
 
         <primitive id="MyTorus">
-             <torus inner="1" outer="2.1" slices="32" loops="1"/>
+             <torus inner="2" outer="5" slices="32" loops="1"/>
         </primitive>
 
-         <primitive id="MyTriangle">
-             <triangle x1="1" y1="0" z1="0" x2="0" y2="1" z2="0" x3="0" y3="0" z3="2"/>
+         <primitive id="MyRectTriangle-right">
+             <triangle x1="1" y1="0" z1="0" x2="0" y2="0" z2="0" x3="0" y3="0" z3="2"/>
+        </primitive>
+
+        <primitive id="MyRectTriangle-left">
+             <triangle x1="0" y1="0" z1="0" x2="-1" y2="0" z2="0" x3="0" y3="0" z3="2"/>
+        </primitive>
+
+        <primitive id="MyIqTriangle">
+             <triangle x1="1" y1="0" z1="0" x2="-1" y2="0" z2="0" x3="0" y3="0" z3="2"/>
         </primitive>
     </primitives>
 
@@ -112,7 +112,6 @@
         <!-- Wall1 -->
         <component id="root">
             <transformation>
-                <transformationref id="wall1"/>
             </transformation>
 
             <materials>
@@ -122,10 +121,12 @@
              <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>
+                <primitiveref id="MyTorus"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
+                <componentref id="wall3"/>
+                <componentref id="wall4"/>
                 <componentref id="floor"/>
-                <componentref id="board"/>
                 <componentref id="rug"/>
                 <componentref id="table"/>
                 <componentref id="seats"/>
@@ -133,12 +134,16 @@
                 <componentref id="lamp"/>
                 <componentref id="tv"/>
                 <componentref id="visor"/>
+                <componentref id="mirrors"/>
             </children>
          </component>
 
         <!-- Wall-->
          <component id="wall1">
             <transformation>
+                <translate x="6" y="4" z="0"/>
+                <scale x="12" y="8" z="1"/>
+                <translate x="-1.5" y="-1.5" z="0"/>
             </transformation>
 
             <materials>
@@ -154,7 +159,51 @@
 
           <component id="wall2">
             <transformation>
-                <transformationref id="wall2"/>
+             <translate x="0" y="4" z="6"/>
+             <scale x="0" y="8" z="12"/>
+              <rotate axis="y" angle = "90"/>
+             <translate x="-1.5" y="-1.5" z="0"/>
+             
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="walltxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+         <component id="wall3">
+            <transformation>
+             <translate x="6" y="4" z="12"/>
+             <rotate axis="y" angle = "180"/>
+            <scale x="12" y="8" z="1"/>
+            <translate x="-1.5" y="-1.5" z="0"/>
+             
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="walltxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+         <component id="wall4">
+            <transformation>
+                <translate x="12" y="4" z="6"/>
+                <scale x="1" y="8" z="12"/>
+                <rotate axis="y" angle = "270"/>
+                <translate x="-1.5" y="-1.5" z="0"/>
+             
             </transformation>
 
             <materials>
@@ -171,7 +220,10 @@
          <!-- Floor -->
          <component id="floor">
              <transformation>
-                <transformationref id="floor"/>
+                <translate x="6" y="0" z="6"/>
+                <scale x="12" y="0" z="12"/>
+                <rotate axis="x" angle= "-90"/>
+                <translate x="-1.5" y="-1.5" z="0"/>
             </transformation>
 
             <materials>
@@ -190,7 +242,6 @@
          <component id="board">
              <transformation>
                 <translate x="0.4" y="1.15" z="0.01"/>
-                 <scale x="0.75" y="0.3" z="1"/>
             </transformation>
 
             <materials>
@@ -207,9 +258,10 @@
          <!-- Rug -->
          <component id="rug">
              <transformation>
-                <translate x="0.3" y="1.001" z="-0.7"/>
-                <rotate axis="x" angle= "90"/> 
-                <scale x="0.8" y="0.8" z="1"/>
+                <translate x="6" y="0.001" z="6"/> 
+                <scale x="8" y="0" z="8"/>
+                <rotate axis="x" angle= "-90"/>
+                <translate x="-1.5" y="-1.5" z="0"/> 
             </transformation>
 
             <materials>
@@ -226,13 +278,14 @@
         <!-- Table -->
         <component id="table">
             <transformation>
-                <translate x="0.75" y="0.90" z="-0.11"/>
-                <scale x="0.5" y="0.09" z="0.3"/>
+                <translate x="-1.5" y="0.2" z="4"/> 
+                <scale x="4.5" y="0.8" z="4.25"/>
+                <transformationref id = "to_origin"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cube-lado1"/>
                 <componentref id="cube-lado2"/>
@@ -245,12 +298,13 @@
 
         <component id="cube-lado1">
             <transformation>
-                <translate x="0" y="0" z="1.5"/>
+                <translate x="3.5" y="0.5" z="0"/>
+                <rotate axis="y" angle= "180"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
             </children>
@@ -258,12 +312,12 @@
 
        <component id="cube-lado2">
             <transformation>
-                <translate x="0" y="0" z="2.5"/>
+            <translate x="0.5" y="0.5" z="1"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -272,13 +326,13 @@
 
         <component id="cube-lado3">
             <transformation>
-                <translate x="0" y="1" z="0.5"/>
-                <rotate axis="x" angle="90"/>
+                <translate x="2.5" y="0.5" z="2"/>
+                <rotate axis="y" angle="90"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -287,13 +341,13 @@
 
         <component id="cube-lado4">
             <transformation>
-                <translate x="0" y="2" z="0.5"/>
-                <rotate axis="x" angle="90"/>
+            <translate x="1.5" y="0.5" z="-1"/>  
+                <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -302,13 +356,13 @@
 
          <component id="cube-lado5">
             <transformation>
-                <translate x="1" y="0" z="3.5"/>
-                <rotate axis="y" angle="90"/>
+                <translate x="0.5" y="2.5" z="2"/>  
+                <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -317,26 +371,209 @@
 
          <component id="cube-lado6">
             <transformation>
-                <translate x="2" y="0" z="3.5"/>
-                <rotate axis="y" angle="90"/>
+                <translate x="0.5" y="1.5" z="-1"/>  
+                <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
             </children>
         </component>
 
+
+        <component id="mirrors">
+            <transformation>
+                 <translate x="5" y="4" z="0.01"/>
+                 <scale x="0.9" y="0.9" z="0.9" />
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="floortxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="mirror1"/>
+                <componentref id="mirror2"/>
+                <componentref id="mirror3"/>
+            </children>
+         </component>
+
+         <component id="mirror1">
+            <transformation>
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="mirror-top"/>
+                <componentref id="mirror-bottom"/>
+                <componentref id="borders-top"/>
+                <componentref id="borders-bottom"/>
+            </children>
+         </component>
+
+         <component id="mirror2">
+            <transformation>
+                <translate x="1.5" y="-0" z="0"/>
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="mirror-top"/>
+                <componentref id="mirror-bottom"/>
+                <componentref id="borders-top"/>
+                <componentref id="borders-bottom"/>
+            </children>
+         </component>
+
+         <component id="mirror3">
+            <transformation>
+                <translate x="2.5" y="-0" z="0"/>
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="mirror-top"/>
+                <componentref id="mirror-bottom"/>
+                <componentref id="borders-top"/>
+                <componentref id="borders-bottom"/>
+            </children>
+         </component>
+
+         <component id="mirror-top">
+            <transformation>
+                <rotate axis="x" angle= "90"/> 
+            </transformation>
+
+            <materials>
+                <material id="mirror"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyIqTriangle"/>
+            </children>
+         </component>
+
+         <component id="mirror-bottom">
+            <transformation>
+            
+             <rotate axis="z" angle= "180"/> 
+             <rotate axis="x" angle= "90"/> 
+            </transformation>
+
+            <materials>
+                <material id="mirror"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyIqTriangle"/>
+            </children>
+         </component>
+
+
+          <component id="borders-top">
+            <transformation>
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="mirror-border-1"/>
+                <componentref id="mirror-border-2"/>
+            </children>
+         </component>
+
+         <component id="borders-bottom">
+            <transformation>
+            <rotate axis="z" angle= "180"/> 
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="mirror-border-1"/>
+                <componentref id="mirror-border-2"/>
+            </children>
+         </component>
+
+         <component id="mirror-border-1">
+            <transformation>
+                <translate x="1.94" y="-2.15" z="0.01"/>
+                <rotate axis="z" angle= "27"/> 
+                <scale x="0.1" y="2.3" z="0.1" />
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="floortxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+         <component id="mirror-border-2">
+            <transformation>
+                <translate x="-2.21" y="-2" z="0.01"/>
+                <rotate axis="z" angle= "-27"/> 
+                <scale x="0.1" y="2.3" z="0.1" />
+            </transformation>
+
+            <materials>
+                <material id="ss"/>
+            </materials>
+        
+             <texture id="floortxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+    
+
         <!-- Seats -->
         <component id="seats">
             <transformation>
+            <translate x="0" y="0.5" z="0"/>
             </transformation>
             <materials>
                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <componentref id="seat1"/>
                 <componentref id="seat2"/>
@@ -347,13 +584,14 @@
 
         <component id="seat1">
             <transformation>
-            <translate x="1.5" y="1" z="0.7"/>
-                <scale x="0.05" y="0.05" z="0.05" />
+                <translate x="6" y="0" z="9.25"/>
+                <rotate axis="x" angle= "90"/> 
+                <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                <material id="inherit"/>
+                <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -361,13 +599,14 @@
 
          <component id="seat2">
             <transformation>
-            <translate x="1.5" y="1" z="0.3"/>
-                <scale x="0.05" y="0.05" z="0.05" />
+                <translate x="6" y="0" z="3"/>
+                <rotate axis="x" angle= "90"/> 
+                <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                 <material id="inherit"/>
+                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -375,13 +614,14 @@
 
          <component id="seat3">
             <transformation>
-            <translate x="1.19" y="1" z="0.49"/>
-                <scale x="0.05" y="0.05" z="0.05" />
+                <translate x="2.75" y="0" z="6"/>
+                <rotate axis="x" angle= "90"/> 
+                <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                 <material id="inherit"/>
+                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -389,40 +629,23 @@
 
          <component id="seat4">
             <transformation>
-            <translate x="1.82" y="1" z="0.49"/>
-                <scale x="0.05" y="0.05" z="0.05"/>
+                <translate x="9.25" y="0" z="6"/>
+                <rotate axis="x" angle= "90"/> 
+                <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                 <material id="inherit"/>
+                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
         </component>
-
-        <!-- Boardgame -->
-         <component id="game">
-             <transformation>
-                <translate x="1.265" y="1.085" z="0.27"/>
-                <scale x="0.15" y="0.0001" z="0.15"/>
-                <rotate axis="x" angle= "90"/>  
-            </transformation>
-
-            <materials>
-                <material id="ss"/>
-            </materials>
-        
-            <texture id="gametxt" length_s="1" length_t="1"/>
-
-            <children>
-                <primitiveref id="MyRectangle"/>
-            </children>
-         </component>
          
         <!-- Lamp -->
         <component id="lamp">
             <transformation>
+                <translate x="1" y="0" z="1"/>
             </transformation>
             <materials>
                 <material id="ss"/>
@@ -433,17 +656,18 @@
                 <componentref id="cabo1"/>
                 <componentref id="suporte"/>
                 <componentref id="sphere"/>
-               <!-- <componentref id="torus"/> -->
+                <componentref id="torus"/> 
             </children>
         </component>
 
         <component id="base">
             <transformation>
-                <translate x="1.10" y="1.0" z="0.10"/>
-                <scale x="0.05" y="0.01" z="0.05"/>
+                <translate x="0" y="0.03" z="0"/>
+                <scale x="0.4" y="0.03" z="0.4"/>
+                <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                 <material id="inherit"/>
+                 <material id="ss"/>
             </materials>
             <texture id="metaltxt" length_s="1" length_t="1"/>
             <children>
@@ -453,11 +677,12 @@
 
          <component id="cabo1">
             <transformation>
-                <translate x="1.10" y="1.0" z="0.10"/>
-                <scale x="0.009" y="0.4" z="0.009"/>
+                <translate x="0" y="4" z="0"/>
+                 <scale x="0.04" y="4" z="0.04"/>
+                <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                 <material id="inherit"/>
+                 <material id="ss"/>
             </materials>
             <texture id="metaltxt" length_s="1" length_t="1"/>
             <children>
@@ -467,13 +692,14 @@
 
         <component id="suporte">
             <transformation>
-                <translate x="1.10" y="1.4" z="0.10"/>
-                <scale x="0.01" y="0.01" z="0.01"/>
+                <translate x="0" y="3.9" z="0"/>
+                <scale x="0.1" y="0.03" z="0.1"/>
+                <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                 <material id="inherit"/>
+                 <material id="ss"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="metaltxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -481,23 +707,21 @@
 
         <component id="sphere">
             <transformation>
-                <translate x="1.1" y="1.455" z="0.1"/>
-                 <scale x="0.05" y="0.05" z="0.05"/>
+                <translate x="0" y="4.3" z="0"/>
+                 <scale x="0.4" y="0.4" z="0.4"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="mirror"/>
             </materials>
-            <texture id="spheretxt" length_s="1" length_t="1"/>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MySphere"/>
             </children>
-        </component>
+        </component >
 
         <component id="torus">
             <transformation> 
-                <translate x="1.1" y="1.455" z="0.1"/>
-                <scale x="0.017" y="0.02" z="0.017"/>
-                <rotate axis="x" angle="90"/>
+                <scale x="5" y="5" z="5"/>
             </transformation>
             <materials>
                 <material id="ss"/>
@@ -511,10 +735,9 @@
         <!-- Tv -->
         <component id="tv">
             <transformation>
-                 <translate x="1.017" y="0.66" z="-0.75"/>
-                 <rotate axis="z" angle="90"/>
-                 <scale x="0.3" y="0.01" z="0.5"/>
-                 <translate x="1.3" y="-0.5" z="0.5"/>
+                 <translate x="0" y="-1" z="12"/>
+                 <rotate axis="y" angle="90"/>
+                 <scale x="3" y="2.5" z="0.03"/>
             </transformation>
             <materials>
                 <material id="ss"/>
@@ -533,10 +756,9 @@
         <!-- Visor -->
          <component id="visor">
              <transformation>
-                <translate x="1.09" y="0.945" z="1.409"/>
+                <translate x="0.04" y="0.2" z="10.5"/>
                  <rotate axis="y" angle="90"/>
-                 <scale x="0.45" y="0.28" z="0.25"/>
-                 <translate x="0.5" y="0.5" z="-0.3"/>
+                 <scale x="3" y="2.53" z="0.03"/>
             </transformation>
 
             <materials>

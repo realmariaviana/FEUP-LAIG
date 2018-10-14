@@ -20,6 +20,12 @@ class MyQuad extends CGFobject
 		this.minT = 0;
 		this.maxT = 1;
 
+		this.minX= x0 || 0;
+		this.maxY= y1 || 1;
+		this.maxX= x1 || 1;
+		this.minY= y0|| 0;
+		this.initBuffers();
+
 	this.initBuffers();
 	};
 
@@ -42,6 +48,13 @@ class MyQuad extends CGFobject
 				0,0,1,
 				0,0,1,
 				0,0,1,
+			];
+
+			this.texCoords = [
+				0, 1, //this.minS, this.maxT,
+				1, 1, //this.maxS, this.maxT,
+				0, 0, //this.minS, this.minT,
+				1, 0, //this.maxS, this.minT
 			];
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
