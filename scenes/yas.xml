@@ -63,9 +63,16 @@
     </textures>
 
      <materials>
-        <material id="ss" shininess="10">
+        <material id="inherit" shininess="10">
             <emission r="0.1" g="0.1" b="0.1" a="0"/>
             <ambient r="0.7" g="0.7" b="0.7" a="1"/>
+            <diffuse r="0.7" g="0.7" b="0.5" a="1"/>
+            <specular r="0.5" g="0.7" b="0.8" a="1"/>
+        </material>
+
+        <material id="mirror" shininess="10">
+            <emission r="0.3" g="0.3" b="0.3" a="0"/>
+            <ambient r="0.9" g="0.9" b="0.9" a="1"/>
             <diffuse r="0.7" g="0.7" b="0.5" a="1"/>
             <specular r="0.5" g="0.7" b="0.8" a="1"/>
         </material>
@@ -99,15 +106,7 @@
         </primitive>
 
         <primitive id="MyTorus">
-             <torus inner="2" outer="5" slices="32" loops="1"/>
-        </primitive>
-
-         <primitive id="MyRectTriangle-right">
-             <triangle x1="1" y1="0" z1="0" x2="0" y2="0" z2="0" x3="0" y3="0" z3="2"/>
-        </primitive>
-
-        <primitive id="MyRectTriangle-left">
-             <triangle x1="0" y1="0" z1="0" x2="-1" y2="0" z2="0" x3="0" y3="0" z3="2"/>
+             <torus inner="0" outer="1" slices="64" loops="20" />
         </primitive>
 
         <primitive id="MyIqTriangle">
@@ -123,13 +122,12 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>
-                <primitiveref id="MyTorus"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -139,7 +137,7 @@
                 <componentref id="table"/>
                 <componentref id="seats"/>
                 <componentref id="game"/>
-                <componentref id="lamp"/>
+                <componentref id="lamp"/> 
                 <componentref id="tv"/>
                 <componentref id="visor"/>
                 <componentref id="mirrors"/>
@@ -155,10 +153,10 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
-             <texture id="walltxt" length_s="1" length_t="1"/>
+             <texture id="inherit" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -175,7 +173,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="walltxt" length_s="1" length_t="1"/>
@@ -195,7 +193,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="walltxt" length_s="1" length_t="1"/>
@@ -215,7 +213,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="walltxt" length_s="1" length_t="1"/>
@@ -235,7 +233,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
             <texture id="floortxt" length_s="1" length_t="1"/>
@@ -245,23 +243,6 @@
             </children>
          </component>
 
-
-        <!-- Board -->
-         <component id="board">
-             <transformation>
-                <translate x="0.4" y="1.15" z="0.01"/>
-            </transformation>
-
-            <materials>
-                <material id="ss"/>
-            </materials>
-        
-            <texture id="boardtxt" length_s="1" length_t="1"/>
-
-            <children>
-                <primitiveref id="MyRectangle"/>
-            </children>
-         </component>
 
          <!-- Rug -->
          <component id="rug">
@@ -273,7 +254,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
             <texture id="rugtxt" length_s="1" length_t="1"/>
@@ -291,7 +272,7 @@
                 <transformationref id = "to_origin"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
@@ -310,9 +291,9 @@
                 <rotate axis="y" angle= "180"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
             </children>
@@ -323,9 +304,9 @@
             <translate x="0.5" y="0.5" z="1"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -338,9 +319,9 @@
                 <rotate axis="y" angle="90"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -353,9 +334,9 @@
                 <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -368,9 +349,9 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
 
@@ -383,9 +364,9 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyRectangle"/>
             </children>
@@ -399,7 +380,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="floortxt" length_s="1" length_t="1"/>
@@ -416,7 +397,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="whitetxt" length_s="1" length_t="1"/>
@@ -435,7 +416,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="whitetxt" length_s="1" length_t="1"/>
@@ -454,7 +435,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
              <texture id="whitetxt" length_s="1" length_t="1"/>
@@ -507,14 +488,15 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
-             <texture id="whitetxt" length_s="1" length_t="1"/>
+             <texture id="floortxt" length_s="1" length_t="1"/>
 
             <children>
                 <componentref id="mirror-border-1"/>
                 <componentref id="mirror-border-2"/>
+                
             </children>
          </component>
 
@@ -524,10 +506,10 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
-             <texture id="whitetxt" length_s="1" length_t="1"/>
+             <texture id="floortxt" length_s="1" length_t="1"/>
 
             <children>
                 <componentref id="mirror-border-1"/>
@@ -543,10 +525,10 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
-             <texture id="floortxt" length_s="1" length_t="1"/>
+             <texture id="inherit" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -561,10 +543,10 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
-             <texture id="floortxt" length_s="1" length_t="1"/>
+             <texture id="inherit" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -579,7 +561,7 @@
             <translate x="0" y="0.5" z="0"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
@@ -597,9 +579,9 @@
                 <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -612,9 +594,9 @@
                 <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                 <material id="ss"/>
+                 <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -627,9 +609,9 @@
                 <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                 <material id="ss"/>
+                 <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -642,9 +624,9 @@
                 <scale x="0.5" y="0.5" z="0.5" />
             </transformation>
             <materials>
-                 <material id="ss"/>
+                 <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -656,9 +638,9 @@
                 <translate x="1" y="0" z="1"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <texture id="metaltxt" length_s="1" length_t="1"/>
             <children>
                 <componentref id="base"/>
                 <componentref id="cabo1"/>
@@ -675,9 +657,9 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                 <material id="ss"/>
+                 <material id="inherit"/>
             </materials>
-            <texture id="metaltxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -690,9 +672,9 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                 <material id="ss"/>
+                 <material id="inherit"/>
             </materials>
-            <texture id="metaltxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -705,11 +687,12 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                 <material id="ss"/>
+                 <material id="inherit"/>
             </materials>
-            <texture id="metaltxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
+               
             </children>
         </component>
 
@@ -729,12 +712,14 @@
 
         <component id="torus">
             <transformation> 
-                <scale x="5" y="5" z="5"/>
+                <translate x="0" y="4.3" z="0"/>
+                 <scale x="0.5" y="0.1" z="0.5"/>
+                <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
-            <texture id="metaltxt" length_s="1" length_t="1"/>
+            <texture id="inherit" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyTorus"/>
             </children>
@@ -748,7 +733,7 @@
                  <scale x="3" y="2.5" z="0.03"/>
             </transformation>
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
             <texture id="blacktxt" length_s="1" length_t="1"/>
             <children>
@@ -770,7 +755,7 @@
             </transformation>
 
             <materials>
-                <material id="ss"/>
+                <material id="inherit"/>
             </materials>
         
             <texture id="visortxt" length_s="1" length_t="1"/>

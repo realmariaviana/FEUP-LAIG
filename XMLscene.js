@@ -14,6 +14,8 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.lightValues = {};
         this.views = {};
+        this.componentsStack = [];
+
     }
 
     /**
