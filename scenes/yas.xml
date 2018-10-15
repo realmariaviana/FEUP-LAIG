@@ -2,7 +2,7 @@
 
     <scene root="root" axis_length="5"/>
  
-    <views default="view1-perspective" >
+    <views default="view3-ortho" >
         <perspective id="view1-perspective" near="0.1" far="500" angle="20">
             <from x="25" y="25" z="25"/>
             <to x="0" y="-3" z="0"/>

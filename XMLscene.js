@@ -61,18 +61,17 @@ class XMLscene extends CGFscene {
 
             if(views[id].type == "ortho"){
                 var o = views[id][7];
-                console.log(this.views[id]);
                 this.views[id] = new CGFcameraOrtho(views[id][2],views[id][3],views[id][5],views[id][4],views[id][0],views[id][1], vec3.fromValues(o[0], o[1], o[2]), vec3.fromValues(views[id][6][0], views[id][6][1], views[id][6][2]), vec3.fromValues(0, 1, 0));
             }
+            console.log(views[id]);
+        if(id == this.graph.defaultView) this.selectView(id);
             
         }
     }
 
     selectView(id) {
-        console.log("1", this.views[id], this.camera);
         this.camera = this.views[id];
         this.interface.setActiveCamera(this.views[id]);
-        console.log("2", this.views[id], this.camera);
     }
 
     /**
@@ -131,13 +130,6 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.camera.setPosition(this.graph.position);
-        this.camera.setTarget(this.graph.target);
-
-        this.camera.near = this.graph.near;
-        this.camera.far = this.graph.far;
-        this.camera.fov = this.graph.angle * DEGREE_TO_RAD;
-
 
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.axis_length);

@@ -54,6 +54,5 @@ class MyInterface extends CGFinterface {
         this.currentCameraId = this.scene.graph.defaultView;
 
         group.add(this, 'currentCameraId', cameraIdArray).name('Camera').onChange(val => this.scene.selectView(val));
-        console.log("oi");
     }
 }

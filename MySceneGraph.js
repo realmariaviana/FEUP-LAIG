@@ -29,7 +29,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-        this.defaultView= null;
+        this.defaultViewId = null;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -392,18 +392,6 @@ class MySceneGraph {
             
         }
 
-        if(viewId == this.defaultView){
-            this.near = near;
-            this.far = far;
-            this.left = left;
-            this.right = right;
-            this.top = top;
-            this.bottom = bottom;
-            this.angle = angle;
-            this.target = toCoords;
-            this.position = fromCoords;
-        }
-
         this.views[viewId] = [near, far, left, right, top, bottom, toCoords,fromCoords];
         this.views[viewId].type = "ortho";
 
@@ -452,14 +440,6 @@ class MySceneGraph {
                 toCoords[i] = this.parseXYZ(toNode)[i];   
             }
             
-        }
-
-        if(idView == this.defaultView){
-            this.near = near;
-            this.far = far;
-            this.angle = angle;
-            this.target = toCoords;
-            this.position = fromCoords;
         }
 
         this.views[idView]=[near,far,angle,toCoords,fromCoords];
