@@ -54,21 +54,25 @@ class XMLscene extends CGFscene {
         var views = this.graph.views;
         
         for(var id in views){
+
             if(views[id].type == "perspective"){
                 this.views[id] = new CGFcamera(views[id][2]*DEGREE_TO_RAD, views[id][0], views[id][1], vec3.fromValues(views[id][4][0], views[id][4][1], views[id][4][2]), vec3.fromValues(views[id][3][0], views[id][3][1], views[id][3][2]));
             }
 
             if(views[id].type == "ortho"){
                 var o = views[id][7];
+                console.log(this.views[id]);
                 this.views[id] = new CGFcameraOrtho(views[id][2],views[id][3],views[id][5],views[id][4],views[id][0],views[id][1], vec3.fromValues(o[0], o[1], o[2]), vec3.fromValues(views[id][6][0], views[id][6][1], views[id][6][2]), vec3.fromValues(0, 1, 0));
             }
+            
         }
     }
 
     selectView(id) {
+        console.log("1", this.views[id], this.camera);
         this.camera = this.views[id];
-        this.interface.setActiveCamera(this.camera);
-        console.log(this.camera);
+        this.interface.setActiveCamera(this.views[id]);
+        console.log("2", this.views[id], this.camera);
     }
 
     /**
@@ -130,8 +134,8 @@ class XMLscene extends CGFscene {
         this.camera.setPosition(this.graph.position);
         this.camera.setTarget(this.graph.target);
 
-        this.camera.near = parseFloat(this.graph.near);
-        this.camera.far = parseFloat(this.graph.far);
+        this.camera.near = this.graph.near;
+        this.camera.far = this.graph.far;
         this.camera.fov = this.graph.angle * DEGREE_TO_RAD;
 
 

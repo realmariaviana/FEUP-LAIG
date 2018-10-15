@@ -26,8 +26,18 @@
             <to x="3.7" y="3.5" z="4" />
         </perspective>
 
-        <ortho id="view2" near="1" far="1" left="1" right="1" top="1" bottom="1">
-            <from x="15" y="15" z="15" />
+        <ortho id="room_front_ortho_plane" near="0.1" far="70" left="-10" right="10" top="10" bottom="-10">
+            <from x="5" y="5" z="20" />
+            <to x="5" y="5" z="0" />
+        </ortho>
+
+        <ortho id="room_side_ortho_plane" near="0.1" far="70" left="-10" right="10" top="10" bottom="-10">
+            <from x="15" y="5" z="5" />
+            <to x="0" y="5" z="5" />
+        </ortho>
+
+        <ortho id="room_overview_ortho_plane" near="0.1" far="70" left="-7" right="7" top="7" bottom="-7">
+            <from x="10" y="10" z="10" />
             <to x="0" y="0" z="0" />
         </ortho>
     </views>
@@ -93,6 +103,8 @@
         <texture id="tex_frame2" file="scenes/images/frame2.jpg" />
         <texture id="tex_wood" file="scenes/images/wood.png" />
         <texture id="tex_donut" file="scenes/images/donut.png" />
+        <texture id="tex_floor" file="scenes/images/floor.png" />
+        <texture id="tex_homer" file="scenes/images/homer.png" />
     </textures>
     <materials>
         <material id="mat_metal" shininess="80" >
@@ -100,6 +112,12 @@
             <ambient r="0.1" g="0.1" b="0.15" a="1" />
             <diffuse r="0.4" g="0.4" b="0.5" a="1" />
             <specular r="0.4" g="0.4" b="0.5" a="1" />
+        </material>
+        <material id="mat_regular" shininess="40" >
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />
         </material>
         <material id="mat_wood" shininess="20" >
             <emission r="0" g="0" b="0" a="1" />
@@ -124,6 +142,12 @@
             <ambient r="0" g="0" b="0" a="1" />
             <diffuse r="0.4" g="0.4" b="0.4" a="1" />
             <specular r="0.9" g="0.9" b="0.9" a="1" />
+        </material>
+        <material id="mat_dark" shininess="10">
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1" />
+            <diffuse r="0.27" g="0.27" b="0.27" a="1" />
+            <specular r="0.1" g="0.1" b="0.1" a="1" />
         </material>
     </materials>
     <transformations>
@@ -159,9 +183,9 @@
             <rectangle x1="0" y1="0" x2="2.52" y2="3.44" />
         </primitive>
         <primitive id="ceiling">
-            <triangle x1="0" y1="7" z1="7"
-                      x2="0" y2="7" z2="0"
-                      x3="7" y3="7" z3="0" />
+            <triangle x3="0" y3="7" z3="7"
+                      x1="0" y1="7" z1="0"
+                      x2="7" y2="7" z2="0" />
         </primitive>
         <primitive id="cone_base">
             <cylinder base="0.35" top="0" height="0.24" slices="10" stacks="6" />
@@ -173,7 +197,7 @@
             <sphere radius="0.8" slices="20" stacks="20" />
         </primitive>
         <primitive id="torus_holder">
-            <torus inner="0.75" outer="0.8" slices="20" loops="20" />
+            <torus inner="0.05" outer="0.8" slices="20" loops="20" />
         </primitive>
         <primitive id="table_leg">
             <cylinder base="0.1" top="0.1" height="2.2" slices="10" stacks="3" />
@@ -193,9 +217,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="mat_regular" />
             </materials>
-            <texture id="none" length_s="1" length_t="1" />
+            <texture id="tex_rough" length_s="1" length_t="1" />
             <children>
                 <componentref id="desk_globe" />
                 <componentref id="window" />
@@ -240,9 +264,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="mat_wood" />
+                <material id="inherit" />
             </materials>
-            <texture id="tex_rough" length_s="1" length_t="1" />
+            <texture id="tex_homer" length_s="8.9" length_t="5" />
             <children>
                 <primitiveref id="ceiling" />
             </children>
@@ -254,9 +278,9 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="mat_wood" />
+                <material id="mat_dark" />
             </materials>
-            <texture id="tex_rough" length_s="1" length_t="1" />
+            <texture id="tex_floor" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="wall" />
             </children>
@@ -298,7 +322,7 @@
             <materials>
                 <material id="mat_metal" />
             </materials>
-            <texture id="tex_rough" length_s="1" length_t="2" />
+            <texture id="tex_rough" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="cyl_core" />
             </children>
@@ -311,7 +335,7 @@
             <materials>
                 <material id="mat_metal" />
             </materials>
-            <texture id="tex_rough" length_s="1" length_t="2" />
+            <texture id="tex_rough" length_s="1" length_t="1" />
             <children>
                 <componentref id="holder_around_core" />
             </children>
@@ -324,8 +348,9 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="2" />
+            <texture id="inherit" length_s="1" length_t="1" />
             <children>
+                <primitiveref id="torus_holder" />
             </children>
         </component>
 
@@ -362,7 +387,7 @@
             <materials>
                 <material id="mat_glass" />
             </materials>
-            <texture id="tex_window" length_s="1" length_t="1" />
+            <texture id="tex_window" length_s="1.5" length_t="2" />
             <children>
                 <primitiveref id="window" />
             </children>
@@ -376,7 +401,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="tex_frame" length_s="1" length_t="1" />
+            <texture id="tex_frame" length_s="0.684" length_t="0.8175" />
             <children>
                 <primitiveref id="frame" />
             </children>
@@ -390,7 +415,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="tex_frame2" length_s="1" length_t="1" />
+            <texture id="tex_frame2" length_s="2.52" length_t="3.44" />
             <children>
                 <primitiveref id="frame2" />
             </children>
@@ -611,6 +636,7 @@
             </materials>
             <texture id="tex_donut" length_s="1" length_t="1" />
             <children>
+                <primitiveref id="simpson_donut" />
             </children>
         </component>
 

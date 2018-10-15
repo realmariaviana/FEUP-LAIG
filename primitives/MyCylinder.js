@@ -53,4 +53,7 @@ class MyCylinder extends CGFobject
 		this.scene.popMatrix();
 	};
 
+	updateTextCoords(length_s, length_t){
+
+	};
 };

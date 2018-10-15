@@ -40,6 +40,7 @@ class MyComponent
         this.scene.componentsStack.push(this);
 
         for(let i = 0; i<this.primitives.length;i++){
+            this.primitives[i].updateTextCoords(this.length_s,this.length_t);
             this.primitives[i].display();
         }
 

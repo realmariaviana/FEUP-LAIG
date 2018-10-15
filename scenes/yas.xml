@@ -2,22 +2,22 @@
 
     <scene root="root" axis_length="5"/>
  
-    <views default="view1" >
-        <perspective id="view1" near="0.1" far="90" angle="60">
-              <from x="10" y="5" z="12" />
-            <to x="0" y="1" z="0" />
-        </perspective>
-
-        <perspective id="perspective-2" near="0.5" far="500" angle="60">
-            <from x="5" y="5" z="5"/>
-            <to x="10.0" y="4.0" z="5.0"/>
+    <views default="view1-perspective" >
+        <perspective id="view1-perspective" near="0.1" far="500" angle="20">
+            <from x="25" y="25" z="25"/>
+            <to x="0" y="-3" z="0"/>
         </perspective>
  
-        <ortho id="view2" near="0.1" far="500" left="-5" right="5" top="2.5" bottom="-2.5">
-            <from x="15" y="15" z="15" />
-            <to x="0" y="0" z="0" />
+ 
+         <perspective id="view2-perspective" near="0.5" far="500" angle="60">
+            <from x="5" y="20" z="5"/>
+            <to x="6" y="0" z="5"/>
+        </perspective>
+ 
+        <ortho id="view3-ortho" near="0.1" far="500" left="-20" right="20" top="22" bottom="-22">
+            <from x="6" y="5" z="30" />
+            <to x="6" y="5" z="0" />
         </ortho>
-        
     </views>
  
     <ambient>
@@ -40,12 +40,12 @@
             <specular r="0.8" g="0.8" b="0.8" a="1.0"/>
         </omni>
 
-        <spot id=" lamp light (spot)" enabled="1" angle="0" exponent="10">
-            <location x="1" y="4" z="1" w="1"/>
-            <target x="0" y="0" z="0"/>
+        <spot id=" lamp light (spot)" enabled="1" angle="2" exponent="2">
+            <location x="1" y="5" z="1" w="1"/>
+            <target x="1" y="0" z="1"/>
             <ambient r="0.1" g="0.1" b="0.1" a="1"/>
-            <diffuse r="0.5" g="0.5" b="0.5" a="1"/>
-            <specular r="1" g="1" b="1" a="1"/>
+            <diffuse r="0.8" g="0.8" b="0.8" a="1"/>
+            <specular r="0.1" g="0.1" b="0.1" a="1"/>
         </spot>
     </lights>
 
@@ -59,15 +59,23 @@
         <texture id="gametxt" file="scenes/images/trivial.jpg"/>
         <texture id="metaltxt" file="scenes/images/metal.jpg"/>
         <texture id="visortxt" file="scenes/images/visor.jpg"/>
+        <texture id="soiltxt" file="scenes/images/soil.jpg"/>
 
     </textures>
 
      <materials>
-        <material id="inherit" shininess="10">
+        <material id="standard" shininess="10">
             <emission r="0.1" g="0.1" b="0.1" a="0"/>
-            <ambient r="0.7" g="0.7" b="0.7" a="1"/>
-            <diffuse r="0.7" g="0.7" b="0.5" a="1"/>
-            <specular r="0.5" g="0.7" b="0.8" a="1"/>
+            <ambient r="0.6" g="0.6" b="0.6" a="1"/>
+            <diffuse r="0.5" g="0.5" b="0.5" a="1"/>
+            <specular r="0.7" g="0.7" b="0.7" a="1"/>
+        </material>
+
+        <material id="white" shininess="10">
+            <emission r="0.1" g="0.1" b="0.1" a="1"/>
+            <ambient r="0.5" g="0.5" b="0.5" a="1"/>
+            <diffuse r="0.5" g="0.5" b="0.5" a="1"/>
+            <specular r="0.5" g="0.5" b="0.5" a="1"/>
         </material>
 
         <material id="mirror" shininess="10">
@@ -77,12 +85,6 @@
             <specular r="0.5" g="0.7" b="0.8" a="1"/>
         </material>
 
-        <material id="mirror" shininess="10">
-            <emission r="0.3" g="0.3" b="0.3" a="0"/>
-            <ambient r="0.9" g="0.9" b="0.9" a="1"/>
-            <diffuse r="0.7" g="0.7" b="0.5" a="1"/>
-            <specular r="0.5" g="0.7" b="0.8" a="1"/>
-        </material>
     </materials>
 
      <transformations>  
@@ -109,6 +111,10 @@
              <torus inner="0" outer="1" slices="64" loops="20" />
         </primitive>
 
+        <primitive id="MyCurvedCylinder">
+             <torus inner="0" outer="5" slices="64" loops="20" />
+        </primitive>
+
         <primitive id="MyIqTriangle">
              <triangle x1="1" y1="0" z1="0" x2="-1" y2="0" z2="0" x3="0" y3="0" z3="2"/>
         </primitive>
@@ -122,7 +128,7 @@
             </transformation>
 
             <materials>
-                <material id="inherit"/>
+                <material id="standard"/>
             </materials>
         
              <texture id="walltxt" length_s="1" length_t="1"/>
@@ -141,6 +147,7 @@
                 <componentref id="tv"/>
                 <componentref id="visor"/>
                 <componentref id="mirrors"/>
+                <componentref id="vase"/>
             </children>
          </component>
 
@@ -272,7 +279,7 @@
                 <transformationref id = "to_origin"/>
             </transformation>
             <materials>
-                <material id="inherit"/>
+                <material id="white"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
@@ -561,7 +568,7 @@
             <translate x="0" y="0.5" z="0"/>
             </transformation>
             <materials>
-                <material id="inherit"/>
+                <material id="white"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
@@ -574,61 +581,61 @@
 
         <component id="seat1">
             <transformation>
-                <translate x="6" y="0" z="9.25"/>
+                <translate x="6" y="-0.2" z="9.25"/>
                 <rotate axis="x" angle= "90"/> 
-                <scale x="0.5" y="0.5" z="0.5" />
+                <scale x="0.15" y="0.14" z="0.15" />
             </transformation>
             <materials>
                 <material id="inherit"/>
             </materials>
             <texture id="inherit" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="MyCylinder"/>
+                <primitiveref id="MyCurvedCylinder"/>
             </children>
         </component>
 
          <component id="seat2">
             <transformation>
-                <translate x="6" y="0" z="3"/>
+                <translate x="6" y="-0.2" z="3"/>
                 <rotate axis="x" angle= "90"/> 
-                <scale x="0.5" y="0.5" z="0.5" />
+                 <scale x="0.15" y="0.14" z="0.15" />
             </transformation>
             <materials>
                  <material id="inherit"/>
             </materials>
             <texture id="inherit" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="MyCylinder"/>
+                <primitiveref id="MyCurvedCylinder"/>
             </children>
         </component>
 
          <component id="seat3">
             <transformation>
-                <translate x="2.75" y="0" z="6"/>
+                <translate x="2.75" y="-0.2" z="6"/>
                 <rotate axis="x" angle= "90"/> 
-                <scale x="0.5" y="0.5" z="0.5" />
+                 <scale x="0.15" y="0.14" z="0.15" />
             </transformation>
             <materials>
                  <material id="inherit"/>
             </materials>
             <texture id="inherit" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="MyCylinder"/>
+                <primitiveref id="MyCurvedCylinder"/>
             </children>
         </component>
 
          <component id="seat4">
             <transformation>
-                <translate x="9.25" y="0" z="6"/>
+                <translate x="9.25" y="-0.2" z="6"/>
                 <rotate axis="x" angle= "90"/> 
-                <scale x="0.5" y="0.5" z="0.5" />
+                 <scale x="0.15" y="0.14" z="0.15" />
             </transformation>
             <materials>
                  <material id="inherit"/>
             </materials>
             <texture id="inherit" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="MyCylinder"/>
+                <primitiveref id="MyCurvedCylinder"/>
             </children>
         </component>
          
@@ -758,10 +765,166 @@
                 <material id="inherit"/>
             </materials>
         
-            <texture id="visortxt" length_s="1" length_t="1"/>
+            <texture id="visortxt" length_s="3" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+
+         <component id="cube1">
+             <transformation>
+                 <translate x="-1" y ="1" z= "0"/>
+                 <rotate axis = "x" angle = "90"/>
+                <scale x="1" y="0.1" z="0.8"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+         </component>
+
+         <component id="cube2">
+             <transformation>
+                <translate x="0.7" y ="-1" z= "0.15"/>
+                <rotate axis = "z" angle = "90"/>
+                <scale x="0.8" y="0.1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+         </component>
+
+         <component id="cube3">
+             <transformation>
+                <translate x="1.7" y ="-1" z= "0.15"/>
+                <rotate axis = "z" angle = "90"/>
+                <scale x="0.8" y="0.1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+         </component>
+
+         <component id="cube4">
+             <transformation>
+                <translate x="-1" y ="1" z= "0.9"/>
+                 <rotate axis = "x" angle = "90"/>
+                <scale x="1" y="0.1" z="0.8"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+         </component>
+
+          <component id="cube5">
+             <transformation>
+                <translate x="0.5" y ="0" z= "2.65"/>
+                 <rotate axis = "y" angle = "90"/>
+                <scale x="1" y="0.1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+         </component>
+
+         <component id="soil">
+             <transformation>
+              <translate x="-0.5" y ="0.8" z= "2.15"/>
+                <rotate axis = "x" angle = "180"/>
+                 <rotate axis = "x" angle = "90"/>
+            </transformation>
+
+            <materials>
+                <material id="standard"/>
+            </materials>
+        
+            <texture id="soiltxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyRectangle"/>
+            </children>
+         </component>
+
+         <component id="vase">
+             <transformation>
+                <translate x="6.5" y ="0.6" z= "5"/>
+                <scale x="0.5" y="0.5" z="0.5"/>
+            </transformation>
+
+            <materials>
+                <material id="white"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube1"/>
+                <componentref id="cube2"/>
+                <componentref id="cube3"/>
+                <componentref id="cube4"/>
+                <componentref id="cube5"/>
+                <componentref id="soil"/>
             </children>
          </component>
 

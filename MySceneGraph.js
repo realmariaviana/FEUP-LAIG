@@ -29,7 +29,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-        this.near
+        this.defaultView= null;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -352,12 +352,12 @@ class MySceneGraph {
     parseOrthoView(orthoNode){
 
         var viewId = this.reader.getString(orthoNode, 'id');
-        var near = this.reader.getString(orthoNode, 'near');
-        var far = this.reader.getString(orthoNode, 'far');
-        var left = this.reader.getString(orthoNode, 'left');
-        var right = this.reader.getString(orthoNode, 'right');
-        var top = this.reader.getString(orthoNode, 'top');
-        var bottom = this.reader.getString(orthoNode, 'bottom');
+        var near = this.reader.getFloat(orthoNode, 'near');
+        var far = this.reader.getFloat(orthoNode, 'far');
+        var left = this.reader.getFloat(orthoNode, 'left');
+        var right = this.reader.getFloat(orthoNode, 'right');
+        var top = this.reader.getFloat(orthoNode, 'top');
+        var bottom = this.reader.getFloat(orthoNode, 'bottom');
 
         //orthos's children
         
@@ -417,9 +417,9 @@ class MySceneGraph {
     parsePerspectiveView(perspectiveNode){
 
         var idView = this.reader.getString(perspectiveNode, 'id');
-        var near = this.reader.getString(perspectiveNode, 'near');
-        var far = this.reader.getString(perspectiveNode, 'far');
-        var angle = this.reader.getString(perspectiveNode, 'angle');
+        var near = this.reader.getFloat(perspectiveNode, 'near');
+        var far = this.reader.getFloat(perspectiveNode, 'far');
+        var angle = this.reader.getFloat(perspectiveNode, 'angle');
 
         //perspective's children
         
@@ -871,7 +871,7 @@ class MySceneGraph {
             case 'cylinder':
             return this.parseCylinder(node, id);
 
-            case 'cylinder':
+            case 'torus':
             return this.parseTorus(node, id);
         }
     }

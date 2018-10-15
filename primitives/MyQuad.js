@@ -51,4 +51,17 @@ class MyQuad extends CGFobject
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	};
+
+	updateTextCoords(length_s, length_t){
+		let a = (this.x1-this.x0)/length_s;
+		let b = (this.y1-this.y0)/length_t;
+
+		this.texCoords = [
+			0, b, //this.minS, this.maxT,
+			a, b, //this.maxS, this.maxT,
+			a, 0, //this.minS, this.minT,
+			0, 0, //this.maxS, this.minT
+		];
+
+	};
 };
