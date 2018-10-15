@@ -3,13 +3,21 @@
     <scene root="root" axis_length="5"/>
  
     <views default="view1" >
-        <perspective id="view1" near="0.1" far="500" angle="20">
-            <from x="15" y="15" z="15"/>
-            <to x="0" y="0" z="0"/>
+        <perspective id="view1" near="0.1" far="90" angle="60">
+              <from x="10" y="5" z="12" />
+            <to x="0" y="1" z="0" />
+        </perspective>
+
+        <perspective id="perspective-2" near="0.5" far="500" angle="60">
+            <from x="5" y="5" z="5"/>
+            <to x="10.0" y="4.0" z="5.0"/>
         </perspective>
  
- 
-        <ortho id="view2" near="1" far="1" left="1" right="1" top="1" bottom="1"/>
+        <ortho id="view2" near="0.1" far="500" left="-5" right="5" top="2.5" bottom="-2.5">
+            <from x="15" y="15" z="15" />
+            <to x="0" y="0" z="0" />
+        </ortho>
+        
     </views>
  
     <ambient>

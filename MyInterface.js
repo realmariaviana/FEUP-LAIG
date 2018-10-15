@@ -44,4 +44,16 @@ class MyInterface extends CGFinterface {
             }
         }
     }
+
+    addViewsGroup(views) {
+
+        var group = this.gui.addFolder("Views");
+        group.open();
+
+        const cameraIdArray = Object.keys(views);
+        this.currentCameraId = this.scene.graph.defaultView;
+
+        group.add(this, 'currentCameraId', cameraIdArray).name('Camera').onChange(val => this.scene.selectView(val));
+        console.log(this.currentCameraId);
+    }
 }

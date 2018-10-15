@@ -26,7 +26,10 @@
             <to x="3.7" y="3.5" z="4" />
         </perspective>
 
-        <ortho id="ortho1" near="2" far="3" left="1" right="2" top="3" bottom="4" />
+        <ortho id="view2" near="1" far="1" left="1" right="1" top="1" bottom="1">
+            <from x="15" y="15" z="15" />
+            <to x="0" y="0" z="0" />
+        </ortho>
     </views>
     <ambient>
         <ambient r="0.6" g="0.6" b="0.6" a="1" />

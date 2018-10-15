@@ -36,10 +36,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        this.perspectiveViews = [];
-        this.orthoViews = [];
-        this.views = [this.perspectiveViews, this.orthoViews ];
-
+        this.views = [];
         this.materials = [];
         this.textures = [];
         this.lights=[];
@@ -292,9 +289,6 @@ class MySceneGraph {
         return arr;        
     }
 
-
-
-
     /**
      * Parses the <scene> block.
      * @param {scene block element} sceneNode
@@ -342,7 +336,7 @@ class MySceneGraph {
             else{
 
                 if(nodeNames[i] == "perspective") {this.parsePerspectiveView(children[i]); ids.push(id);}
-                else if(nodeNames[i] == "ortho") {this.parseOrthoView(children[i]);ids.push(id);}
+                else if(nodeNames[i] == "ortho") {this.parseOrthoView(children[i]); ids.push(id);}
                 else return "View tag is undefined";
             }
         }
@@ -365,9 +359,53 @@ class MySceneGraph {
         var top = this.reader.getString(orthoNode, 'top');
         var bottom = this.reader.getString(orthoNode, 'bottom');
 
-        var view=[viewId, near,far,left,right,top,bottom];
+        //orthos's children
+        
+        var toNode = this.getChildNode(orthoNode,"to");
+        var fromNode = this.getChildNode(orthoNode,"from");
 
-        this.orthoViews.push(view);
+        var toCoords = [0, 0, 0];
+        var fromCoords = [0, 0, 0];
+
+        //from
+
+        if (fromNode) {
+            if(this.parseXYZ(fromNode) == -1) return "unable to parse x component of the views from block";
+            else if(this.parseXYZ(fromNode) == -2) return "unable to parse y component of the views from block";
+            else if(this.parseXYZ(fromNode) == -3) return "unable to parse z component of the views from block";
+            else {
+                for(var i = 0; i<3;i++)
+                fromCoords[i] = this.parseXYZ(fromNode)[i];   
+            }
+            
+        }
+
+        //to
+        if (toNode) {
+            if(this.parseXYZ(toNode) == -1) return "unable to parse R component of the views to block";
+            else if(this.parseXYZ(toNode) == -2) return "unable to parse G component of the views to block";
+            else if(this.parseXYZ(toNode) == -3) return "unable to parse B component of the views to block";
+            else {
+                for(var i = 0; i<3;i++)
+                toCoords[i] = this.parseXYZ(toNode)[i];   
+            }
+            
+        }
+
+        if(viewId == this.defaultView){
+            this.near = near;
+            this.far = far;
+            this.left = left;
+            this.right = right;
+            this.top = top;
+            this.bottom = bottom;
+            this.angle = angle;
+            this.target = toCoords;
+            this.position = fromCoords;
+        }
+
+        this.views[viewId] = [near, far, left, right, top, bottom, toCoords,fromCoords];
+        this.views[viewId].type = "ortho";
 
         this.log("Parsed ortho view")
     }
@@ -404,7 +442,6 @@ class MySceneGraph {
             
         }
 
-
         //to
         if (toNode) {
             if(this.parseXYZ(toNode) == -1) return "unable to parse R component of the views to block";
@@ -421,13 +458,13 @@ class MySceneGraph {
             this.near = near;
             this.far = far;
             this.angle = angle;
-            this.position = fromCoords;
             this.target = toCoords;
+            this.position = fromCoords;
         }
 
-        var view=[idView,near,far,angle,toCoords,fromCoords];
-        this.perspectiveViews.push(view);
-
+        this.views[idView]=[near,far,angle,toCoords,fromCoords];
+        this.views[idView].type = "perspective";
+        
         this.log("Parsed Perspective view");
     }
 

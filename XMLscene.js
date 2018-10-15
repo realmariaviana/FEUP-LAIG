@@ -13,6 +13,7 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
+        this.views = {};
     }
 
     /**
@@ -42,6 +43,32 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
+    /**
+     * Initializes the scene views.
+     */
+    initViews() {
+
+        var views = this.graph.views;
+        
+        for(var id in views){
+            if(views[id].type == "perspective"){
+                this.views[id] = new CGFcamera(views[id][2]*DEGREE_TO_RAD, views[id][0], views[id][1], vec3.fromValues(views[id][4][0], views[id][4][1], views[id][4][2]), vec3.fromValues(views[id][3][0], views[id][3][1], views[id][3][2]));
+            }
+
+            if(views[id].type == "ortho"){
+                var o = views[id][7];
+                this.views[id] = new CGFcameraOrtho(views[id][2],views[id][3],views[id][5],views[id][4],views[id][0],views[id][1], vec3.fromValues(o[0], o[1], o[2]), vec3.fromValues(views[id][6][0], views[id][6][1], views[id][6][2]), vec3.fromValues(0, 1, 0));
+            }
+        }
+    }
+
+    selectView(id) {
+        this.camera = this.views[id];
+        this.interface.setActiveCamera(this.camera);
+        console.log(this.camera);
+    }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -115,9 +142,11 @@ class XMLscene extends CGFscene {
         // TODO: Change ambient and background details according to parsed graph
         
         this.initLights();
+        this.initViews();
 
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
+        this.interface.addViewsGroup(this.views);
 
         this.sceneInited = true;
     }
