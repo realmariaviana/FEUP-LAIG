@@ -16,6 +16,8 @@ class XMLscene extends CGFscene {
         this.views = {};
         this.texturesStack = [];
         this.materialsStack = [];
+        this.defaultMaterial = new CGFappearance(this);
+        console.log(this.defaultMaterial);
 
     }
 

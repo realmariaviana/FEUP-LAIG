@@ -31,7 +31,12 @@ class MyComponent
 
         //materials
         if(this.material == "inherit"){
-            currentMaterial= this.scene.materialsStack[this.scene.materialsStack.length-1];
+
+            if(this.scene.materialsStack.length==0) {
+                currentMaterial = this.scene.defaultMaterial;
+            }else 
+                currentMaterial= this.scene.materialsStack[this.scene.materialsStack.length-1];
+
         }
         else {
             currentMaterial = this.material;
