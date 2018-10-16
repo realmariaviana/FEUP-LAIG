@@ -45,6 +45,10 @@ class MyInterface extends CGFinterface {
         }
     }
 
+    /**
+     * Adds a folder containing the IDs of the views passed as parameter.
+     * @param {array} views
+     */
     addViewsGroup(views) {
 
         var group = this.gui.addFolder("Views");
