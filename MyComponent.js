@@ -30,23 +30,19 @@ class MyComponent
         this.scene.multMatrix(this.transformationsMatrix);
 
         //materials
-        if(this.material == null){
+        if(this.material == "inherit"){
             currentMaterial= this.scene.materialsStack[this.scene.materialsStack.length-1];
-        }else {
+        }
+        else {
             currentMaterial = this.material;
         }
 
-           
-
         this.scene.materialsStack.push(currentMaterial);
-
-       // console.log(this.id,this.scene.texturesStack);
     
-
         //textures
-        if(this.texture == null){
+        if(this.texture == "inherit"){
             currentText=this.scene.texturesStack[this.scene.texturesStack.length-1];
-        }   
+        }else if(this.texture == "none") currentText = null;
         else currentText = this.texture;
 
         this.scene.texturesStack.push(currentText);

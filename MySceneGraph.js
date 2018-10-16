@@ -1139,7 +1139,7 @@ class MySceneGraph {
             if (contentTagNames[2]!='texture') return "Component (ID:" + id + " must have materials tag";
             else{
                 var textId = this.reader.getString(content[2],'id');
-                var texture = this.findGraphElement(this.textures,textId);
+                var texture = this.loadComponentTextures(content[2]);
                 var length_s = this.reader.getString(content[2],'length_s');
                 var length_t = this.reader.getString(content[2],'length_t');
                 textureInfo = [texture,length_s,length_t];
@@ -1167,9 +1167,25 @@ class MySceneGraph {
 
          for(let i = 0; i < nodes.length; i++){
                 matId = this.reader.getString(nodes[i],'id');
-                materials.push(this.findGraphElement(this.materials,matId));
+                if(matId == "inherit") materials.push("inherit");
+                else if(matId == "none") materials.push("none");
+                else materials.push(this.findGraphElement(this.materials,matId));
          }
          return materials;
+     }
+
+
+     loadComponentTextures(node){
+        var textId;
+        var texture;
+
+        textId = this.reader.getString(node,'id');
+        
+        if(textId == "inherit") texture = "inherit";
+        else if(textId == "none") texture="none";
+        else texture = this.findGraphElement(this.textures,textId);
+
+         return texture;
      }
 
 
