@@ -63,7 +63,6 @@ class XMLscene extends CGFscene {
                 var o = views[id][7];
                 this.views[id] = new CGFcameraOrtho(views[id][2],views[id][3],views[id][5],views[id][4],views[id][0],views[id][1], vec3.fromValues(o[0], o[1], o[2]), vec3.fromValues(views[id][6][0], views[id][6][1], views[id][6][2]), vec3.fromValues(0, 1, 0));
             }
-            console.log(views[id]);
         if(id == this.graph.defaultView) this.selectView(id);
             
         }
@@ -76,6 +75,7 @@ class XMLscene extends CGFscene {
         this.camera = this.views[id];
         this.interface.setActiveCamera(this.views[id]);
     }
+
 
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -131,6 +131,20 @@ class XMLscene extends CGFscene {
     }
 
 
+    checkKeys()
+	{
+
+		if (this.gui.isKeyPressed("KeyM"))
+		{
+            console.log("m");
+            this.graph.changeMaterials();
+
+		}
+
+	 }
+
+
+
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -150,9 +164,11 @@ class XMLscene extends CGFscene {
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
         this.interface.addViewsGroup(this.views);
+        this.interface.initKeys();
 
         this.sceneInited = true;
     }
+
 
 
     /**
@@ -203,7 +219,13 @@ class XMLscene extends CGFscene {
             this.axis.display();
         }
 
+        this.checkKeys();
+
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
+
+
+
+
 }

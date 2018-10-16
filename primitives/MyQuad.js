@@ -60,8 +60,10 @@ class MyQuad extends CGFobject
 			0, b, //this.minS, this.maxT,
 			a, b, //this.maxS, this.maxT,
 			a, 0, //this.minS, this.minT,
-			0, 0, //this.maxS, this.minT
+			0, 0 //this.maxS, this.minT
 		];
+
+		this.updateTexCoordsGLBuffers();
 
 	};
 };

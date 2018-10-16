@@ -67,13 +67,11 @@
     </lights>
 
      <textures>
-        <texture id="boardtxt" file="scenes/images/board.jpg"/>
         <texture id="walltxt" file="scenes/images/wall.jpg"/>
         <texture id="floortxt" file="scenes/images/wood.jpg"/>
         <texture id="rugtxt" file="scenes/images/rug.jpg"/>
         <texture id="blacktxt" file="scenes/images/table.jpg"/>
         <texture id="whitetxt" file="scenes/images/white.jpg"/>
-        <texture id="gametxt" file="scenes/images/trivial.jpg"/>
         <texture id="metaltxt" file="scenes/images/metal.jpg"/>
         <texture id="visortxt" file="scenes/images/visor.jpg"/>
         <texture id="soiltxt" file="scenes/images/soil.jpg"/>
@@ -269,7 +267,7 @@
                 <material id="inherit"/>
             </materials>
         
-            <texture id="floortxt" length_s="1" length_t="1"/>
+            <texture id="floortxt" length_s="0.5" length_t="0.5"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -288,6 +286,7 @@
 
             <materials>
                 <material id="inherit"/>
+                 <material id="white"/>
             </materials>
         
             <texture id="rugtxt" length_s="1" length_t="1"/>
@@ -306,6 +305,7 @@
             </transformation>
             <materials>
                 <material id="white"/>
+                 <material id="standard"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>
@@ -792,7 +792,7 @@
                 <material id="inherit"/>
             </materials>
         
-            <texture id="visortxt" length_s="3" length_t="1"/>
+            <texture id="visortxt" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -800,7 +800,7 @@
          </component>
 
          <!-- Vase -->
-         <component id="vase">
+          <component id="vase">
              <transformation>
                 <translate x="6.5" y ="0.6" z= "5"/>
                 <scale x="0.5" y="0.5" z="0.5"/>
@@ -819,9 +819,47 @@
                 <componentref id="cube4"/>
                 <componentref id="cube5"/>
                 <componentref id="soil"/>
+                <componentref id="cactus"/>
             </children>
          </component>
 
+
+         <component id="cactus">
+             <transformation>
+                <translate x="1" y ="1" z= "0.6"/>
+                <scale x="0.3" y="0.5" z="0.3"/>
+            </transformation>
+
+            <materials>
+                <material id="white"/>
+            </materials>
+        
+            <texture id="cactustxt" length_s="1" length_t="1"/>
+
+            <children>
+
+                <primitiveref id="MySphere"/>
+                <componentref id="spine"/>
+            </children>
+         </component>
+
+
+         <component id="spine">
+             <transformation>
+                 <translate x="0" y ="1" z= "0"/>
+                <scale x="0.05" y="0.3" z="0.05"/>
+            </transformation>
+
+            <materials>
+                <material id="white"/>
+            </materials>
+        
+            <texture id="creamtxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+         </component>
          <component id="cube1">
              <transformation>
                  <translate x="-1" y ="1" z= "0"/>
