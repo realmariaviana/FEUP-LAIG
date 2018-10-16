@@ -11,8 +11,8 @@
 
         <!-- perspective view 2 -->
          <perspective id="view2-perspective" near="0.1" far="500" angle="30">
-            <from x="0" y="25" z="25"/>
-            <to x="6" y="2" z="5"/>
+            <from x="6" y="10" z="6"/>
+            <to x="5" y="2" z="5"/>
         </perspective>
 
         <!-- perspective view 3 -->
@@ -51,18 +51,18 @@
         <!-- omni light 2 -->
          <omni id="light 2 (omni)" enabled="1">
             <location x="6" y="5" z="8" w="1"/>
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0"/>
-            <diffuse r="0.35" g="0.35" b="0.35" a="1.0"/>
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0"/>
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0"/>
             <specular r="0.8" g="0.8" b="0.8" a="1.0"/>
         </omni>
 
         <!-- spot light 1 -->
-        <spot id=" lamp light (spot)" enabled="1" angle="2" exponent="2">
-            <location x="1" y="5" z="1" w="1"/>
-            <target x="1" y="0" z="1"/>
-            <ambient r="0.1" g="0.1" b="0.1" a="1"/>
-            <diffuse r="0.8" g="0.8" b="0.8" a="1"/>
-            <specular r="0.1" g="0.1" b="0.1" a="1"/>
+        <spot id=" lamp light (spot)" enabled="1" angle="50" exponent="2">
+            <location x="5.3" y="1.95" z="5" w="1"/>
+            <target x="5" y="-5" z="5"/>
+             <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
+            <specular r="1" g="1" b="1" a="0.1" />
         </spot>
     </lights>
 
@@ -70,31 +70,32 @@
         <texture id="walltxt" file="scenes/images/wall.jpg"/>
         <texture id="floortxt" file="scenes/images/wood.jpg"/>
         <texture id="rugtxt" file="scenes/images/rug.jpg"/>
-        <texture id="blacktxt" file="scenes/images/table.jpg"/>
+        <texture id="blacktxt" file="scenes/images/black.jpg"/>
         <texture id="whitetxt" file="scenes/images/white.jpg"/>
         <texture id="metaltxt" file="scenes/images/metal.jpg"/>
         <texture id="visortxt" file="scenes/images/visor.jpg"/>
         <texture id="soiltxt" file="scenes/images/soil.jpg"/>
         <texture id="vistatxt" file="scenes/images/vista.jpg"/>
         <texture id="cactustxt" file="scenes/images/cactus.jpg"/>
-        <texture id="velourtxt" file="scenes/images/velour.jpeg"/>
+        <texture id="velourtxt" file="scenes/images/velour.jpg"/>
         <texture id="goldtxt" file="scenes/images/gold.jpg"/>
         <texture id="marbletxt" file="scenes/images/marble.jpg"/>
+        <texture id="tabletxt" file="scenes/images/table.jpg"/>
     </textures>
 
      <materials>
         <material id="standard" shininess="10">
-            <emission r="0.1" g="0.1" b="0.1" a="0"/>
+            <emission r="0.2" g="0.2" b="0.2" a="1"/>
             <ambient r="0.5" g="0.5" b="0.5" a="1"/>
             <diffuse r="0.5" g="0.5" b="0.5" a="1"/>
             <specular r="0.5" g="0.5" b="0.5" a="1"/>
         </material>
 
         <material id="white" shininess="10">
-            <emission r="0.1" g="0.1" b="0.1" a="1"/>
+            <emission r="0.2" g="0.2" b="0.2" a="1"/>
             <ambient r="0.4" g="0.4" b="0.4" a="1"/>
             <diffuse r="0.4" g="0.4" b="0.4" a="1"/>
-            <specular r="0.5" g="0.5" b="0.5" a="1"/>
+            <specular r="1" g="1" b="1" a="1"/>
         </material>
 
         <material id="dark" shininess="10">
@@ -104,10 +105,24 @@
             <specular r="0.5" g="0.5" b="0.5" a="1"/>
         </material>
 
+        <material id="light" shininess="10">
+            <emission  r="0.35" g="0.35" b="0.35" a="1"/>
+            <ambient r="0.4" g="0.4" b="0.4" a="1"/>
+            <diffuse  r="0.4" g="0.4" b="0.4" a="1"/>
+            <specular r="0.8" g="0.8" b="0.8" a="1"/>
+        </material>
+
         <material id="fur" shininess="10">
-            <emission r="0.8" g="0.8" b="0.8" a="1"/>
+            <emission r="0.3" g="0.3" b="0.3" a="1"/>
             <ambient r="0.5" g="0.5" b="0.5" a="1"/>
             <diffuse r="0.5" g="0.5" b="0.5" a="1"/>
+            <specular r="0.7" g="0.7" b="0.7" a="1"/>
+        </material>
+
+        <material id="desklamp" shininess="10">
+            <emission r="0.7" g="0.7" b="0.7" a="1"/>
+            <ambient r="0" g="0" b="0" a="1"/>
+            <diffuse r="0" g="0" b="0" a="1"/>
             <specular r="0.5" g="0.5" b="0.5" a="1"/>
         </material>
 
@@ -316,11 +331,10 @@
                 <transformationref id = "to_origin"/>
             </transformation>
             <materials>
-                <material id="inherit"/>
                 <material id="white"/>
-                 <material id="mirror"/>
+                 <material id="dark"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="tabletxt" length_s="1" length_t="1"/>
             <children>
                 <componentref id="cube-lado1"/>
                 <componentref id="cube-lado2"/>
@@ -444,7 +458,7 @@
             </transformation>
 
             <materials>
-                <material id="inherit"/>
+                <material id="light"/>
             </materials>
         
              <texture id="whitetxt" length_s="1" length_t="1"/>
@@ -464,7 +478,7 @@
             </transformation>
 
             <materials>
-                <material id="inherit"/>
+                <material id="light"/>
             </materials>
         
              <texture id="whitetxt" length_s="1" length_t="1"/>
@@ -484,7 +498,7 @@
             </transformation>
 
             <materials>
-                <material id="inherit"/>
+                <material id="light"/>
             </materials>
         
              <texture id="whitetxt" length_s="1" length_t="1"/>
@@ -503,10 +517,10 @@
             </transformation>
 
             <materials>
-                <material id="mirror"/>
+                <material id="light"/>
             </materials>
         
-             <texture id="whitetxt" length_s="1" length_t="1"/>
+             <texture id="mirrortxt" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyIqTriangle"/>
@@ -521,10 +535,10 @@
             </transformation>
 
             <materials>
-                <material id="mirror"/>
+                <material id="inherit"/>
             </materials>
         
-             <texture id="whitetxt" length_s="1" length_t="1"/>
+             <texture id="mirrortxt" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyIqTriangle"/>
@@ -621,9 +635,9 @@
 
         <component id="seat1">
             <transformation>
-                <translate x="6" y="-0.1" z="9.25"/>
+                <translate x="6" y="0" z="9.25"/>
                 <rotate axis="x" angle= "90"/> 
-                <scale x="0.45" y="0.45" z="0.45" />
+                <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
             <materials>
                 <material id="inherit"/>
@@ -636,9 +650,9 @@
 
          <component id="seat2">
             <transformation>
-                <translate x="6" y="-0.2" z="3"/>
+                <translate x="6" y="0" z="3"/>
                 <rotate axis="x" angle= "90"/> 
-                  <scale x="0.45" y="0.45" z="0.45" />
+                 <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
             <materials>
                  <material id="inherit"/>
@@ -651,9 +665,9 @@
 
          <component id="seat3">
             <transformation>
-                <translate x="2.75" y="-0.2" z="6"/>
+                <translate x="2.75" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
-                  <scale x="0.45" y="0.45" z="0.45" />
+                 <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
             <materials>
                  <material id="inherit"/>
@@ -666,9 +680,9 @@
 
          <component id="seat4">
             <transformation>
-                <translate x="9.25" y="-0.2" z="6"/>
+                <translate x="9.25" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
-                  <scale x="0.45" y="0.45" z="0.45" />
+                <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
             <materials>
                  <material id="inherit"/>
@@ -815,8 +829,8 @@
          <!-- Vase -->
           <component id="vase">
              <transformation>
-                <translate x="6.5" y ="0.6" z= "5"/>
-                <scale x="0.5" y="0.5" z="0.5"/>
+                <translate x="5.2" y ="0.7" z= "4.7"/>
+                <scale x="0.4" y="0.4" z="0.4"/>
             </transformation>
 
             <materials>
@@ -831,6 +845,7 @@
                 <componentref id="cube3"/>
                 <componentref id="cube4"/>
                 <componentref id="cube5"/>
+                <componentref id="cube6"/>
                 <componentref id="soil"/>
                 <componentref id="cactus"/>
             </children>
@@ -839,12 +854,12 @@
 
          <component id="cactus">
              <transformation>
-                <translate x="1" y ="1" z= "0.6"/>
-                <scale x="0.3" y="0.5" z="0.3"/>
+                <translate x="1" y ="1" z= "0.65"/>
+                <scale x="0.4" y="0.5" z="0.4"/>
             </transformation>
 
             <materials>
-                <material id="standard"/>
+                <material id="fur"/>
             </materials>
         
             <texture id="cactustxt" length_s="1" length_t="1"/>
@@ -976,6 +991,29 @@
             </materials>
         
             <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube-lado1"/>
+                <componentref id="cube-lado2"/>
+                <componentref id="cube-lado3"/>
+                <componentref id="cube-lado4"/>
+                <componentref id="cube-lado5"/>
+                <componentref id="cube-lado6"/>
+            </children>
+         </component>
+
+
+         <component id="cube6">
+             <transformation>
+             <translate x="-1" y ="-0.1" z= "0.15"/>
+             <scale x="1" y="0.1" z="1"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="floortxt" length_s="1" length_t="1"/>
 
             <children>
                 <componentref id="cube-lado1"/>
@@ -1199,7 +1237,7 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <texture id="tabletxt" length_s="1" length_t="1"/>
             <children>
                 <componentref id="top"/>
                 <componentref id="baset"/>
@@ -1254,7 +1292,7 @@
 
         <component id="desklamp">
             <transformation>
-                <translate x="5.6" y="0.7" z="5.3"/>
+                <translate x="4.5" y="0.7" z="5"/>
             </transformation>
             <materials>
                 <material id="inherit"/>
@@ -1273,8 +1311,8 @@
 
         <component id="based">
             <transformation>
-                <translate x="0.4" y="0.03" z="0"/>
-                <scale x="0.4" y="0.03" z="0.4"/>
+                <translate x="0.3" y="0.03" z="0"/>
+                <scale x="0.3" y="0.03" z="0.3"/>
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
@@ -1295,7 +1333,7 @@
             <materials>
                  <material id="inherit"/>
             </materials>
-            <texture id="goldtxt" length_s="1" length_t="1"/>
+            <texture id="floortxt" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="MyCylinder"/>
             </children>
@@ -1303,8 +1341,8 @@
 
         <component id="cil2">
             <transformation>
-                <translate x="0.2" y="1.2" z="0"/>
-                <scale x="0.04" y="0.5" z="0.04"/>
+                <translate x="0.2" y="1.6" z="0"/>
+                <scale x="0.04" y="0.9" z="0.04"/>
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
@@ -1318,9 +1356,11 @@
 
          <component id="cil3">
             <transformation>
-                <translate x="1" y="1" z="0"/>
-                <scale x="0.04" y="0.5" z="0.04"/>
-                <rotate axis="x" angle="180"/>
+                <translate x="0.15" y="1.6" z="0"/>
+                <rotate axis="y" angle="90"/>
+                <rotate axis="x" angle="-90"/>
+                <scale x="0.04" y="0.5" z="0.04"/> 
+                <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
                  <material id="inherit"/>
@@ -1335,7 +1375,8 @@
 
         <component id="cil4">
             <transformation>
-                <translate x="0.51" y="1.2" z="0"/>
+            <translate x="0.63" y="1.62" z="0"/>
+                <rotate axis="z" angle="30"/>
                 <scale x="0.04" y="0.2" z="0.04"/>
                 <rotate axis="x" angle="90"/>
             </transformation>
@@ -1350,7 +1391,8 @@
 
         <component id="cil5">
             <transformation>
-                <translate x="0.51" y="1" z="0"/>
+                <translate x="0.72" y="1.46" z="0"/>
+                <rotate axis="z" angle="30"/>
                 <scale x="0.1" y="0.1" z="0.1"/>
                 <rotate axis="x" angle="90"/>
             </transformation>
@@ -1365,11 +1407,12 @@
 
          <component id="dlamp">
             <transformation>
-                <translate x="0.51" y="0.8" z="0"/>
+                <translate x="0.82" y="1.28" z="0"/>
+                <rotate axis="z" angle="30"/>
                 <scale x="0.15" y="0.15" z="0.15"/>
             </transformation>
             <materials>
-                <material id="mirror"/>
+                <material id="desklamp"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>

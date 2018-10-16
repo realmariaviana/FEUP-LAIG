@@ -60,6 +60,20 @@ class MyTriangle extends CGFobject
 	};
 
 	updateTextCoords(length_s, length_t){
+		var distA = Math.sqrt(Math.pow(this.v2[0] - this.v3[0], 2) + Math.pow(this.v2[1] - this.v3[1], 2) + Math.pow(this.v2[2] - this.v3[2], 2));
+		var distB = Math.sqrt(Math.pow(this.v1[0] - this.v3[0], 2) + Math.pow(this.v1[1] - this.v3[1], 2) + Math.pow(this.v1[2] - this.v3[2], 2));
+		var distC = Math.sqrt(Math.pow(this.v2[0] - this.v1[0], 2) + Math.pow(this.v2[1] - this.v1[1], 2) + Math.pow(this.v2[2] - this.v1[2], 2));
+	
+		var angBeta = Math.acos((Math.pow(distA, 2) - Math.pow(distB, 2) + Math.pow(distC, 2)) / (2 * distA * distC));
+	
+		var distD = distA * Math.sin(angBeta);
 
+		this.texCoords = [
+			0, distD/length_t,
+			distC/length_s, distD/length_t,
+			(distC-distA*Math.cos(angBeta))/length_s,(distD-distA*Math.sin(angBeta))/length_t
+		  ];
+
+		  this.updateTexCoordsGLBuffers();
 	};
 };

@@ -44,7 +44,6 @@ class MyComponent
     
 
         //textures
-        if(this.id=="cactus")console.log(this.texture);
         if(this.texture == null){
             currentText=this.scene.texturesStack[this.scene.texturesStack.length-1];
         }   
