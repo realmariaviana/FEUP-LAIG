@@ -15,61 +15,74 @@ class MyComponent
         this.length_t = textureInfo[2];
         this.childComponents = children[1];
         this.primitives = children[0];
-    
+        this.changing = 0;
         this.setDefaultMaterial();
         
     };
 
     display(){
-        let removeText = 0, removeMat = 0;
+        if(!this.changing){
+        let currentMaterial = null, currentText = null;
+
         this.scene.pushMatrix();
+
+        //transformations
         this.scene.multMatrix(this.transformationsMatrix);
 
-
-        if(this.texture == null){
-         this.texture = this.scene.componentsStack[this.scene.componentsStack.length-1].texture;
-         removeText = 1;
+        //materials
+        if(this.material == null){
+            currentMaterial= this.scene.materialsStack[this.scene.materialsStack.length-1];
+        }else {
+            currentMaterial = this.material;
         }
 
-        if(this.material == null){
-            this.material = this.scene.componentsStack[this.scene.componentsStack.length-1].material;
-            this.materials.push(this.scene.componentsStack[this.scene.componentsStack.length-1].material);
-            removeMat = 1;
-           }
-        
-        this.material.setTexture(this.texture);
-        this.material.apply();
+           
+
+        this.scene.materialsStack.push(currentMaterial);
+
+       // console.log(this.id,this.scene.texturesStack);
+    
+
+        //textures
+        if(this.id=="cactus")console.log(this.texture);
+        if(this.texture == null){
+            currentText=this.scene.texturesStack[this.scene.texturesStack.length-1];
+        }   
+        else currentText = this.texture;
+
+        this.scene.texturesStack.push(currentText);
+
+        //apply settings
+        currentMaterial.setTexture(currentText);
+        currentMaterial.apply();
 
 
-        this.scene.componentsStack.push(this);
-
-
+        //dispplay children
         for(let i = 0; i<this.primitives.length;i++){
             this.primitives[i].updateTextCoords(this.length_s,this.length_t);
             this.primitives[i].display();
-
         }
-
 
         for(let j = 0; j<this.childComponents.length;j++){
             this.childComponents[j].display();
         }
         
-
-        this.scene.componentsStack.pop();
-
-        if(removeText)  this.texture  = null;
-       // if(removeMat) this.material  = null;
+        //console.log(this.scene.materialsStack);
+        this.scene.materialsStack.pop();
+        this.scene.texturesStack.pop();
         this.scene.popMatrix();
+    }
     }
 
 
     setDefaultMaterial(){
-        if( this.materials.length>0) this.material = this.materials[0];
+        this.material = this.materials[0];
         this.materialIndex = 0;    };
 
     changeMaterial(){
-        if(this.id == "rug") console.log("before",this.material);
+
+        this.changing = 1;
+       
         if(this.materialIndex == this.materials.length-1) {
             this.materialIndex = 0;
             this.material = this.materials[0];
@@ -78,7 +91,9 @@ class MyComponent
             this.materialIndex++;
             this.material = this.materials[this.materialIndex];
         }
-        if(this.id == "rug") console.log("after", this.material);
+
+        this.changing = 0;
     }
+
 
 };

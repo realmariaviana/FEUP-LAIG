@@ -14,7 +14,8 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.lightValues = {};
         this.views = {};
-        this.componentsStack = [];
+        this.texturesStack = [];
+        this.materialsStack = [];
 
     }
 
@@ -131,17 +132,7 @@ class XMLscene extends CGFscene {
     }
 
 
-    checkKeys()
-	{
 
-		if (this.gui.isKeyPressed("KeyM"))
-		{
-            console.log("m");
-            this.graph.changeMaterials();
-
-		}
-
-	 }
 
 
 
@@ -219,7 +210,6 @@ class XMLscene extends CGFscene {
             this.axis.display();
         }
 
-        this.checkKeys();
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
