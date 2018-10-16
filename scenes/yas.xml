@@ -78,6 +78,8 @@
         <texture id="vistatxt" file="scenes/images/vista.jpg"/>
         <texture id="cactustxt" file="scenes/images/cactus.jpg"/>
         <texture id="velourtxt" file="scenes/images/velour.jpeg"/>
+        <texture id="goldtxt" file="scenes/images/gold.jpg"/>
+        <texture id="marbletxt" file="scenes/images/marble.jpg"/>
     </textures>
 
      <materials>
@@ -178,6 +180,8 @@
                 <componentref id="window"/>
                 <componentref id="windowborders"/>
                 <componentref id="littletable"/>
+                <componentref id="desklamp"/>
+
             </children>
          </component>
 
@@ -1247,6 +1251,133 @@
                 <primitiveref id="MyCylinder"/>
             </children>
         </component>
+
+        <component id="desklamp">
+            <transformation>
+                <translate x="5.6" y="0.7" z="5.3"/>
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="metaltxt" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="based"/>
+                <componentref id="cil1"/>
+                <componentref id="cil2"/>
+                <componentref id="cil3"/>
+                <componentref id="cil4"/>
+                <componentref id="cil5"/>
+                <componentref id="dlamp"/>
+            </children>
+        </component>
+
+        <component id="based">
+            <transformation>
+                <translate x="0.4" y="0.03" z="0"/>
+                <scale x="0.4" y="0.03" z="0.4"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                 <material id="inherit"/>
+            </materials>
+            <texture id="marbletxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+        </component>
+
+        <component id="cil1">
+            <transformation>
+                <translate x="0.2" y="0.7" z="0"/>
+                <scale x="0.04" y="0.7" z="0.04"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                 <material id="inherit"/>
+            </materials>
+            <texture id="goldtxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+        </component>
+
+        <component id="cil2">
+            <transformation>
+                <translate x="0.2" y="1.2" z="0"/>
+                <scale x="0.04" y="0.5" z="0.04"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                 <material id="inherit"/>
+            </materials>
+            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+        </component>
+
+         <component id="cil3">
+            <transformation>
+                <translate x="1" y="1" z="0"/>
+                <scale x="0.04" y="0.5" z="0.04"/>
+                <rotate axis="x" angle="180"/>
+            </transformation>
+            <materials>
+                 <material id="inherit"/>
+            </materials>
+            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+        </component>
+
+        
+
+        <component id="cil4">
+            <transformation>
+                <translate x="0.51" y="1.2" z="0"/>
+                <scale x="0.04" y="0.2" z="0.04"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                 <material id="inherit"/>
+            </materials>
+            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+        </component>
+
+        <component id="cil5">
+            <transformation>
+                <translate x="0.51" y="1" z="0"/>
+                <scale x="0.1" y="0.1" z="0.1"/>
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                 <material id="inherit"/>
+            </materials>
+            <texture id="blacktxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MyCylinder"/>
+            </children>
+        </component>
+
+         <component id="dlamp">
+            <transformation>
+                <translate x="0.51" y="0.8" z="0"/>
+                <scale x="0.15" y="0.15" z="0.15"/>
+            </transformation>
+            <materials>
+                <material id="mirror"/>
+            </materials>
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="MySphere"/>
+            </children>
+        </component >
+
+      
 
            </components>
   </yas> 
