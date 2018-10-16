@@ -308,7 +308,6 @@ class MySceneGraph {
         return null;
     }
 
-
      /**
      * Parses the <view> block.
      * @param {scene block element} sceneNode
@@ -448,7 +447,6 @@ class MySceneGraph {
         this.log("Parsed Perspective view");
     }
 
-
     /**
      * Returns a node's child with the tag name tagName
      * @param {*} node 
@@ -464,7 +462,6 @@ class MySceneGraph {
         else return null;
 
     }
-
 
     /**
      * Parses the <ambient> node.
@@ -513,7 +510,6 @@ class MySceneGraph {
     /**
      * Parses the <LIGHTS> node.
      * @param {lights block element} lightsNode
-     *
      */
     parseLights(lightsNode) {
  
@@ -628,8 +624,7 @@ class MySceneGraph {
         }
 
     }
-
-    
+ 
     /**
      * Parses a spot light
      * @param {*} spotNode 
@@ -666,8 +661,6 @@ class MySceneGraph {
 
         return [angle,exponent,target];
     }
-
-   
     
     /**
      * Parses the <TEXTURES> node.
@@ -715,7 +708,6 @@ class MySceneGraph {
 
      this.log("Parsed textures");
     }
-
 
     /**
      * Parses Materials
@@ -804,7 +796,10 @@ class MySceneGraph {
 
     }
 
-
+    /**
+     * Parses Primitives
+     * @param {*} primitivesNode 
+     */
     parsePrimitives(primitivesNode){
         var primitives = primitivesNode.children;    
         var nodeNames= []; 
@@ -836,7 +831,6 @@ class MySceneGraph {
         this.log("Parsed Primitives");
     }
 
-
     primitiveHandler(node, id){
         switch(node.nodeName){
             case "rectangle":
@@ -856,7 +850,11 @@ class MySceneGraph {
         }
     }
 
-
+    /**
+     * Parses Rectangle
+     * @param {*} node
+     * * @param {*} id
+     */
     parseRectangle(node, id){
         var x1 = this.reader.getFloat(node, "x1");
         if(!this.isAttrValid(x1,null,1)) return "Attribute x1 in primitive ID = " + id + " invalid";
@@ -875,6 +873,11 @@ class MySceneGraph {
         return null;
     }
 
+     /**
+     * Parses Triangle
+     * @param {*} node
+     * * @param {*} id
+     */
     parseTriangle(node, id){
 
         var x1 = this.reader.getFloat(node, "x1");
@@ -910,7 +913,11 @@ class MySceneGraph {
         return null;
     }
 
-
+     /**
+     * Parses Cylinder
+     * @param {*} node
+     * * @param {*} id
+     */
     parseCylinder(node, id){
         var base = this.reader.getFloat(node, 'base');
         if(!this.isAttrValid(base,0,1)) return "Attribute base in primitive ID = " + id + " invalid";
@@ -933,6 +940,11 @@ class MySceneGraph {
 
     }
 
+     /**
+     * Parses Sphere
+     * @param {*} node
+     * * @param {*} id
+     */
     parseSphere(node, id){
         var radius = this.reader.getFloat(node, 'radius');
         if(!this.isAttrValid(radius,null, 1)) return "Attribute radius in primitive ID = " + id + " invalid";
@@ -948,6 +960,11 @@ class MySceneGraph {
 
     }
 
+     /**
+     * Parses Torus
+     * @param {*} node
+     * * @param {*} id
+     */
     parseTorus(node, id){
         var inner = this.reader.getFloat(node, 'inner');
         if(!this.isAttrValid(inner,null,1)) return "Attribute inner in primitive ID = " + id + " invalid";
@@ -965,7 +982,6 @@ class MySceneGraph {
         return null;
 
     }
-
 
     /**
      * Parses the <TRANSFORMATIONS> node.
@@ -1105,7 +1121,6 @@ class MySceneGraph {
         return nodeNames;
     }
 
-
     /**
      * 
      * @param {*} componentsNode 
@@ -1153,7 +1168,6 @@ class MySceneGraph {
          this.referenceComponents(); 
      }
 
-    
      /**
       * 
       */
@@ -1195,7 +1209,6 @@ class MySceneGraph {
          }
          return [primitiveChildren,componentChildren];
      }
-
 
      /**
       * 
@@ -1244,10 +1257,6 @@ class MySceneGraph {
         return null;
      }
 
-
-
-
-
     /**
      * Check id id exists in the first element of the array's arrays
      * @param {*} array 
@@ -1277,7 +1286,6 @@ class MySceneGraph {
     onXMLMinorError(message) {
         console.warn("Warning: " + message);
     }
-
 
     /**
      * Callback to be executed on any message.

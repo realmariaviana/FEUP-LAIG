@@ -69,6 +69,9 @@ class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     * Selects the view.
+     */
     selectView(id) {
         this.camera = this.views[id];
         this.interface.setActiveCamera(this.views[id]);
@@ -114,7 +117,9 @@ class XMLscene extends CGFscene {
         }
     }
 
-
+    /**
+     * Calculates the light direction. Returns its coordinates
+     */
     calculateLightDirection(pos,target){
         let x, y, z;
 

@@ -3,17 +3,19 @@
     <scene root="root" axis_length="5"/>
  
     <views default="view3-ortho" >
+         <!-- perspective view 1 -->
         <perspective id="view1-perspective" near="0.1" far="500" angle="20">
             <from x="25" y="25" z="25"/>
             <to x="0" y="-3" z="0"/>
         </perspective>
  
- 
+        <!-- perspective view 2 -->
          <perspective id="view2-perspective" near="0.5" far="500" angle="60">
             <from x="5" y="20" z="5"/>
             <to x="6" y="0" z="5"/>
         </perspective>
- 
+
+        <!-- ortho view 1 -->
         <ortho id="view3-ortho" near="0.1" far="500" left="-20" right="20" top="22" bottom="-22">
             <from x="6" y="5" z="30" />
             <to x="6" y="5" z="0" />
@@ -26,6 +28,7 @@
     </ambient>
 
     <lights>
+        <!-- omni light 1 -->
         <omni id="light 1 (omni)" enabled="1">
             <location x="1" y="13" z="1" w="1"/>
             <ambient r="0.5" g="0.5" b="0.5" a="1.0"/>
@@ -33,6 +36,7 @@
             <specular r="0.6" g="0.7" b="1.0" a="1.0"/>
         </omni>
 
+        <!-- omni light 2 -->
          <omni id="light 2 (omni)" enabled="1">
             <location x="6" y="5" z="8" w="1"/>
             <ambient r="0.5" g="0.5" b="0.5" a="1.0"/>
@@ -40,6 +44,7 @@
             <specular r="0.8" g="0.8" b="0.8" a="1.0"/>
         </omni>
 
+        <!-- spot light 1 -->
         <spot id=" lamp light (spot)" enabled="1" angle="2" exponent="2">
             <location x="1" y="5" z="1" w="1"/>
             <target x="1" y="0" z="1"/>
@@ -60,7 +65,6 @@
         <texture id="metaltxt" file="scenes/images/metal.jpg"/>
         <texture id="visortxt" file="scenes/images/visor.jpg"/>
         <texture id="soiltxt" file="scenes/images/soil.jpg"/>
-
     </textures>
 
      <materials>
@@ -93,36 +97,39 @@
          </transformation>
     </transformations>
 
-
      <primitives>
+        <!-- rectangle -->
         <primitive id="MyRectangle">
             <rectangle x1="1" y1="1" x2="2" y2="2"/>
         </primitive>
 
+        <!-- cylinder -->
         <primitive id="MyCylinder">
            <cylinder base="1" top="1" height="1" stacks="1" slices="64"/>
         </primitive>
 
+        <!-- sphere -->
         <primitive id="MySphere">
            <sphere radius="1" stacks="32" slices="64"/>
         </primitive>
 
+        <!-- torus -->
         <primitive id="MyTorus">
              <torus inner="0" outer="1" slices="64" loops="20" />
         </primitive>
 
+        <!-- curved cylinder -->
         <primitive id="MyCurvedCylinder">
              <torus inner="0" outer="5" slices="64" loops="20" />
         </primitive>
 
+        <!-- triangle -->
         <primitive id="MyIqTriangle">
              <triangle x1="1" y1="0" z1="0" x2="-1" y2="0" z2="0" x3="0" y3="0" z3="2"/>
         </primitive>
     </primitives>
 
-
      <components>
-        <!-- Wall1 -->
         <component id="root">
             <transformation>
             </transformation>
@@ -151,7 +158,7 @@
             </children>
          </component>
 
-        <!-- Wall-->
+        <!-- Wall1 -->
          <component id="wall1">
             <transformation>
                 <translate x="6" y="4" z="0"/>
@@ -170,6 +177,7 @@
             </children>
          </component>
 
+        <!-- Wall2 -->
           <component id="wall2">
             <transformation>
              <translate x="0" y="4" z="6"/>
@@ -190,6 +198,7 @@
             </children>
          </component>
 
+        <!-- Wall3 -->
          <component id="wall3">
             <transformation>
              <translate x="6" y="4" z="12"/>
@@ -210,6 +219,7 @@
             </children>
          </component>
 
+        <!-- Wall4 -->
          <component id="wall4">
             <transformation>
                 <translate x="12" y="4" z="6"/>
@@ -399,6 +409,7 @@
             </children>
          </component>
 
+        <!-- Mirror1 -->
          <component id="mirror1">
             <transformation>
             </transformation>
@@ -417,6 +428,7 @@
             </children>
          </component>
 
+        <!-- Mirror2 -->
          <component id="mirror2">
             <transformation>
                 <translate x="1.5" y="0" z="0"/>
@@ -436,6 +448,7 @@
             </children>
          </component>
 
+        <!-- Mirror3 -->
          <component id="mirror3">
             <transformation>
                 <translate x="3" y="-0" z="0"/>
@@ -489,8 +502,8 @@
             </children>
          </component>
 
-
-          <component id="borders-top">
+        <!-- Mirror borders -->
+        <component id="borders-top">
             <transformation>
             </transformation>
 
@@ -559,9 +572,7 @@
                 <primitiveref id="MyRectangle"/>
             </children>
          </component>
-
     
-
         <!-- Seats -->
         <component id="seats">
             <transformation>
@@ -772,6 +783,28 @@
             </children>
          </component>
 
+         <!-- Vase -->
+         <component id="vase">
+             <transformation>
+                <translate x="6.5" y ="0.6" z= "5"/>
+                <scale x="0.5" y="0.5" z="0.5"/>
+            </transformation>
+
+            <materials>
+                <material id="white"/>
+            </materials>
+        
+            <texture id="whitetxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube1"/>
+                <componentref id="cube2"/>
+                <componentref id="cube3"/>
+                <componentref id="cube4"/>
+                <componentref id="cube5"/>
+                <componentref id="soil"/>
+            </children>
+         </component>
 
          <component id="cube1">
              <transformation>
@@ -906,27 +939,6 @@
             </children>
          </component>
 
-         <component id="vase">
-             <transformation>
-                <translate x="6.5" y ="0.6" z= "5"/>
-                <scale x="0.5" y="0.5" z="0.5"/>
-            </transformation>
-
-            <materials>
-                <material id="white"/>
-            </materials>
-        
-            <texture id="whitetxt" length_s="1" length_t="1"/>
-
-            <children>
-                <componentref id="cube1"/>
-                <componentref id="cube2"/>
-                <componentref id="cube3"/>
-                <componentref id="cube4"/>
-                <componentref id="cube5"/>
-                <componentref id="soil"/>
-            </children>
-         </component>
 
            </components>
   </yas> 
