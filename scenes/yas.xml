@@ -282,6 +282,7 @@
 
             <materials>
                 <material id="inherit"/>
+                 <material id="white"/>
             </materials>
         
             <texture id="rugtxt" length_s="1" length_t="1"/>
@@ -300,6 +301,7 @@
             </transformation>
             <materials>
                 <material id="white"/>
+                 <material id="standard"/>
             </materials>
             <texture id="whitetxt" length_s="1" length_t="1"/>
             <children>

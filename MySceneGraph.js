@@ -753,44 +753,32 @@ class MySceneGraph {
         if(this.parseRGBA(emissionN) == -1) return "unable to parse R component of the  material id= " + id;
          if(this.parseRGBA(emissionN) == -2) return "unable to parse G component of the  material id= " + id;
         else if(this.parseRGBA(emissionN) == -3) return "unable to parse B component of the  material id= " + id;
-        else {
-            for(var i = 0; i<3;i++){
-            emission[i] = this.parseRGBA(emissionN)[i];   
-            }
-        }
+        else emission = this.parseRGBA(emissionN);   
+
         temp.setEmission(emission[0],emission[1], emission[2],emission[3]);
 
         //RBG ambientN
         if(this.parseRGBA(ambientN) == -1) return "unable to parse R component of the  material id= " + id;
          if(this.parseRGBA(ambientN) == -2) return "unable to parse G component of the  material id= " + id;
         else if(this.parseRGBA(ambientN) == -3) return "unable to parse B component of the  material id= " + id;
-        else {
-            for(var i = 0; i<3;i++){
-                ambient[i] = this.parseRGBA(ambientN)[i];   
-            }
-        }
+        else ambient = this.parseRGBA(ambientN); 
+
         temp.setAmbient(ambient[0],ambient[1], ambient[2],ambient[3]);
 
         //RBG diffuseN
         if(this.parseRGBA(diffuseN) == -1) return "unable to parse R component of the  material id= " + id;
          if(this.parseRGBA(diffuseN) == -2) return "unable to parse G component of the  material id= " + id;
         else if(this.parseRGBA(diffuseN) == -3) return "unable to parse B component of the  material id= " + id;
-        else {
-            for(var i = 0; i<3;i++){
-                diffuse[i] = this.parseRGBA(diffuseN)[i];   
-            }
-        }
+        else  diffuse = this.parseRGBA(diffuseN);
+        
         temp.setDiffuse(diffuse[0],diffuse[1], diffuse[2],diffuse[3]);
 
         //RBG specularN
         if(this.parseRGBA(specularN) == -1) return "unable to parse R component of the  material id= " + id;
          if(this.parseRGBA(specularN) == -2) return "unable to parse G component of the  material id= " + id;
         else if(this.parseRGBA(specularN) == -3) return "unable to parse B component of the  material id= " + id;
-        else {
-            for(var i = 0; i<3;i++){
-                specular[i] = this.parseRGBA(specularN)[i];   
-            }
-        }
+        else specular= this.parseRGBA(specularN);   
+        
         temp.setSpecular(specular[0],specular[1], specular[2],specular[3]);
         this.materials.push([id,temp]);
 
@@ -1127,8 +1115,8 @@ class MySceneGraph {
      */
      parseComponents(componentsNode){
          var components = componentsNode.children;
-         var id, content, transformationsMatrix, material, textureInfo,children;
-         var contentTagNames=[], component = [];
+         var id, content, transformationsMatrix, textureInfo,children;
+         var contentTagNames=[], component = [], materials= [];
          this.components = [];
         
 
@@ -1145,8 +1133,7 @@ class MySceneGraph {
 
              if(contentTagNames[1]!='materials') return "Component (ID:" + id + " must have materials tag";
              else{
-                var matId = this.reader.getString(content[1].children[0],'id');
-                material = this.findGraphElement(this.materials,matId);
+                materials = this.loadComponentMaterials(content[1].children);
             }
             
             if (contentTagNames[2]!='texture') return "Component (ID:" + id + " must have materials tag";
@@ -1163,11 +1150,31 @@ class MySceneGraph {
                 children = this.parseChildren(content[3].children);
                 }
 
-            this.components.push(new MyComponent(this.scene,id,transformationsMatrix,material,textureInfo,children)); 
+            this.components.push(new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children)); 
          }
          this.referenceComponents(); 
      }
 
+
+
+     /**
+      * 
+      * @param {*} nodes 
+      */
+     loadComponentMaterials(nodes){
+        var matId;
+        var materials=[];
+
+         for(let i = 0; i < nodes.length; i++){
+                matId = this.reader.getString(nodes[i],'id');
+                materials.push(this.findGraphElement(this.materials,matId));
+         }
+         return materials;
+     }
+
+
+
+    
      /**
       * 
       */
@@ -1256,6 +1263,15 @@ class MySceneGraph {
         }
         return null;
      }
+
+
+     changeMaterials(){
+
+         for(let i = 0; i < this.components.length; i++){
+             this.components[i].changeMaterial();
+         }
+     }
+
 
     /**
      * Check id id exists in the first element of the array's arrays
