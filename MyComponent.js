@@ -23,6 +23,8 @@ class MyComponent
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformationsMatrix);
 
+        if(this.id == "cactus") console.log(this.scene.componentsStack[this.scene.componentsStack.length-1].id);
+
         if(this.texture == null){
          this.texture = this.scene.componentsStack[this.scene.componentsStack.length-1].texture;
          removeText = 1;
@@ -39,14 +41,18 @@ class MyComponent
 
         this.scene.componentsStack.push(this);
 
+
         for(let i = 0; i<this.primitives.length;i++){
             this.primitives[i].updateTextCoords(this.length_s,this.length_t);
             this.primitives[i].display();
+
         }
+
 
         for(let j = 0; j<this.childComponents.length;j++){
             this.childComponents[j].display();
         }
+        
 
         this.scene.componentsStack.pop();
 

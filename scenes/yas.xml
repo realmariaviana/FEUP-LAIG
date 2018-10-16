@@ -2,7 +2,7 @@
 
     <scene root="root" axis_length="5"/>
  
-    <views default="view3-ortho" >
+    <views default="view1-perspective" >
         <perspective id="view1-perspective" near="0.1" far="500" angle="20">
             <from x="25" y="25" z="25"/>
             <to x="0" y="-3" z="0"/>
@@ -50,16 +50,16 @@
     </lights>
 
      <textures>
-        <texture id="boardtxt" file="scenes/images/board.jpg"/>
         <texture id="walltxt" file="scenes/images/wall.jpg"/>
         <texture id="floortxt" file="scenes/images/wood.jpg"/>
         <texture id="rugtxt" file="scenes/images/rug.jpg"/>
         <texture id="blacktxt" file="scenes/images/table.jpg"/>
         <texture id="whitetxt" file="scenes/images/white.jpg"/>
-        <texture id="gametxt" file="scenes/images/trivial.jpg"/>
         <texture id="metaltxt" file="scenes/images/metal.jpg"/>
         <texture id="visortxt" file="scenes/images/visor.jpg"/>
         <texture id="soiltxt" file="scenes/images/soil.jpg"/>
+        <texture id="cactustxt" file="scenes/images/cactus.jpg"/>
+        <texture id="creamtxt" file="scenes/images/cream.jpg"/>
 
     </textures>
 
@@ -243,7 +243,7 @@
                 <material id="inherit"/>
             </materials>
         
-            <texture id="floortxt" length_s="1" length_t="1"/>
+            <texture id="floortxt" length_s="0.5" length_t="0.5"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -765,7 +765,7 @@
                 <material id="inherit"/>
             </materials>
         
-            <texture id="visortxt" length_s="3" length_t="1"/>
+            <texture id="visortxt" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -925,6 +925,45 @@
                 <componentref id="cube4"/>
                 <componentref id="cube5"/>
                 <componentref id="soil"/>
+                <componentref id="cactus"/>
+            </children>
+         </component>
+
+
+         <component id="cactus">
+             <transformation>
+                <translate x="1" y ="1" z= "0.6"/>
+                <scale x="0.3" y="0.5" z="0.3"/>
+            </transformation>
+
+            <materials>
+                <material id="white"/>
+            </materials>
+        
+            <texture id="cactustxt" length_s="1" length_t="1"/>
+
+            <children>
+
+                <primitiveref id="MySphere"/>
+                <componentref id="spine"/>
+            </children>
+         </component>
+
+
+         <component id="spine">
+             <transformation>
+                 <translate x="0" y ="1" z= "0"/>
+                <scale x="0.05" y="0.3" z="0.05"/>
+            </transformation>
+
+            <materials>
+                <material id="white"/>
+            </materials>
+        
+            <texture id="creamtxt" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="MyCylinder"/>
             </children>
          </component>
 
