@@ -10,8 +10,8 @@ class MyTorus extends CGFobject
         console.log("in the torus");
 		var torusRadius = (outer - inner) / 2;
 
-        this.r = torusRadius;
-        this.R = inner + torusRadius;
+        this.r = inner;
+        this.R = outer;
         this.slices = slices;
         this.stacks = loops;
 	 
