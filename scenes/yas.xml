@@ -520,7 +520,7 @@
                 <material id="light"/>
             </materials>
         
-             <texture id="mirrortxt" length_s="1" length_t="1"/>
+             <texture id="none"/>
 
             <children>
                 <primitiveref id="MyIqTriangle"/>
@@ -538,7 +538,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="mirrortxt" length_s="1" length_t="1"/>
+             <texture id="none" />
 
             <children>
                 <primitiveref id="MyIqTriangle"/>

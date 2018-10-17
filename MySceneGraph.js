@@ -1140,8 +1140,13 @@ class MySceneGraph {
             else{
                 var textId = this.reader.getString(content[2],'id');
                 var texture = this.loadComponentTextures(content[2]);
-                var length_s = this.reader.getString(content[2],'length_s');
-                var length_t = this.reader.getString(content[2],'length_t');
+                var length_s, length_t ;
+
+                if(textId!="none"){
+                    length_s = this.reader.getString(content[2],'length_s');
+                    length_t = this.reader.getString(content[2],'length_t');
+                }
+
                 textureInfo = [texture,length_s,length_t];
             }
             
