@@ -13,6 +13,7 @@ class MyComponent
         this.texture = textureInfo[0];
         this.length_s = textureInfo[1];
         this.length_t = textureInfo[2];
+        this.textureInfo = [this.texture,this.length_s,this.length_t];
         this.childComponents = children[1];
         this.primitives = children[0];
         this.changing = 0;
@@ -22,8 +23,7 @@ class MyComponent
 
     display(){
         if(!this.changing){
-        let currentMaterial = null, currentText = null;
-
+        let currentMaterial = null, currentTextInfo = this.textureInfo;
         this.scene.pushMatrix();
 
         //transformations
@@ -43,23 +43,30 @@ class MyComponent
         }
 
         this.scene.materialsStack.push(currentMaterial);
-    
         //textures
         if(this.texture == "inherit"){
-            currentText=this.scene.texturesStack[this.scene.texturesStack.length-1];
-        }else if(this.texture == "none") currentText = null;
-        else currentText = this.texture;
+            if(this.length_s == null && this.length_t==null){
+                currentTextInfo=this.scene.texturesStack[this.scene.texturesStack.length-1];
+            }else {
+                currentTextInfo[0] = this.scene.texturesStack[this.scene.texturesStack.length-1][0];
+            }
+        }else if(this.texture == "none") currentTextInfo[0] = null;
+        else{
+            if(this.length_s == null && this.length_t==null)
+                this.scene.graph.onXMLMinorError("Lenght_s/length_t null, assuming 1")
+            currentTextInfo = this.textureInfo;
+        } 
+        this.scene.texturesStack.push(currentTextInfo);
+        
 
-        this.scene.texturesStack.push(currentText);
-
-        //apply settings
-        currentMaterial.setTexture(currentText);
+        //apply setting
+        currentMaterial.setTexture(currentTextInfo[0]);
         currentMaterial.apply();
 
 
         //dispplay children
         for(let i = 0; i<this.primitives.length;i++){
-            this.primitives[i].updateTextCoords(this.length_s,this.length_t);
+            this.primitives[i].updateTextCoords(currentTextInfo[1],currentTextInfo[2]);
             this.primitives[i].display();
         }
 
@@ -67,7 +74,6 @@ class MyComponent
             this.childComponents[j].display();
         }
         
-        //console.log(this.scene.materialsStack);
         this.scene.materialsStack.pop();
         this.scene.texturesStack.pop();
         this.scene.popMatrix();

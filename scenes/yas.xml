@@ -78,7 +78,6 @@
         <texture id="vistatxt" file="scenes/images/vista.jpg"/>
         <texture id="cactustxt" file="scenes/images/cactus.jpg"/>
         <texture id="velourtxt" file="scenes/images/velour.jpg"/>
-        <texture id="goldtxt" file="scenes/images/gold.jpg"/>
         <texture id="marbletxt" file="scenes/images/marble.jpg"/>
         <texture id="tabletxt" file="scenes/images/table.jpg"/>
     </textures>
@@ -175,7 +174,7 @@
                 <material id="standard"/>
             </materials>
         
-             <texture id="walltxt" length_s="1" length_t="1"/>
+             <texture id="none"/>
 
             <children>
                 <componentref id="wall1"/>
@@ -212,7 +211,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="inherit" length_s="1" length_t="1"/>
+             <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -591,7 +590,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="inherit" length_s="1" length_t="1"/>
+             <texture id="inherit" />
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -609,7 +608,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="inherit" length_s="1" length_t="1"/>
+             <texture id="inherit" />
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -642,7 +641,7 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="MyCurvedCylinder"/>
             </children>
@@ -657,7 +656,7 @@
             <materials>
                  <material id="inherit"/>
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="MyCurvedCylinder"/>
             </children>
@@ -672,7 +671,7 @@
             <materials>
                  <material id="inherit"/>
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="MyCurvedCylinder"/>
             </children>
