@@ -631,7 +631,7 @@ class MySceneGraph {
      */
     parseSpot(spotNode) {
 
-        var angle = this.reader.getFloat(spotNode, 'angle')*DEGREE_TO_RAD;
+        var angle = this.reader.getFloat(spotNode, 'angle');
         if(angle == null){
             this.onXMLMinorError("angle value missing for ID = " + lightId);
             angle = 0;
