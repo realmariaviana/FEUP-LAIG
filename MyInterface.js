@@ -61,16 +61,24 @@ class MyInterface extends CGFinterface {
         group.add(this, 'currentCameraId', cameraIdArray).name('Camera').onChange(val => this.scene.selectView(val));
     }
 
-
-
+    /**
+      * init keyboard keys
+      */
     initKeys() {
         this.scene.gui=this;
         this.processKeyboard=function(){};
       }
 
+      /**
+      * key held down
+      * @param {*} event
+      */
       processKeyDown(event) {}
 
-
+      /**
+      * M key held up
+      * @param {*} event
+      */
       processKeyUp(event) {
         if(event.code === "KeyM") this.scene.graph.changeMaterials();
          
