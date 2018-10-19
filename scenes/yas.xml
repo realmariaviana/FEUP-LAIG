@@ -1228,7 +1228,7 @@
             </children>
          </component>
 
-
+        <!-- Table on corner -->
           <component id="littletable">
             <transformation>
                 <translate x="11" y="0" z="1"/>
@@ -1289,6 +1289,7 @@
             </children>
         </component>
 
+        <!-- Lamp on the table -->
         <component id="desklamp">
             <transformation>
                 <translate x="4.5" y="0.7" z="5"/>
@@ -1369,8 +1370,6 @@
                 <primitiveref id="MyCylinder"/>
             </children>
         </component>
-
-        
 
         <component id="cil4">
             <transformation>

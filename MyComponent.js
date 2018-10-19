@@ -64,7 +64,7 @@ class MyComponent
         currentMaterial.apply();
 
 
-        //dispplay children
+        //display children
         for(let i = 0; i<this.primitives.length;i++){
             this.primitives[i].updateTextCoords(currentTextInfo[1],currentTextInfo[2]);
             this.primitives[i].display();
@@ -80,22 +80,28 @@ class MyComponent
     }
     }
 
-
+    /**
+      * Sets default material
+      */
     setDefaultMaterial(){
         this.material = this.materials[0];
-        this.materialIndex = 0;    };
+        this.materialIndex = 0;   
+     };
 
+     /**
+      * Auxiliary function for keyM feature
+      */
     changeMaterial(){
 
         this.changing = 1;
        
-        if(this.materialIndex == this.materials.length-1) {
+        if(this.materialIndex == this.materials.length-1) { //when it's the last texture in the array
             this.materialIndex = 0;
             this.material = this.materials[0];
         }
         else {
-            this.materialIndex++;
-            this.material = this.materials[this.materialIndex];
+            this.materialIndex++; //next texture
+            this.material = this.materials[this.materialIndex]; //sets new material
         }
 
         this.changing = 0;

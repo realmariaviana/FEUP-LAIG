@@ -54,7 +54,6 @@ class MySceneGraph {
         this.reader.open('scenes/' + filename, this);
     }
 
-
     /*
      * Callback to be executed after successful reading
      */
@@ -290,7 +289,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <scene> block.
+     * Parses the <SCENE> block.
      * @param {scene block element} sceneNode
      */
     parseScene(sceneNode) {
@@ -309,8 +308,8 @@ class MySceneGraph {
     }
 
      /**
-     * Parses the <view> block.
-     * @param {scene block element} sceneNode
+     * Parses the <VIEW> block.
+     * @param {view block element} sceneNode
      */
     parseViews(viewsNode){
         this.defaultView = this.reader.getString(viewsNode, 'default');
@@ -464,7 +463,7 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <ambient> node.
+     * Parses the <AMBIENT> node.
      * @param {ambient block element} ambientNode
      */
    parseAmbient(ambientNode){
@@ -710,8 +709,8 @@ class MySceneGraph {
     }
 
     /**
-     * Parses Materials
-     * @param {*} materialsNode 
+     * Parses the <MATERIALS> node.
+     * @param {materials block element} materialsNode 
      */
     parseMaterials(materialsNode){
         var children = materialsNode.children;      
@@ -785,8 +784,8 @@ class MySceneGraph {
     }
 
     /**
-     * Parses Primitives
-     * @param {*} primitivesNode 
+     * Parses the <PRIMITIVES> node.
+     * @param {primitives block element} primitivesNode 
      */
     parsePrimitives(primitivesNode){
         var primitives = primitivesNode.children;    
@@ -819,6 +818,11 @@ class MySceneGraph {
         this.log("Parsed Primitives");
     }
 
+    /**
+     * Handles every primitive
+     * @param {*} node
+     * @param {*} id
+     */
     primitiveHandler(node, id){
         switch(node.nodeName){
             case "rectangle":
@@ -841,7 +845,7 @@ class MySceneGraph {
     /**
      * Parses Rectangle
      * @param {*} node
-     * * @param {*} id
+     * @param {*} id
      */
     parseRectangle(node, id){
         var x1 = this.reader.getFloat(node, "x1");
@@ -864,7 +868,7 @@ class MySceneGraph {
      /**
      * Parses Triangle
      * @param {*} node
-     * * @param {*} id
+     * @param {*} id
      */
     parseTriangle(node, id){
 
@@ -904,7 +908,7 @@ class MySceneGraph {
      /**
      * Parses Cylinder
      * @param {*} node
-     * * @param {*} id
+     * @param {*} id
      */
     parseCylinder(node, id){
         var base = this.reader.getFloat(node, 'base');
@@ -931,7 +935,7 @@ class MySceneGraph {
      /**
      * Parses Sphere
      * @param {*} node
-     * * @param {*} id
+     * @param {*} id
      */
     parseSphere(node, id){
         var radius = this.reader.getFloat(node, 'radius');
@@ -951,7 +955,7 @@ class MySceneGraph {
      /**
      * Parses Torus
      * @param {*} node
-     * * @param {*} id
+     * @param {*} id
      */
     parseTorus(node, id){
         var inner = this.reader.getFloat(node, 'inner');
@@ -1010,9 +1014,10 @@ class MySceneGraph {
      }
 
      /**
-      * 
+      * Parses a single transformation
       * @param {*} trfNodes 
       * @param {*} id 
+      * @param {*} message
       */
      parseSingleTransformation(trfNodes, id, message){
         
@@ -1038,9 +1043,8 @@ class MySceneGraph {
         return matrix;
     }
 
-
     /**
-     * 
+     * Multiplies matrixs
      * @param {*} matrix1 
      * @param {*} matrix2 
      */
@@ -1050,7 +1054,7 @@ class MySceneGraph {
     }
 
     /**
-     * 
+     * Applies transformations to matrix
      * @param {*} tagName 
      * @param {*} node 
      * @param {*} message 
@@ -1096,7 +1100,6 @@ class MySceneGraph {
         }
     }
 
-
     /**
      * 
      * @param {*} node 
@@ -1110,7 +1113,7 @@ class MySceneGraph {
     }
 
     /**
-     * 
+     * Parses the <COMPONENTS> node.
      * @param {*} componentsNode 
      */
      parseComponents(componentsNode){
@@ -1160,10 +1163,8 @@ class MySceneGraph {
          this.referenceComponents(); 
      }
 
-
-
      /**
-      * 
+      * Loads
       * @param {*} nodes 
       */
      loadComponentMaterials(nodes){
@@ -1179,7 +1180,10 @@ class MySceneGraph {
          return materials;
      }
 
-
+     /**
+      * Sets textures
+      * @param {*} node 
+      */
      loadComponentTextures(node){
         var textId;
         var texture;
@@ -1193,11 +1197,8 @@ class MySceneGraph {
          return texture;
      }
 
-
-
-    
      /**
-      * 
+      * References components
       */
      referenceComponents(){
          var children = [];
@@ -1221,7 +1222,7 @@ class MySceneGraph {
      }
 
      /**
-      * 
+      * Parses primitives children and components children
       * @param {*} nodes 
       */
      parseChildren(nodes){
@@ -1239,8 +1240,9 @@ class MySceneGraph {
      }
 
      /**
-      * 
+      * Parses components transformations
       * @param {*} nodes 
+      * @param {*} id
       */
      parseComponentTransformations(nodes,id){
         var matrixes = [];
@@ -1257,7 +1259,6 @@ class MySceneGraph {
                 flag = true;
             }
         }
-
         
         if(flag){
             matrixes.push(this.parseSingleTransformation(transfNodes,id,null));
@@ -1271,8 +1272,9 @@ class MySceneGraph {
      }
 
      /**
-      * 
-      * @param {*} red 
+      * Finds element
+      * @param {*} array
+      * @param {*} id 
       */
      findGraphElement(array,id){
 
@@ -1285,14 +1287,15 @@ class MySceneGraph {
         return null;
      }
 
-
+     /**
+      * Changes all components material for key feature
+      */
      changeMaterials(){
 
          for(let i = 0; i < this.components.length; i++){
              this.components[i].changeMaterial();
          }
      }
-
 
     /**
      * Check id id exists in the first element of the array's arrays
