@@ -630,7 +630,7 @@ class MySceneGraph {
      */
     parseSpot(spotNode) {
 
-        var angle = this.reader.getFloat(spotNode, 'angle')*DEGREE_TO_RAD;
+        var angle = this.reader.getFloat(spotNode, 'angle');
         if(angle == null){
             this.onXMLMinorError("angle value missing for ID = " + lightId);
             angle = 0;
@@ -1143,8 +1143,13 @@ class MySceneGraph {
             else{
                 var textId = this.reader.getString(content[2],'id');
                 var texture = this.loadComponentTextures(content[2]);
-                var length_s = this.reader.getString(content[2],'length_s');
-                var length_t = this.reader.getString(content[2],'length_t');
+                var length_s, length_t ;
+
+                if(textId!="none" ){
+                    length_s = this.reader.getString(content[2],'length_s',false);
+                    length_t = this.reader.getString(content[2],'length_t',false);
+                }
+
                 textureInfo = [texture,length_s,length_t];
             }
             

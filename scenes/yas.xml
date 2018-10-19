@@ -57,7 +57,7 @@
         </omni>
 
         <!-- spot light 1 -->
-        <spot id=" lamp light (spot)" enabled="1" angle="50" exponent="2">
+        <spot id=" lamp light (spot)" enabled="1" angle="10" exponent="2">
             <location x="5.3" y="1.95" z="5" w="1"/>
             <target x="5" y="-5" z="5"/>
              <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
@@ -78,7 +78,6 @@
         <texture id="vistatxt" file="scenes/images/vista.jpg"/>
         <texture id="cactustxt" file="scenes/images/cactus.jpg"/>
         <texture id="velourtxt" file="scenes/images/velour.jpg"/>
-        <texture id="goldtxt" file="scenes/images/gold.jpg"/>
         <texture id="marbletxt" file="scenes/images/marble.jpg"/>
         <texture id="tabletxt" file="scenes/images/table.jpg"/>
         <texture id="pinktxt" file="scenes/images/pink.jpg"/>
@@ -176,7 +175,7 @@
                 <material id="standard"/>
             </materials>
         
-             <texture id="walltxt" length_s="1" length_t="1"/>
+             <texture id="none"/>
 
             <children>
                 <componentref id="wall1"/>
@@ -213,7 +212,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="inherit" length_s="1" length_t="1"/>
+             <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -521,7 +520,7 @@
                 <material id="light"/>
             </materials>
         
-             <texture id="mirrortxt" length_s="1" length_t="1"/>
+             <texture id="none"/>
 
             <children>
                 <primitiveref id="MyIqTriangle"/>
@@ -539,7 +538,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="mirrortxt" length_s="1" length_t="1"/>
+             <texture id="none" />
 
             <children>
                 <primitiveref id="MyIqTriangle"/>
@@ -592,7 +591,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="inherit" length_s="1" length_t="1"/>
+             <texture id="inherit" />
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -610,7 +609,7 @@
                 <material id="inherit"/>
             </materials>
         
-             <texture id="inherit" length_s="1" length_t="1"/>
+             <texture id="inherit" />
 
             <children>
                 <primitiveref id="MyRectangle"/>
@@ -643,7 +642,7 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="MyCurvedCylinder"/>
             </children>
@@ -658,7 +657,7 @@
             <materials>
                  <material id="inherit"/>
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="MyCurvedCylinder"/>
             </children>
@@ -673,7 +672,7 @@
             <materials>
                  <material id="inherit"/>
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit" />
             <children>
                 <primitiveref id="MyCurvedCylinder"/>
             </children>
