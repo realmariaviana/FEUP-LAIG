@@ -38,12 +38,12 @@ class MyTorus extends CGFobject
                 var x = (this.R + (this.r * cosTheta)) * cosPhi;
                 var y = (this.R + (this.r * cosTheta)) * sinPhi
                 var z = this.r * sinTheta;
-                var s = 1 - (stack / this.stacks);
-                var t = 1 - (slice / this.slices);
+                var s = (stack / this.stacks);
+                var t = (slice / this.slices);
     
                 this.vertices.push(x, y, z);
                 this.normals.push(x, y, z);
-                this.texCoords.push(s, t);
+                this.texCoords.push(t, s);
             }
         }
     
