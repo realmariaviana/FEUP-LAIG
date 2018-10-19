@@ -7,7 +7,7 @@ class MyTorus extends CGFobject
 	constructor(scene,  inner, outer, slices, loops)
 	{
         super(scene);
-        console.log("in the torus");
+        
 		var torusRadius = (outer - inner) / 2;
 
         this.r = inner;
