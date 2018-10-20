@@ -869,23 +869,6 @@
             </children>
          </component>
 
-
-         <component id="spine">
-             <transformation>
-                 <translate x="0" y ="1" z= "0"/>
-                <scale x="0.05" y="0.3" z="0.05"/>
-            </transformation>
-
-            <materials>
-                <material id="white"/>
-            </materials>
-        
-            <texture id="creamtxt" length_s="1" length_t="1"/>
-
-            <children>
-                <primitiveref id="MyCylinder"/>
-            </children>
-         </component>
          <component id="cube1">
              <transformation>
                  <translate x="-1" y ="1" z= "0"/>

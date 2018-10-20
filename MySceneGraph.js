@@ -1148,7 +1148,10 @@ class MySceneGraph {
                 //go through components again to reference object
                 for(let k = 0; k<this.components.length;k++){
                     if(this.components[k].id==compRefs[j]){
-                        children.push(this.components[k]); 
+                        if(compRefs[j]==this.components[i].id){
+                            this.onXMLMinorError("Component can't have itself as a child");
+                        }
+                        else children.push(this.components[k]); 
                     }
                 }
             }
