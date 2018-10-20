@@ -227,7 +227,7 @@ class MySceneGraph {
      * Parses RGB components and returns array
      * @param {*} node 
      */
-    parseRGBA(node){
+    parseRGBA(node, tagName, id){
 
         var arr=[0,0,0];
         var temp;
@@ -235,25 +235,37 @@ class MySceneGraph {
         // R
         temp = this.reader.getFloat(node, 'r');
     
-        if(!this.isAttrValid(temp,0,1,0,0,1)) return -1;
+        if(!this.isAttrValid(temp,0,1,0,0,1)){
+            this.onXMLMinorError("Invalid attribute r in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[0] =1;
+        }
         else arr[0] = temp;
 
         // G
         temp = this.reader.getFloat(node, 'g');
     
-        if(!this.isAttrValid(temp,0,1,0,0,1)) return -2;
+        if(!this.isAttrValid(temp,0,1,0,0,1)){
+            this.onXMLMinorError("Invalid attribute g in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[1] =1;
+        }
         else arr[1] = temp;
 
         // B
         temp = this.reader.getFloat(node, 'b');
     
-        if(!this.isAttrValid(temp,0,1,0,0,1)) return -3;
+        if(!this.isAttrValid(temp,0,1,0,0,1)){
+            this.onXMLMinorError("Invalid attribute b in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[2] =1;
+        }
         else arr[2] = temp;
 
         // B
         temp = this.reader.getFloat(node, 'a');
     
-        if(!this.isAttrValid(temp,0,1,0,0,1)) return -4;
+        if(!this.isAttrValid(temp,0,1,0,0,1)){
+            this.onXMLMinorError("Invalid attribute a in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[3] =1;
+        }
         else arr[3] = temp;
 
         return arr;        
@@ -263,26 +275,35 @@ class MySceneGraph {
     * Parses x,y,z coordinates into an array
     * @param {*} node 
     */
-    parseXYZ(node){
+    parseXYZ(node, tagName, id){
 
         var arr=[0,0,0];
         var temp;
 
         // X
-        temp = this.reader.getFloat(node, 'x');
-        if(!this.isAttrValid(temp,0,1,0,null,null)) return -1;
+        temp = this.reader.getFloat(node, 'x',false);
+        if(!this.isAttrValid(temp,0,1,0,null,null)){
+            this.onXMLMinorError("Invalid attribute x in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[0] =1;
+        } 
         else arr[0] = temp;
 
         // Y
-        temp = this.reader.getFloat(node, 'y');
+        temp = this.reader.getFloat(node, 'y',false);
     
-        if(!this.isAttrValid(temp,0,1,0,null,null)) return -2;
+        if(!this.isAttrValid(temp,0,1,0,null,null)){
+            this.onXMLMinorError("Invalid attribute y in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[1] =1;
+        }
         else arr[1] = temp;
 
         // Z
-        temp= this.reader.getFloat(node, 'z');
+        temp= this.reader.getFloat(node, 'z',false);
 
-        if(!this.isAttrValid(temp,0,1,0,null,null)) return -3;
+        if(!this.isAttrValid(temp,0,1,0,null,null)){
+            this.onXMLMinorError("Invalid attribute z in " + tagName + " ID: " + id + ". Assuming 1.");
+            arr[2] =1;
+        }
         else arr[2] = temp;
 
         return arr;        
@@ -368,25 +389,12 @@ class MySceneGraph {
         //from
 
         if (fromNode) {
-            if(this.parseXYZ(fromNode) == -1) return "unable to parse x component of the views from block";
-            else if(this.parseXYZ(fromNode) == -2) return "unable to parse y component of the views from block";
-            else if(this.parseXYZ(fromNode) == -3) return "unable to parse z component of the views from block";
-            else {
-                for(var i = 0; i<3;i++)
-                fromCoords[i] = this.parseXYZ(fromNode)[i];   
-            }
-            
+            fromCoords = this.parseXYZ(fromNode,"From coordinates in Ortho View",viewId);
         }
 
         //to
         if (toNode) {
-            if(this.parseXYZ(toNode) == -1) return "unable to parse R component of the views to block";
-            else if(this.parseXYZ(toNode) == -2) return "unable to parse G component of the views to block";
-            else if(this.parseXYZ(toNode) == -3) return "unable to parse B component of the views to block";
-            else {
-                for(var i = 0; i<3;i++)
-                toCoords[i] = this.parseXYZ(toNode)[i];   
-            }
+            toCoords = this.parseXYZ(toNode,"To coordinates in Ortho View",viewId);
             
         }
 
@@ -417,28 +425,12 @@ class MySceneGraph {
 
         //from
 
-        if (fromNode) {
-            if(this.parseXYZ(fromNode) == -1) return "unable to parse x component of the views from block";
-            else if(this.parseXYZ(fromNode) == -2) return "unable to parse y component of the views from block";
-            else if(this.parseXYZ(fromNode) == -3) return "unable to parse z component of the views from block";
-            else {
-                for(var i = 0; i<3;i++)
-                fromCoords[i] = this.parseXYZ(fromNode)[i];   
-            }
-            
-        }
+        if (fromNode) 
+            fromCoords = this.parseXYZ(fromNode,"From coordinates in Perspective View",idView);
 
         //to
-        if (toNode) {
-            if(this.parseXYZ(toNode) == -1) return "unable to parse R component of the views to block";
-            else if(this.parseXYZ(toNode) == -2) return "unable to parse G component of the views to block";
-            else if(this.parseXYZ(toNode) == -3) return "unable to parse B component of the views to block";
-            else {
-                for(var i = 0; i<3;i++)
-                toCoords[i] = this.parseXYZ(toNode)[i];   
-            }
-            
-        }
+        if (toNode) 
+            toCoords = this.parseXYZ(toNode,"To coordinates in Perspective View",idView);
 
         this.views[idView]=[near,far,angle,toCoords,fromCoords];
         this.views[idView].type = "perspective";
@@ -475,31 +467,12 @@ class MySceneGraph {
       this.background = [];
 
       //ambient
-      if (ambientN) {
+      if (ambientN)
+        this.ambient = this.parseRGBA(ambientN,"ambient","this tag has no id");
 
-        //RBG
-        if(this.parseRGBA(ambientN) == -1) return "unable to parse R component of the ambient block";
-         if(this.parseRGBA(ambientN) == -2) return "unable to parse G component of the ambient block";
-        else if(this.parseRGBA(ambientN) == -3) return "unable to parse B component of the ambient block";
-        else if(this.parseRGBA(ambientN) == -4) return "unable to parse A component of the ambient block";
-        else {
-            for(var i = 0; i<4;i++)
-            this.ambient[i] = this.parseRGBA(ambientN)[i];   
-        }
-    }
-            
       //background
-        if (backgroundN) {
-            if(this.parseRGBA(backgroundN) == -1) return "unable to parse R component of the ambient back block";
-            else if(this.parseRGBA(backgroundN) == -2) return "unable to parse G component of the ambient block";
-            else if(this.parseRGBA(backgroundN) == -3) return "unable to parse B component of the ambient block";
-            else if(this.parseRGBA(backgroundN) == -4) return "unable to parse A component of the ambient block";
-
-            else {
-                for(var i = 0; i<4;i++)
-                this.background[i] = this.parseRGBA(backgroundN)[i];   
-            }
-        }
+        if (backgroundN)
+            this.background = this.parseRGBA(backgroundN,"background","this tag has no id");
 
       this.log("Parsed ambient");
 
@@ -554,65 +527,43 @@ class MySceneGraph {
     
             // Retrieves the light position.
             if (locationNode) {
-    
-                if(this.parseXYZ(locationNode) == -1) return "unable to parse x component of the views from block";
-                    else if(this.parseXYZ(locationNode) == -2) return "unable to parse y component of the views from block";
-                    else if(this.parseXYZ(locationNode) == -3) return "unable to parse z component of the views from block";
-                    else locationLight = this.parseXYZ(locationNode); 
+
+                locationLight = this.parseXYZ(locationNode,"location in light",lightId);
 
                  // w
                 var w = this.reader.getFloat(locationNode, 'w');
-                if (w == null || isNaN(w) || w < 0 || w > 1)
-                    return "unable to parse w-coordinate of the light location for ID = " + lightId;
-                else locationLight.push(w);    
+                if (w == null || isNaN(w) || w < 0 || w > 1){
+                    w = 1;
+                    this.onXMLMinorError("Invalid attribute w in location in light ID: view1-perspective: assuming 1.");
+                }else locationLight.push(w);    
             }
             else
                 return "light location undefined for ID = " + lightId;
     
             // Retrieves the ambient component.
-            if (ambientNode) {
-    
-                if(this.parseRGBA(ambientNode) == -1) return "unable to parse R component of the ambient light for ID = " + lightId;
-                else if(this.parseRGBA(ambientNode) == -2) return "unable to parse G component of the ambient light for ID = " + lightId;
-                else if(this.parseRGBA(ambientNode) == -3) return "unable to parse B component of the ambient light for ID = " + lightId;
-                else if(this.parseRGBA(ambientNode) == -4) return "unable to parse A component of the ambient light for ID = " + lightId;
-                else ambientLight = this.parseRGBA(ambientNode);
-            }
+            if (ambientNode) 
+                ambientLight = this.parseRGBA(ambientNode,"ambient in light",lightId);
             else
                 return "ambient component undefined for ID = " + lightId;
     
             //Retrieve the diffuse component
-            if (diffuseNode) {
-    
-                if(this.parseRGBA(diffuseNode) == -1) return "unable to parse R component of the diffuse light for ID = " + lightId;
-                else if(this.parseRGBA(diffuseNode) == -2) return "unable to parse G component of the diffuse light for ID = " + lightId;
-                else if(this.parseRGBA(diffuseNode) == -3) return "unable to parse B component of the diffuse light for ID = " + lightId;
-                else if(this.parseRGBA(diffuseNode) == -4) return "unable to parse A component of the diffuse light for ID = " + lightId;
-                else diffuseLight = this.parseRGBA(diffuseNode);
-                
-            }
+            if (diffuseNode) 
+                diffuseLight = this.parseRGBA(diffuseNode,"diffuse in light",lightId);
             else
                 return "diffuse component undefined for ID = " + lightId;
     
             // Retrieve the specular component
-            if (specularNode) {
-    
-                if(this.parseRGBA(specularNode) == -1) return "unable to parse R component of the specular light for ID = " + lightId;
-                else if(this.parseRGBA(specularNode) == -2) return "unable to parse G component of the specular light for ID = " + lightId;
-                else if(this.parseRGBA(specularNode) == -3) return "unable to parse B component of the specular light for ID = " + lightId;
-                else if(this.parseRGBA(specularNode) == -4) return "unable to parse A component of the specular light for ID = " + lightId;
-                else specularLight = this.parseRGBA(specularNode);
-            }
+            if (specularNode) 
+                specularLight = this.parseRGBA(specularNode,"specular in light",lightId);
             else
                 return "specular component undefined for ID = " + lightId;
 
 
             //specific elements
             if (children[i].nodeName == "spot") {
-                this.parseSpot(children[i], angle, exponent, targetLight);
                 angle = this.parseSpot(children[i])[0];
                 exponent = this.parseSpot(children[i])[1];
-                targetLight = this.parseSpot(children[i])[2];
+                targetLight = this.parseSpot(children[i],lightId)[2];
                 this.lights[lightId] = [enableLight, locationLight, ambientLight, diffuseLight, specularLight, angle, exponent, targetLight];
             }else if (children[i].nodeName == "omni"){
                 this.lights[lightId] = [enableLight, locationLight, ambientLight, diffuseLight, specularLight];
@@ -628,7 +579,7 @@ class MySceneGraph {
      * Parses a spot light
      * @param {*} spotNode 
      */
-    parseSpot(spotNode) {
+    parseSpot(spotNode,id) {
 
         var angle = this.reader.getFloat(spotNode, 'angle');
         if(angle == null){
@@ -648,13 +599,8 @@ class MySceneGraph {
         var target = [];
 
         // Retrieves the light position.
-        if (targetNode) {
-
-            if(this.parseXYZ(targetNode) == -1) return "unable to parse x component of the views from block";
-                else if(this.parseXYZ(targetNode) == -2) return "unable to parse y component of the views from block";
-                else if(this.parseXYZ(targetNode) == -3) return "unable to parse z component of the views from block";
-                else target = this.parseXYZ(targetNode); 
-        }
+        if (targetNode) 
+            target = this.parseXYZ(targetNode,"target in spot light",id);
         else
             return "light location undefined for ID = " + lightId;   
 
@@ -723,7 +669,7 @@ class MySceneGraph {
                 matId = this.reader.getString(children[i], 'id');
 
                 if (this.existsID(ids, matId)) return "ID must be unique for each material (conflict: ID = " + matId + ")";
-                else {this.parseMaterial(children[i], matId, this.reader.getString(children[i],"shininess"));
+                else {this.parseMaterial(children[i], matId, this.reader.getFloat(children[i],"shininess"));
                     ids.push(matId);
                 }
             } 
@@ -748,39 +694,26 @@ class MySceneGraph {
         let specularN = this.getChildNode(materialNode, "specular");
         let temp = new CGFappearance(this.scene);
 
-        //RBG emission
-        if(this.parseRGBA(emissionN) == -1) return "unable to parse R component of the  material id= " + id;
-         if(this.parseRGBA(emissionN) == -2) return "unable to parse G component of the  material id= " + id;
-        else if(this.parseRGBA(emissionN) == -3) return "unable to parse B component of the  material id= " + id;
-        else emission = this.parseRGBA(emissionN);   
 
+        temp.setShininess(shininess);
+
+        //RBG emission
+
+        emission = this.parseRGBA(emissionN,"emission in material",id);
         temp.setEmission(emission[0],emission[1], emission[2],emission[3]);
 
         //RBG ambientN
-        if(this.parseRGBA(ambientN) == -1) return "unable to parse R component of the  material id= " + id;
-         if(this.parseRGBA(ambientN) == -2) return "unable to parse G component of the  material id= " + id;
-        else if(this.parseRGBA(ambientN) == -3) return "unable to parse B component of the  material id= " + id;
-        else ambient = this.parseRGBA(ambientN); 
-
+        ambient = this.parseRGBA(ambientN,"ambient in material",id);
         temp.setAmbient(ambient[0],ambient[1], ambient[2],ambient[3]);
 
         //RBG diffuseN
-        if(this.parseRGBA(diffuseN) == -1) return "unable to parse R component of the  material id= " + id;
-         if(this.parseRGBA(diffuseN) == -2) return "unable to parse G component of the  material id= " + id;
-        else if(this.parseRGBA(diffuseN) == -3) return "unable to parse B component of the  material id= " + id;
-        else  diffuse = this.parseRGBA(diffuseN);
-        
+        diffuse = this.parseRGBA(diffuseN,"diffuse in material",id);
         temp.setDiffuse(diffuse[0],diffuse[1], diffuse[2],diffuse[3]);
 
         //RBG specularN
-        if(this.parseRGBA(specularN) == -1) return "unable to parse R component of the  material id= " + id;
-         if(this.parseRGBA(specularN) == -2) return "unable to parse G component of the  material id= " + id;
-        else if(this.parseRGBA(specularN) == -3) return "unable to parse B component of the  material id= " + id;
-        else specular= this.parseRGBA(specularN);   
-        
+        specular = this.parseRGBA(specularN,"specular in material",id);
         temp.setSpecular(specular[0],specular[1], specular[2],specular[3]);
         this.materials.push([id,temp]);
-
     }
 
     /**
@@ -1019,7 +952,7 @@ class MySceneGraph {
       * @param {*} id 
       * @param {*} message
       */
-     parseSingleTransformation(trfNodes, id, message){
+     parseSingleTransformation(trfNodes, id){
         
          var trans = [];
          var ro = [];
@@ -1029,13 +962,13 @@ class MySceneGraph {
 
         for(var i = 0; i < trfNodes.length; i++){
             if(trfNodes[i].nodeName  == 'translate'){
-               matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('translate', trfNodes[i],message));
+               matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('translate', trfNodes[i],id));
 
             }else if(trfNodes[i].nodeName  == 'scale'){
-                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('scale', trfNodes[i],message));
+                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('scale', trfNodes[i],id));
 
             } else if(trfNodes[i].nodeName  == 'rotate'){
-                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('rotate', trfNodes[i],message));
+                matrix = this.multiplyMatrixs(matrix,this.getTranformationMatrix('rotate', trfNodes[i],id));
             }
         }
 
@@ -1059,43 +992,34 @@ class MySceneGraph {
      * @param {*} node 
      * @param {*} message 
      */
-    getTranformationMatrix(tagName,node, message){
+    getTranformationMatrix(tagName,node, id){
         var matrix = mat4.create();
         var temp = [];
 
         switch(tagName){
             case 'translate':
-                if(this.parseXYZ(node) == -1) message = "unable to parse x component of the transformations from block";
-                    else if(this.parseXYZ(node) == -2) message= "unable to parse y component of the transformations from block";
-                    else if(this.parseXYZ(node) == -3) message= "unable to parse z component of the transformations from block";
-                    else {
-                        for(var j = 0; j<3;j++){
-                            temp[j] = this.parseXYZ(node)[j]; 
-                        }
-                    } 
+            temp = this.parseXYZ(node,"translate of transformation",id);
                 return mat4.translate(matrix,matrix,temp);
             
             case 'scale':
-                if(this.parseXYZ(node) == -1) message= "unable to parse x component of the transformations from block";
-                else if(this.parseXYZ(node) == -2) message= "unable to parse y component of the transformations from block";
-                else if(this.parseXYZ(node) == -3) message= "unable to parse z component of the transformations from block";
-                else {
-                    for(var j = 0; j<3;j++){
-                        temp[j] = this.parseXYZ(node)[j];  
-                    }
-                }  
+            temp = this.parseXYZ(node,"scale of transformation",id); 
                 return mat4.scale(matrix,matrix,temp);
 
             case 'rotate':
-                var axis = this.reader.getString(node, 'axis');
-                if (axis == null) this.onXMLMinorError("unable to parse rotation axis");
-
+                var axis = this.reader.getString(node, 'axis',false);
+                if(axis!='x' && axis!='y'&& axis!='z'){
+                this.onXMLMinorError("Invalid attribute axis in rotate of transformation ID: " + id + ": assuming x.");
+                axis = 'x';
+                }
                 if(axis == 'x') temp = [1,0,0];
                 else if(axis == 'y') temp = [0,1,0];
                 else if(axis == 'z') temp = [0,0,1];
                     
                 var angle = this.reader.getFloat(node, 'angle')*DEGREE_TO_RAD;
-                if(!this.isAttrValid(angle,0,1)) message= "unable to parse angle of the transformations from block";
+                if(!this.isAttrValid(angle,0,1)) {
+                    this.onXMLMinorError("Invalid attribute angle in rotate of transformation ID: " + id + ": assuming x.");
+                    angle = '1';
+                }
                 return mat4.rotate(matrix,matrix,angle,temp);  
         }
     }
@@ -1172,10 +1096,17 @@ class MySceneGraph {
         var materials=[];
 
          for(let i = 0; i < nodes.length; i++){
-                matId = this.reader.getString(nodes[i],'id');
+                matId = this.reader.getString(nodes[i],'id',false);
+                
                 if(matId == "inherit") materials.push("inherit");
                 else if(matId == "none") materials.push("none");
-                else materials.push(this.findGraphElement(this.materials,matId));
+                else{
+                    if(this.findGraphElement(this.materials,matId) == null){
+                        materials.push(this.scene.defaultMaterial);
+                    this.onXMLMinorError("Material id = "+ matId + " does not exist. Applying default material.")
+                    } 
+                    else materials.push(this.findGraphElement(this.materials,matId));
+                } 
          }
          return materials;
      }
@@ -1188,11 +1119,16 @@ class MySceneGraph {
         var textId;
         var texture;
 
-        textId = this.reader.getString(node,'id');
+        textId = this.reader.getString(node,'id',false);
         
         if(textId == "inherit") texture = "inherit";
         else if(textId == "none") texture="none";
-        else texture = this.findGraphElement(this.textures,textId);
+        else{
+            if(this.findGraphElement(this.textures,textId)==null)
+            this.onXMLMinorError("Texture id = "+ textId + " does not exist.") 
+            
+            texture = this.findGraphElement(this.textures,textId);
+        } 
 
          return texture;
      }
@@ -1261,7 +1197,7 @@ class MySceneGraph {
         }
         
         if(flag){
-            matrixes.push(this.parseSingleTransformation(transfNodes,id,null));
+            matrixes.push(this.parseSingleTransformation(transfNodes,id));
         } 
         m = mat4.create();
 

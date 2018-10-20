@@ -186,7 +186,6 @@
                 <componentref id="rug"/>
                 <componentref id="table"/>
                 <componentref id="seats"/>
-                <componentref id="game"/>
                 <componentref id="lamp"/> 
                 <componentref id="tv"/>
                 <componentref id="visor"/>
