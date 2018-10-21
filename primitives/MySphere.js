@@ -26,8 +26,8 @@ class MySphere extends CGFobject
         var phi = (Math.PI) / this.stacks; // 0-180 deg -- latitude
         var n_verts = 0;
 
-        var patchLengthx = 1 / this.slices;
-        var patchLengthy = 1 / this.stacks;
+        var patchLengthx = -1 / this.slices;
+        var patchLengthy = -1 / this.stacks;
         var xCoord = 0;
         var yCoord = 0;
 

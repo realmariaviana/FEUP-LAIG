@@ -507,7 +507,7 @@ class MySceneGraph {
     
             // Light enable/disable
             var enableLight = true;
-            var aux_light = this.reader.getFloat(children[i], 'enabled');
+            var aux_light = this.reader.getBoolean(children[i], 'enabled');
             if(aux_light==null)
                 this.onXMLMinorError("enable value missing for ID = " + lightId + "; assuming 'value = 1'");
             else
@@ -714,6 +714,7 @@ class MySceneGraph {
         specular = this.parseRGBA(specularN,"specular in material",id);
         temp.setSpecular(specular[0],specular[1], specular[2],specular[3]);
         this.materials.push([id,temp]);
+        
     }
 
     /**
@@ -1278,6 +1279,13 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-            this.components[0].display();
+
+        for(let i = 0; i<this.components.length;i++){
+            if(this.components[i].id==this.idRoot){
+             this.components[i].display();
+             break;
+            }
+        }
+            
     }
 }
