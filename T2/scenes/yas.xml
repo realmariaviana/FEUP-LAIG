@@ -134,6 +134,10 @@
          </transformation>
     </transformations>
 
+    <animations>
+        <circular id = "oi" span = "23" center="1 2 4" radius="4" startang="1" rotang="5" />
+    </animations>
+
      <primitives>
         <!-- rectangle -->
         <primitive id="MyRectangle">
@@ -210,7 +214,8 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-        
+
+            
              <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>

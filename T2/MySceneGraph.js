@@ -8,8 +8,9 @@ var lights_index = 3;
 var textures_index = 4;
 var materials_index = 5;
 var transformations_index = 6;
-var primitives_index = 7;
-var components_index = 8;
+var animations_index = 7;
+var primitives_index = 8;
+var components_index = 9;
 
 
 /**
@@ -163,6 +164,18 @@ class MySceneGraph {
 
             //Parse ambient block
             if ((error = this.parseMaterials(nodes[index])) != null)
+                return error;
+        } 
+
+        // <animations>
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != animations_index)
+                this.onXMLMinorError("tag <animations> out of order");
+
+            //Parse ambient block
+            if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
         } 
 
@@ -717,6 +730,75 @@ class MySceneGraph {
         
     }
 
+    //FALTA CONTROLPOINT
+    /**
+     * Parses the <ANIMATIONS> node.
+     * @param {animations block element} animationsNode 
+     */
+     parseAnimations(animationsNode){
+    //     var children = animationsNode.children;
+    //     var nodeNames = this.getChildrensNames(children);
+    //     var ids = [];
+    //     var grandChildren=[];
+
+    //     for (var i = 0; i < nodeNames.length; i++) {  
+            
+    //         if(nodeNames[i] == "circular"){
+    //         var aniID = this.reader.getString(children[i], 'id');
+    //         if (aniID == null)
+    //             return "no ID defined for animation";
+    
+    //         if (this.existsID(ids, aniID)) return "ID must be unique for each animation (conflict: ID = " + aniID + ")";
+            
+    //         var span = this.reader.getFloat(children[i], 'span');
+    //         if(span == null){
+    //             this.onXMLMinorError("span value missing for ID = " + aniID);
+    //         }
+
+    //         var center = this.reader.getFloat(children[i], 'center');
+    //         if(center == null){
+    //             this.onXMLMinorError("center value missing for ID = " + aniID);
+    //         }
+
+    //         var radius = this.reader.getFloat(children[i], 'radius');
+    //         if(radius == null){
+    //             this.onXMLMinorError("radius value missing for ID = " + aniID);
+    //         }
+
+    //         var startang = this.reader.getFloat(children[i], 'startang');
+    //         if(startang == null){
+    //             this.onXMLMinorError("startang value missing for ID = " + aniID);
+    //         }
+
+    //         var rotang = this.reader.getFloat(children[i], 'rotang');
+    //         if(rotang == null){
+    //             this.onXMLMinorError("rotang value missing for ID = " + aniID);
+    //         }
+
+    //         }else if(nodeNames[i] == "linear"){
+
+    //             var aniID = this.reader.getString(children[i], 'id');
+    //         if (anoID == null)
+    //             return "no ID defined for animation";
+    
+    //         if (this.existsID(ids, aniID)) return "ID must be unique for each animation (conflict: ID = " + aniID + ")";
+            
+    //         var span = this.reader.getFloat(children[i], 'span');
+    //         if(span == null){
+    //             this.onXMLMinorError("span value missing for ID = " + aniID);
+    //         }
+            
+    //         grandChildren = children[i].children;
+        
+
+    //         }  
+            
+    //         else this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+    //     }
+
+    //     this.log("Parsed Animations");
+     }
+
     /**
      * Parses the <PRIMITIVES> node.
      * @param {primitives block element} primitivesNode 
@@ -773,6 +855,25 @@ class MySceneGraph {
 
             case 'torus':
             return this.parseTorus(node, id);
+
+            case 'plane':
+            return this.parsePlane(node, id);
+
+            case 'patch':
+            return this.parsePatch(node, id);
+
+            case 'vehicle':
+            return this.parseVehicle(node, id);
+
+            case 'cylinder2':
+            return this.parseCylinder2(node, id);
+
+            case 'terrain':
+            return this.parseTerrain(node, id);
+
+            case 'water':
+            return this.parseWater(node, id);
+
         }
     }
 
@@ -907,6 +1008,129 @@ class MySceneGraph {
         this.primitives.push([id,new MyTorus(this.scene,inner, outer, slices, loops)]);
         return null;
 
+    }
+
+    /**
+     * Parses Plane
+     * @param {*} node
+     * @param {*} id
+     */
+    parsePlane(node, id){
+        var nPartsU = this.reader.getInteger(node, 'nPartsU');
+        if(!this.isAttrValid(nPartsU,null, 1,1)) return "Attribute nPartsU in primitive ID = " + id + " invalid";
+
+        var nPartsV = this.reader.getInteger(node, 'nPartsV');
+        if(!this.isAttrValid(nPartsV,null, 1,1)) return "Attribute nPartsV in primitive ID = " + id + " invalid";
+
+        this.primitives.push([id, new MyPlane(this.scene, nPartsU, nPartsV)]);
+        return null;
+    }
+
+    //NOT COMPLETE
+    /**
+     * Parses Patch
+     * @param {*} node
+     * @param {*} id
+     */
+    parsePatch(node, id){
+        var nPointsU = this.reader.getInteger(node, 'nPointsU');
+        if(!this.isAttrValid(nPointsU,null, 1,1)) return "Attribute nPointsU in primitive ID = " + id + " invalid";
+
+        var nPointsV = this.reader.getInteger(node, 'nPointsV');
+        if(!this.isAttrValid(nPointsV,null, 1,1)) return "Attribute nPointsV in primitive ID = " + id + " invalid";
+
+        var nPartsU = this.reader.getInteger(node, 'nPartsU');
+        if(!this.isAttrValid(nPartsU,null, 1,1)) return "Attribute nPartsU in primitive ID = " + id + " invalid";
+
+        var nPartsV= this.reader.getInteger(node, 'nPartsV');
+        if(!this.isAttrValid(nPartsV,null, 1,1)) return "Attribute nPartsV in primitive ID = " + id + " invalid";
+
+
+        this.primitives.push([id, new MyPlane(this.scene, nPointsU, nPointsV, nPartsU, nPartsV)]);
+        return null;
+    }
+
+    //?????????
+    /**
+     * Parses Vehicle
+     * @param {*} node
+     * @param {*} id
+     */
+    parseVehicle(node, id){
+        this.primitives.push([id, new MyVehicle(this.scene)]);
+        return null;
+    }
+
+    /**
+     * Parses Cylinder2
+     * @param {*} node
+     * @param {*} id
+     */
+    parseCylinder2(node, id){
+        var base = this.reader.getFloat(node, 'base');
+        if(!this.isAttrValid(base,null, 1,1)) return "Attribute base in primitive ID = " + id + " invalid";
+
+        var top = this.reader.getFloat(node, 'top');
+        if(!this.isAttrValid(top,null, 1,1)) return "Attribute top in primitive ID = " + id + " invalid";
+
+        var height = this.reader.getFloat(node, 'height');
+        if(!this.isAttrValid(height,null, 1,1)) return "Attribute height in primitive ID = " + id + " invalid";
+
+        var slices = this.reader.getInteger(node, 'slices');
+        if(!this.isAttrValid(slices,null, 1,1)) return "Attribute slices in primitive ID = " + id + " invalid";
+
+        var stacks = this.reader.getInteger(node, 'stacks');
+        if(!this.isAttrValid(stacks,null, 1,1)) return "Attribute stacks in primitive ID = " + id + " invalid";
+
+        this.primitives.push([id, new MyCylinder2(this.scene, base, top, height, slices, stacks)]);
+        return null; 
+    }
+
+    /**
+     * Parses Terrain
+     * @param {*} node
+     * @param {*} id
+     */
+    parseTerrain(node, id){
+        var idtexture = this.reader.getFloat(node, 'idtexture');
+        if(!this.isAttrValid(idtexture,null, 1,1)) return "Attribute idtexture in primitive ID = " + id + " invalid";
+
+        var idheightmap = this.reader.getFloat(node, 'idheightmap');
+        if(!this.isAttrValid(idheightmap,null, 1,1)) return "Attribute idheightmap in primitive ID = " + id + " invalid";
+
+        var parts = this.reader.getFloat(node, 'parts');
+        if(!this.isAttrValid(parts,null, 1,1)) return "Attribute parts in primitive ID = " + id + " invalid";
+
+        var heightscale = this.reader.getInteger(node, 'heightscale');
+        if(!this.isAttrValid(heightscale,null, 1,1)) return "Attribute heightscale in primitive ID = " + id + " invalid";
+
+        this.primitives.push([id, new MyTerrain(this.scene, idtexture, idheightmap, parts, heightscale)]);
+        return null; 
+    }
+
+    /**
+     * Parses Water
+     * @param {*} node
+     * @param {*} id
+     */
+    parseWater(node, id){
+        var idtexture = this.reader.getString(node, 'idtexture');
+        if(!this.isAttrValid(idtexture,null, 1,1)) return "Attribute idtexture in primitive ID = " + id + " invalid";
+
+        var idwavemap = this.reader.getString(node, 'idwavemap');
+        if(!this.isAttrValid(idwavemap,null, 1,1)) return "Attribute idwavemap in primitive ID = " + id + " invalid";
+
+        var parts = this.reader.getInteger(node, 'parts');
+        if(!this.isAttrValid(parts,null, 1,1)) return "Attribute parts in primitive ID = " + id + " invalid";
+
+        var heightscale = this.reader.getFloat(node, 'heightscale');
+        if(!this.isAttrValid(heightscale,null, 1,1)) return "Attribute heightscale in primitive ID = " + id + " invalid";
+
+        var texscale = this.reader.getFloat(node, 'texscale');
+        if(!this.isAttrValid(texscale,null, 1,1)) return "Attribute texscale in primitive ID = " + id + " invalid";
+
+        this.primitives.push([id, new MyWater(this.scene, idtexture, idwavemap, parts, heightscale, texscale)]);
+        return null;
     }
 
     /**
@@ -1083,7 +1307,11 @@ class MySceneGraph {
                 children = this.parseChildren(content[3].children);
                 }
 
-            this.components.push(new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children)); 
+            if(contentTagNames[1]!='animations') return "Component (ID:" + id + " must have animations tag";
+            else{
+                animations = this.loadComponentAnimations(content[1].children);
+               }
+            this.components.push(new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children, animations)); 
          }
          this.referenceComponents(); 
      }
@@ -1110,6 +1338,30 @@ class MySceneGraph {
                 } 
          }
          return materials;
+     }
+
+     /**
+      * Loads
+      * @param {*} nodes 
+      */
+     loadComponentAnimations(nodes){
+        var aniId;
+        var animations=[];
+
+         for(let i = 0; i < nodes.length; i++){
+            aniId = this.reader.getString(nodes[i],'id',false);
+                
+                if(aniId == "inherit") animations.push("inherit");
+                else if(aniId == "none") animations.push("none");
+                else{
+                    if(this.findGraphElement(this.animations,aniId) == null){
+                        animations.push(this.scene.defaultMaterial);
+                    this.onXMLMinorError("Animation id = "+ aniId + " does not exist. Applying default animation.")
+                    } 
+                    else materials.push(this.findGraphElement(this.animations,aniId));
+                } 
+         }
+         return animations;
      }
 
      /**
