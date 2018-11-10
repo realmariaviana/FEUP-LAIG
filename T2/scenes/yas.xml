@@ -135,7 +135,7 @@
     </transformations>
 
     <animations>
-        <circular id = "oi" span = "23" center="1 2 4" radius="4" startang="1" rotang="5" />
+        <circular id = "oi" span = "23" center="1 2 4" radius="4" startang="1" rotang="20" />
     </animations>
 
      <primitives>
@@ -175,11 +175,13 @@
             <transformation>
             </transformation>
 
+
             <materials>
                 <material id="standard"/>
             </materials>
         
              <texture id="none"/>
+
 
             <children>
                 <componentref id="wall1"/>
@@ -201,6 +203,9 @@
                 <componentref id="desklamp"/>
                 <componentref id="door"/>
             </children>
+
+             <animations>
+            </animations>
          </component>
 
         <!-- Wall1 -->

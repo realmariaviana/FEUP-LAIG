@@ -42,6 +42,7 @@ class MySceneGraph {
         this.textures = [];
         this.lights=[];
         this.primitives=[];
+        this.animations=[];
 
         // File reading
         this.reader = new CGFXMLreader();
@@ -736,67 +737,80 @@ class MySceneGraph {
      * @param {animations block element} animationsNode 
      */
      parseAnimations(animationsNode){
-    //     var children = animationsNode.children;
-    //     var nodeNames = this.getChildrensNames(children);
-    //     var ids = [];
-    //     var grandChildren=[];
+         var children = animationsNode.children;
+         var nodeNames = this.getChildrensNames(children);
+        var ids = [];
+        var grandChildren=[];
 
-    //     for (var i = 0; i < nodeNames.length; i++) {  
+         for (var i = 0; i < nodeNames.length; i++) {  
+
+            var aniID = this.reader.getString(children[i], 'id');
+            if (aniID == null)
+                return "no ID defined for animation";
+   
+            if (this.existsID(ids, aniID)) return "ID must be unique for each animation (conflict: ID = " + aniID + ")";
+           
+            var span = this.reader.getFloat(children[i], 'span');
+            if(span == null){
+                this.onXMLMinorError("span value missing for ID = " + aniID);
+            }
             
-    //         if(nodeNames[i] == "circular"){
-    //         var aniID = this.reader.getString(children[i], 'id');
-    //         if (aniID == null)
-    //             return "no ID defined for animation";
+            if(nodeNames[i] == "circular")
+                this.parseCirularAnimation(children[i], aniID, span);
+
+            else if(nodeNames[i] == "linear"){
     
-    //         if (this.existsID(ids, aniID)) return "ID must be unique for each animation (conflict: ID = " + aniID + ")";
+                this.parseLinearAnimation(children[i],id,span);
+
+             }  
             
-    //         var span = this.reader.getFloat(children[i], 'span');
-    //         if(span == null){
-    //             this.onXMLMinorError("span value missing for ID = " + aniID);
-    //         }
+             else this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+         }
 
-    //         var center = this.reader.getFloat(children[i], 'center');
-    //         if(center == null){
-    //             this.onXMLMinorError("center value missing for ID = " + aniID);
-    //         }
+         console.log(this.animations);
 
-    //         var radius = this.reader.getFloat(children[i], 'radius');
-    //         if(radius == null){
-    //             this.onXMLMinorError("radius value missing for ID = " + aniID);
-    //         }
+        console.log("Parsed Animations");
+     }
 
-    //         var startang = this.reader.getFloat(children[i], 'startang');
-    //         if(startang == null){
-    //             this.onXMLMinorError("startang value missing for ID = " + aniID);
-    //         }
-
-    //         var rotang = this.reader.getFloat(children[i], 'rotang');
-    //         if(rotang == null){
-    //             this.onXMLMinorError("rotang value missing for ID = " + aniID);
-    //         }
-
-    //         }else if(nodeNames[i] == "linear"){
-
-    //             var aniID = this.reader.getString(children[i], 'id');
-    //         if (anoID == null)
-    //             return "no ID defined for animation";
-    
-    //         if (this.existsID(ids, aniID)) return "ID must be unique for each animation (conflict: ID = " + aniID + ")";
-            
-    //         var span = this.reader.getFloat(children[i], 'span');
-    //         if(span == null){
-    //             this.onXMLMinorError("span value missing for ID = " + aniID);
-    //         }
-            
-    //         grandChildren = children[i].children;
+     parseLinearAnimation(node, id, span){
+        let children = node.children;
+        let coords = [];
         
+        if(children.length<2) 
+            this.onXMLError("Animation id=" + id + " must have at least 2 control points");
+        
+        for(let i = 0; i < children.length;i++){
+           
+            coords.push( this.parseXYZ(children[i],"linear animation",id));
+        }
 
-    //         }  
-            
-    //         else this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-    //     }
+        this.animations.push(new LinearAnimation(this.scene,id,span,coords));
+     }
 
-    //     this.log("Parsed Animations");
+
+    parseCirularAnimation(node,id,span){
+
+        var center = this.reader.getFloat(node, 'center');
+        if(center == null){
+            this.onXMLMinorError("center value missing for ID = " + aniID);
+        }
+
+        var radius = this.reader.getFloat(node, 'radius');
+        if(radius == null){
+            this.onXMLMinorError("radius value missing for ID = " + aniID);
+        }
+
+        var startang = this.reader.getFloat(node, 'startang');
+        if(startang == null){
+            this.onXMLMinorError("startang value missing for ID = " + aniID);
+        }
+
+        var rotang = this.reader.getFloat(node, 'rotang');
+        if(rotang == null){
+            this.onXMLMinorError("rotang value missing for ID = " + aniID);
+        }
+
+        this.animations.push(new CircularAnimation(this.scene,id,span,center,radius,startang,rotang));
      }
 
     /**
@@ -1268,7 +1282,7 @@ class MySceneGraph {
      parseComponents(componentsNode){
          var components = componentsNode.children;
          var id, content, transformationsMatrix, textureInfo,children;
-         var contentTagNames=[], component = [], materials= [];
+         var contentTagNames=[], component = [], materials= [], animations=[];
          this.components = [];
         
 
@@ -1307,8 +1321,7 @@ class MySceneGraph {
                 children = this.parseChildren(content[3].children);
                 }
 
-            if(contentTagNames[1]!='animations') return "Component (ID:" + id + " must have animations tag";
-            else{
+            if(contentTagNames[4]=='animations'){
                 animations = this.loadComponentAnimations(content[1].children);
                }
             this.components.push(new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children, animations)); 
@@ -1353,13 +1366,9 @@ class MySceneGraph {
                 
                 if(aniId == "inherit") animations.push("inherit");
                 else if(aniId == "none") animations.push("none");
-                else{
-                    if(this.findGraphElement(this.animations,aniId) == null){
-                        animations.push(this.scene.defaultMaterial);
-                    this.onXMLMinorError("Animation id = "+ aniId + " does not exist. Applying default animation.")
-                    } 
-                    else materials.push(this.findGraphElement(this.animations,aniId));
-                } 
+                else
+                animations.push(this.findGraphElement(this.animations,aniId));
+                
          }
          return animations;
      }
