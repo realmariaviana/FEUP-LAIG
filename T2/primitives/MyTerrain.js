@@ -4,14 +4,14 @@
  */
 class MyTerrain extends CGFobject
 {
-	constructor(scene, sides)
+	constructor(scene, idtexture, idheightmap, parts, heightscale)
 	{
 		super(scene);
 
-		this.sides = sides;
+		this.idtexture = idtexture;
+		this.idheightmap = idheightmap;
+		this.parts = parts;
+		this.heightscale = heightscale;
 
-	
 	};
-
-    i
 };

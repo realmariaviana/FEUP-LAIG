@@ -4,13 +4,15 @@
  */
 class MyPatch extends CGFobject
 {
-	constructor(scene, sides)
+	constructor(scene, nPointsU, nPointsV, nPartsU, nPartsV, controlPoints)
 	{
 		super(scene);
 
-		this.sides = sides;
-
-		
+		this.nPointsU = nPointsU;
+		this.nPointsV = nPointsV;
+		this.nPartsU = nPartsU;
+		this.nPartsV = nPartsV;
+		this.controlPoints = controlPoints;
 	};
 
 	

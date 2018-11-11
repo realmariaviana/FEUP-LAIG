@@ -838,6 +838,8 @@ class MySceneGraph {
                 if(primitive.length>1) return "Primitives can't have more than one tag (conflict ID = " + pID + ")";
 
                 //parse primitive
+                console.log(primitive);
+
                 var control = this.primitiveHandler(primitive[0],pID);
                 if(control!=null) return control;
 
@@ -845,6 +847,7 @@ class MySceneGraph {
             } 
             else this.onXMLMinorError("unknown tag <" + primitives[i].nodeName + ">");
         }
+        console.log(this.primitives);
         this.log("Parsed Primitives");
     }
 
@@ -1030,11 +1033,11 @@ class MySceneGraph {
      * @param {*} id
      */
     parsePlane(node, id){
-        var nPartsU = this.reader.getInteger(node, 'nPartsU');
-        if(!this.isAttrValid(nPartsU,null, 1,1)) return "Attribute nPartsU in primitive ID = " + id + " invalid";
+        var nPartsU = this.reader.getInteger(node, 'npartsU');
+        if(!this.isAttrValid(nPartsU,null, 1,1)) return "Attribute npartsU in primitive ID = " + id + " invalid";
 
-        var nPartsV = this.reader.getInteger(node, 'nPartsV');
-        if(!this.isAttrValid(nPartsV,null, 1,1)) return "Attribute nPartsV in primitive ID = " + id + " invalid";
+        var nPartsV = this.reader.getInteger(node, 'npartsV');
+        if(!this.isAttrValid(nPartsV,null, 1,1)) return "Attribute npartsV in primitive ID = " + id + " invalid";
 
         this.primitives.push([id, new MyPlane(this.scene, nPartsU, nPartsV)]);
         return null;
@@ -1047,24 +1050,30 @@ class MySceneGraph {
      * @param {*} id
      */
     parsePatch(node, id){
-        var nPointsU = this.reader.getInteger(node, 'nPointsU');
+        var nPointsU = this.reader.getInteger(node, 'npointsU');
         if(!this.isAttrValid(nPointsU,null, 1,1)) return "Attribute nPointsU in primitive ID = " + id + " invalid";
 
-        var nPointsV = this.reader.getInteger(node, 'nPointsV');
+        var nPointsV = this.reader.getInteger(node, 'npointsV');
         if(!this.isAttrValid(nPointsV,null, 1,1)) return "Attribute nPointsV in primitive ID = " + id + " invalid";
 
-        var nPartsU = this.reader.getInteger(node, 'nPartsU');
+        var nPartsU = this.reader.getInteger(node, 'npartsU');
         if(!this.isAttrValid(nPartsU,null, 1,1)) return "Attribute nPartsU in primitive ID = " + id + " invalid";
 
-        var nPartsV= this.reader.getInteger(node, 'nPartsV');
+        var nPartsV= this.reader.getInteger(node, 'npartsV');
         if(!this.isAttrValid(nPartsV,null, 1,1)) return "Attribute nPartsV in primitive ID = " + id + " invalid";
 
+        let numCP = nPartsU * nPartsV;
+        let controlNodes = node.children;
+        let controlPoints = [];
 
-        this.primitives.push([id, new MyPlane(this.scene, nPointsU, nPointsV, nPartsU, nPartsV)]);
+        for(let i = 0; i < numCP; i++){
+            controlPoints.push(this.parseXYZ(controlNodes[i],"Control Point"));
+        }
+
+        this.primitives.push([id, new MyPlane(this.scene, nPointsU, nPointsV, nPartsU, nPartsV, controlPoints)]);
         return null;
     }
 
-    //?????????
     /**
      * Parses Vehicle
      * @param {*} node
@@ -1106,8 +1115,17 @@ class MySceneGraph {
      * @param {*} id
      */
     parseTerrain(node, id){
-        var idtexture = this.reader.getFloat(node, 'idtexture');
-        if(!this.isAttrValid(idtexture,null, 1,1)) return "Attribute idtexture in primitive ID = " + id + " invalid";
+        let temp = 0;
+        var idtexture = this.reader.getString(node, 'idtexture');
+        
+        for(let i = 0; i< this.textures.length;i++){
+            if(this.textures[i][0]==idtexture){
+                 temp = 1;
+                 break;
+            }     
+        }
+
+        if(!temp)  return "Attribute idtexture in primitive ID = " + id + " invalid";
 
         var idheightmap = this.reader.getFloat(node, 'idheightmap');
         if(!this.isAttrValid(idheightmap,null, 1,1)) return "Attribute idheightmap in primitive ID = " + id + " invalid";
@@ -1128,11 +1146,18 @@ class MySceneGraph {
      * @param {*} id
      */
     parseWater(node, id){
+        let temp = 0;
         var idtexture = this.reader.getString(node, 'idtexture');
-        if(!this.isAttrValid(idtexture,null, 1,1)) return "Attribute idtexture in primitive ID = " + id + " invalid";
+
+        for(let i = 0; i< this.textures.length;i++){
+            if(this.textures[i][0]==idtexture){
+                 temp = 1;
+                 break;
+            }     
+        }
 
         var idwavemap = this.reader.getString(node, 'idwavemap');
-        if(!this.isAttrValid(idwavemap,null, 1,1)) return "Attribute idwavemap in primitive ID = " + id + " invalid";
+        if(!this.isAttrValid(idwavemap,null, 0,1)) return "Attribute idwavemap in primitive ID = " + id + " invalid";
 
         var parts = this.reader.getInteger(node, 'parts');
         if(!this.isAttrValid(parts,null, 1,1)) return "Attribute parts in primitive ID = " + id + " invalid";

@@ -4,12 +4,9 @@
  */
 class MyVehicle extends CGFobject
 {
-	constructor(scene, sides)
+	constructor(scene)
 	{
 		super(scene);
-
-		this.sides = sides;
-
 		
 	};
 

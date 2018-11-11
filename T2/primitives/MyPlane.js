@@ -4,11 +4,12 @@
  */
 class MyPlane extends CGFobject
 {
-	constructor(scene, sides)
+	constructor(scene, nPartsU, nPartsV)
 	{
 		super(scene);
 
-		this.sides = sides;
+		this.nPartsU = nPartsU;
+		this.nPartsV = nPartsV;
 	};
 
 };
