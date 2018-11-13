@@ -65,6 +65,11 @@ class MyComponent
         currentMaterial.apply();
 
 
+        for(let i = 0; i < this.animations.length; i++){
+            this.animations[i].apply();
+        }
+
+
         //display children
         for(let i = 0; i<this.primitives.length;i++){
             this.primitives[i].updateTextCoords(currentTextInfo[1],currentTextInfo[2]);
@@ -84,7 +89,6 @@ class MyComponent
     update(timePassed){
         for(let i = 0; i < this.animations.length; i++){
             this.animations[i].update(timePassed);
-            this.animations[i].apply();
         }
 
         for(let i = 0; i < this.childComponents.length; i++){

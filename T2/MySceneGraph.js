@@ -1573,6 +1573,5 @@ class MySceneGraph {
     updateScene(timePassed){
         if(!this.rootNode) return;
         this.rootNode.update(timePassed);
-    
     }
 }
