@@ -17,6 +17,7 @@ class XMLscene extends CGFscene {
         this.texturesStack = [];
         this.materialsStack = [];
         this.defaultMaterial = new CGFappearance(this);
+        this.lastUpdateTime = (new Date()).getTime();
 
     }
 
@@ -26,6 +27,8 @@ class XMLscene extends CGFscene {
      */
     init(application) {
         super.init(application);
+
+        this.setUpdatePeriod(1 / 60 * 1000);
 
         this.sceneInited = false;
 
@@ -133,10 +136,6 @@ class XMLscene extends CGFscene {
     }
 
 
-
-
-
-
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
@@ -159,6 +158,12 @@ class XMLscene extends CGFscene {
         this.interface.initKeys();
 
         this.sceneInited = true;
+    }
+
+
+    update(currTime){
+        this.graph.updateScene((currTime - this.lastUpdateTime)/1000);
+        this.lastUpdateTime = currTime;
     }
 
 
@@ -215,8 +220,6 @@ class XMLscene extends CGFscene {
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
-
-
 
 
 }

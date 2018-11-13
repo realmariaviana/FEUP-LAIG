@@ -30,6 +30,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
+        this.rootNode = null;
         this.defaultViewId = null;
 
         this.axisCoords = [];
@@ -767,12 +768,11 @@ class MySceneGraph {
              else this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
          }
 
-         console.log(this.animations);
 
         console.log("Parsed Animations");
      }
 
-     parseLinearAnimation(node, id, span){
+    parseLinearAnimation(node, id, span){
         let children = node.children;
         let coords = [];
         
@@ -784,13 +784,13 @@ class MySceneGraph {
             coords.push( this.parseXYZ(children[i],"linear animation",id));
         }
 
-        this.animations.push(new LinearAnimation(this.scene,id,span,coords));
+        this.animations.push([id,new LinearAnimation(this.scene,id,span,coords)]);
      }
 
 
     parseCirularAnimation(node,id,span){
 
-        var center = this.reader.getFloat(node, 'center');
+        var center = this.reader.getVector3(node, 'center');
         if(center == null){
             this.onXMLMinorError("center value missing for ID = " + aniID);
         }
@@ -810,7 +810,7 @@ class MySceneGraph {
             this.onXMLMinorError("rotang value missing for ID = " + aniID);
         }
 
-        this.animations.push(new CircularAnimation(this.scene,id,span,center,radius,startang,rotang));
+        this.animations.push([id,new CircularAnimation(this.scene,id,span,center,radius,startang,rotang)]);
      }
 
     /**
@@ -837,9 +837,6 @@ class MySceneGraph {
                 var primitive = primitives[i].children;
                 if(primitive.length>1) return "Primitives can't have more than one tag (conflict ID = " + pID + ")";
 
-                //parse primitive
-                console.log(primitive);
-
                 var control = this.primitiveHandler(primitive[0],pID);
                 if(control!=null) return control;
 
@@ -847,7 +844,6 @@ class MySceneGraph {
             } 
             else this.onXMLMinorError("unknown tag <" + primitives[i].nodeName + ">");
         }
-        console.log(this.primitives);
         this.log("Parsed Primitives");
     }
 
@@ -1051,7 +1047,7 @@ class MySceneGraph {
      */
     parsePatch(node, id){
         var nPointsU = this.reader.getInteger(node, 'npointsU');
-        if(!this.isAttrValid(nPointsU,null, 1,1)) return "Attribute nPointsU in primitive ID = " + id + " invalid";
+        if(!this.isAttrValid(nPointsU,null,1,1)) return "Attribute nPointsU in primitive ID = " + id + " invalid";
 
         var nPointsV = this.reader.getInteger(node, 'npointsV');
         if(!this.isAttrValid(nPointsV,null, 1,1)) return "Attribute nPointsV in primitive ID = " + id + " invalid";
@@ -1347,12 +1343,17 @@ class MySceneGraph {
                 }
 
             if(contentTagNames[4]=='animations'){
-                animations = this.loadComponentAnimations(content[1].children);
+                animations = this.loadComponentAnimations(content[4].children);
                }
-            this.components.push(new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children, animations)); 
+
+            let temp =  new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children, animations);
+            this.components.push(temp); 
+
+            if(id == this.idRoot) this.rootNode = temp;
          }
          this.referenceComponents(); 
      }
+
 
      /**
       * Loads
@@ -1383,6 +1384,7 @@ class MySceneGraph {
       * @param {*} nodes 
       */
      loadComponentAnimations(nodes){
+
         var aniId;
         var animations=[];
 
@@ -1391,9 +1393,7 @@ class MySceneGraph {
                 
                 if(aniId == "inherit") animations.push("inherit");
                 else if(aniId == "none") animations.push("none");
-                else
-                animations.push(this.findGraphElement(this.animations,aniId));
-                
+                else if(aniId != null) animations.push(this.findGraphElement(this.animations,aniId));
          }
          return animations;
      }
@@ -1565,13 +1565,12 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+        this.rootNode.display();
+    }
 
-        for(let i = 0; i<this.components.length;i++){
-            if(this.components[i].id==this.idRoot){
-             this.components[i].display();
-             break;
-            }
-        }
-            
+    updateScene(timePassed){
+        if(!this.rootNode) return;
+        this.rootNode.update(timePassed);
+    
     }
 }

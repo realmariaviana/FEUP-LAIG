@@ -7,11 +7,4 @@ class Animation {
         this.done = false;
         
     }
-
-    update() {
-    }
-
-    apply(){
-        
-    }
 }

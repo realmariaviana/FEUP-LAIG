@@ -4,7 +4,7 @@
  */
 class MyComponent
 {
-    constructor(scene, id, transformationsMatrix, materials, textureInfo, children)
+    constructor(scene, id, transformationsMatrix, materials, textureInfo, children, animations)
 	{
         this.scene = scene;
         this.id = id;
@@ -17,6 +17,7 @@ class MyComponent
         this.childComponents = children[1];
         this.primitives = children[0];
         this.changing = 0;
+        this.animations = animations;
         this.setDefaultMaterial();
         
     };
@@ -77,7 +78,19 @@ class MyComponent
         this.scene.materialsStack.pop();
         this.scene.texturesStack.pop();
         this.scene.popMatrix();
+        }
     }
+
+    update(timePassed){
+        for(let i = 0; i < this.animations.length; i++){
+            this.animations[i].update(timePassed);
+            this.animations[i].apply();
+        }
+
+        for(let i = 0; i < this.childComponents.length; i++){
+            //this.childComponents[i].update(timePassed);
+        }
+
     }
 
     /**

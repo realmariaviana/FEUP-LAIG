@@ -135,7 +135,7 @@
     </transformations>
 
     <animations>
-        <circular id = "oi" span = "23" center="1 2 4" radius="4" startang="1" rotang="20" />
+        <circular id = "oi" span = "3" center="1 1 1" radius="4" startang="1" rotang="50" />
     </animations>
 
      <primitives>
@@ -221,6 +221,7 @@
             </children>
 
              <animations>
+                <animationref id = "oi"/>
             </animations>
          </component>
 
