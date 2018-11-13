@@ -297,6 +297,7 @@ class MySceneGraph {
 
         // X
         temp = this.reader.getFloat(node, 'x',false);
+        if(temp == null)  temp = this.reader.getFloat(node, 'xx',false);
         if(!this.isAttrValid(temp,0,1,0,null,null)){
             this.onXMLMinorError("Invalid attribute x in " + tagName + " ID: " + id + ". Assuming 1.");
             arr[0] =1;
@@ -305,7 +306,7 @@ class MySceneGraph {
 
         // Y
         temp = this.reader.getFloat(node, 'y',false);
-    
+        if(temp == null)  temp = this.reader.getFloat(node, 'yy',false);
         if(!this.isAttrValid(temp,0,1,0,null,null)){
             this.onXMLMinorError("Invalid attribute y in " + tagName + " ID: " + id + ". Assuming 1.");
             arr[1] =1;
@@ -314,6 +315,7 @@ class MySceneGraph {
 
         // Z
         temp= this.reader.getFloat(node, 'z',false);
+        if(temp == null)  temp = this.reader.getFloat(node, 'xzzx',false);
 
         if(!this.isAttrValid(temp,0,1,0,null,null)){
             this.onXMLMinorError("Invalid attribute z in " + tagName + " ID: " + id + ". Assuming 1.");
