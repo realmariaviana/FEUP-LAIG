@@ -27,6 +27,7 @@ class MyComponent
         let currentMaterial = null, currentTextInfo = this.textureInfo;
         this.scene.pushMatrix();
 
+
         //transformations
         this.scene.multMatrix(this.transformationsMatrix);
 
@@ -65,9 +66,7 @@ class MyComponent
         currentMaterial.apply();
 
 
-        for(let i = 0; i < this.animations.length; i++){
-            this.animations[i].apply();
-        }
+        this.apply();
 
 
         //display children
@@ -92,9 +91,15 @@ class MyComponent
         }
 
         for(let i = 0; i < this.childComponents.length; i++){
-            //this.childComponents[i].update(timePassed);
+            this.childComponents[i].update(timePassed);
         }
 
+    }
+
+    apply(){
+        for(let i = 0; i < this.animations.length; i++){
+            this.animations[i].apply();
+        }
     }
 
     /**

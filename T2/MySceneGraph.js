@@ -1345,14 +1345,17 @@ class MySceneGraph {
                 }
 
             if(contentTagNames[4]=='animations'){
+                console.log(id,"oi");
                 animations = this.loadComponentAnimations(content[4].children);
                }
 
             let temp =  new MyComponent(this.scene,id,transformationsMatrix,materials,textureInfo,children, animations);
+            animations = [];
             this.components.push(temp); 
 
             if(id == this.idRoot) this.rootNode = temp;
          }
+
          this.referenceComponents(); 
      }
 

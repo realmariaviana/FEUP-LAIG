@@ -19,7 +19,6 @@ class CircularAnimation extends Animation{
             this.timePasesed += deltaTime;
             let partialRotation = deltaTime * this.speed;
             this.currentAngle += partialRotation;
-            console.log(this.currentAngle);
 
             if(this.timePasesed>=this.time) this.animationDone = true;
         }
@@ -27,8 +26,8 @@ class CircularAnimation extends Animation{
 
     apply(){
         if(!this.animationDone){
-            //this.scene.translate(this.center[0], this.center[1],this.center[2]);
-            //this.scene.translate(this.radius * Math.sin(this.currentAngle), 0, this.radius * Math.cos(this.currentAngle));
+            this.scene.translate(this.center[0], this.center[1],this.center[2]);
+            this.scene.translate(this.radius * Math.sin(this.currentAngle), 0, this.radius * Math.cos(this.currentAngle));
             this.scene.rotate(Math.PI / 180 *this.currentAngle,0,1,0);
         }
     }
