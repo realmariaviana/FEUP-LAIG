@@ -136,6 +136,12 @@
 
     <animations>
         <circular id = "oi" span = "10" center="0 0 0" radius="0" startang="0" rotang="360" />
+        <linear id = "linear" span = "20">
+            <controlpoint xx="0" yy="1" zz="0" />
+            <controlpoint xx="1" yy="1" zz="1" />
+            <controlpoint xx="-5" yy="-5" zz="10" />
+
+        </linear>    
     </animations>
 
      <primitives>
@@ -221,7 +227,7 @@
             </children>
 
             <animations>
-                <animationref id = "oi"/>
+                <animationred id = "linear"/>
             </animations>
 
          </component>

@@ -5,6 +5,6 @@ class Animation {
         this.id = id;
         this.time = time;
         this.done = false;
-        
+        this.timePassed = 0;
     }
 }

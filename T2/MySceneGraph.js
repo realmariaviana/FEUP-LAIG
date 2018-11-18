@@ -315,7 +315,7 @@ class MySceneGraph {
 
         // Z
         temp= this.reader.getFloat(node, 'z',false);
-        if(temp == null)  temp = this.reader.getFloat(node, 'xzzx',false);
+        if(temp == null)  temp = this.reader.getFloat(node, 'zz',false);
 
         if(!this.isAttrValid(temp,0,1,0,null,null)){
             this.onXMLMinorError("Invalid attribute z in " + tagName + " ID: " + id + ". Assuming 1.");
@@ -741,7 +741,7 @@ class MySceneGraph {
      */
      parseAnimations(animationsNode){
          var children = animationsNode.children;
-         var nodeNames = this.getChildrensNames(children);
+         if(children) var nodeNames = this.getChildrensNames(children);
         var ids = [];
         var grandChildren=[];
 
@@ -763,7 +763,7 @@ class MySceneGraph {
 
             else if(nodeNames[i] == "linear"){
     
-                this.parseLinearAnimation(children[i],id,span);
+                this.parseLinearAnimation(children[i],aniID,span);
 
              }  
             
@@ -1345,7 +1345,6 @@ class MySceneGraph {
                 }
 
             if(contentTagNames[4]=='animations'){
-                console.log(id,"oi");
                 animations = this.loadComponentAnimations(content[4].children);
                }
 
