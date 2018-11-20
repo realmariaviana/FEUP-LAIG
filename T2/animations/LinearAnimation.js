@@ -22,7 +22,6 @@ class LinearAnimation extends Animation {
             vec = vec3.sub(vec3.create(),this.listRoot[i+1],this.listRoot[i]);
             this.vectors.push(new AnimationVector(vec,startDist,endDist,currP));
             currP = this.listRoot[i+1];
-            //console.log(endDist, startDist);
             startDist = endDist;
 
         }
@@ -63,19 +62,17 @@ update(deltaTime){
             }
             this.angle = this.getAngle(this.vectors[this.pointIndex].vec, [0,0,1]);
           
-            let ratio = parcialDist/(this.vectors[this.pointIndex].endDist-this.vectors[this.pointIndex].startDist);
+            let ratio = (parcialDist-this.vectors[this.pointIndex].startDist)/(this.vectors[this.pointIndex].endDist-this.vectors[this.pointIndex].startDist);
             this.extraVect = [this.vectors[this.pointIndex].vec[0]*ratio,this.vectors[this.pointIndex].vec[1]*ratio,this.vectors[this.pointIndex].vec[2]*ratio];
-            let oi = [this.vectors[this.pointIndex].vec[0]*ratio+this.vectors[this.pointIndex].vec[0],this.vectors[this.pointIndex].vec[1]*ratio+this.vectors[this.pointIndex].vec[1],this.vectors[this.pointIndex].vec[2]*ratio+this.vectors[this.pointIndex].vec[2]];
-            console.log(parcialDist,this.extraVect,this.vectors[this.pointIndex]);
+            this.translateVec = [this.vectors[this.pointIndex].previousPoint[0]+this.extraVect[0], this.vectors[this.pointIndex].previousPoint[1]+this.extraVect[1],this.vectors[this.pointIndex].previousPoint[2]+this.extraVect[2]];
 
         }
 }
 
 apply(){
     if(!this.animationDone){
-        //consolt.log(this.vectors[this.pointIndex].vec[0]+this.extraVect[0],) 
-        this.scene.translate(this.vectors[this.pointIndex].previousPoint[0]+this.extraVect[0], this.vectors[this.pointIndex].previousPoint[1]+this.extraVect[1],this.vectors[this.pointIndex].previousPoint[2]+this.extraVect[2]);
-        //this.scene.rotate(this.angle,0,1,0);
+        this.scene.translate( this.translateVec[0],   this.translateVec[1], this.translateVec[2]);
+        this.scene.rotate(this.angle,0,1,0);
     }
 }
 }
