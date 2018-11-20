@@ -2,73 +2,80 @@ class LinearAnimation extends Animation {
 
     constructor(scene, id, time, listRoot) {
         super(scene, id, time);
-
         this.listRoot = listRoot;
         this.totalDistance = 0;
         this.animationDone = false;
-        this.initDistance();
-        this.currentPostion = [];
+        this.vectors=[];
+        this.initVectors();
+        this.pointIndex=0;
     }
 
-    initDistance(){
-        this.distances = [];
-        let tempVec3;
-        for(let i=0; i<this.listRoot.length -1 ;i++){
-            tempVec3 = this.calculateDistance(this.listRoot[i],this.listRoot[i+1]);
-            this.distances.push(tempVec3);
+    initVectors(){
+        let startDist = 0;
+        let endDist = 0;
+        let vec, p1, p2;
+        let currP = [0,0,0];
+
+        for(let i = 0; i<this.listRoot.length-1;i++){
+            
+            endDist += vec3.dist(this.listRoot[i],this.listRoot[i+1]);
+            vec = vec3.sub(vec3.create(),this.listRoot[i+1],this.listRoot[i]);
+            this.vectors.push(new AnimationVector(vec,startDist,endDist,currP));
+            currP = this.listRoot[i+1];
+            //console.log(endDist, startDist);
+            startDist = endDist;
+
         }
+        this.totalDistance = endDist;
+        console.log(this.vectors);
+    }
 
-        for(let j = 0; j<this.distances.length;j++){
-            this.totalDistance+= Math.abs(this.distances[j]);
+     getAngle(a, b) {
+        let tempA = vec3.fromValues(a[0], a[1], a[2]);
+        let tempB = vec3.fromValues(b[0], b[1], b[2]);
+        vec3.normalize(tempA, tempA);
+        vec3.normalize(tempB, tempB);
+        let cosine = vec3.dot(tempA, tempB);
+        if(cosine > 1.0) {
+          return 0;
         }
-        console.log(this.totalDistance);
-        this.currentPostion = this.distances[0];
+        else if(cosine < -1.0) {
+          return Math.PI;
+        } else {
+          return Math.acos(cosine);
+        }
     }
 
-    calculateDistance(vec1, vec2){
-        let x1 = vec1[0];
-        let y1 = vec1[1];
-        let z1 = vec1[2];
+update(deltaTime){
+    this.timePassed += deltaTime ;
+    this.percentage = this.timePassed/this.time;
+    let parcialDist = this.percentage * this.totalDistance;
 
-        let x2 = vec2[0];
-        let y2 = vec2[1];
-        let z2 = vec2[2];
-
-        let distX,distY, distZ;
-
-        distX = x2-x1;
-        distY = y2-y1;
-        distZ = z2-z1;
-
-        let dist = Math.sqrt(Math.pow(distX,2)+Math.pow(distY,2)+Math.pow(distZ,2));
-        return dist;
-    }
-
-    update(deltaTime) {
-        this.timePassed += deltaTime ;
-        this.percentage = this.timePassed/this.time;
-        let parcialDist = this.percentage * this.totalDistance;
-
-        if(parcialDist>=this.totalDistance) this.animationDone = true;
+    if(parcialDist>=this.totalDistance) this.animationDone = true;
 
         if(! this.animationDone){
-            this.pointIndex=0;
 
-            for(let i = 0; i<this.distances.length-1;i++){
-
-                if(parcialDist > this.distances[this.pointIndex]){
-                    this.pointIndex = i+1; 
+            for(let i = 0; i<this.vectors.length;i++){
+                if(parcialDist >= this.vectors[i].startDist && parcialDist <= this.vectors[i].endDist){
+                    this.pointIndex = i;
+                    break; 
                 }  
             }
+            this.angle = this.getAngle(this.vectors[this.pointIndex].vec, [0,0,1]);
           
-            let ratio = parcialDist/this.distances[this.pointIndex];
-            this.temp = [this.listRoot[this.pointIndex][0]*ratio, this.listRoot[this.pointIndex][1]*ratio, this.listRoot[this.pointIndex][2]*ratio];
-            console.log(this.listRoot[this.pointIndex]);
-        }
-    }
+            let ratio = parcialDist/(this.vectors[this.pointIndex].endDist-this.vectors[this.pointIndex].startDist);
+            this.extraVect = [this.vectors[this.pointIndex].vec[0]*ratio,this.vectors[this.pointIndex].vec[1]*ratio,this.vectors[this.pointIndex].vec[2]*ratio];
+            let oi = [this.vectors[this.pointIndex].vec[0]*ratio+this.vectors[this.pointIndex].vec[0],this.vectors[this.pointIndex].vec[1]*ratio+this.vectors[this.pointIndex].vec[1],this.vectors[this.pointIndex].vec[2]*ratio+this.vectors[this.pointIndex].vec[2]];
+            console.log(parcialDist,this.extraVect,this.vectors[this.pointIndex]);
 
-    apply(){
-        this.scene.translate(this.listRoot[this.pointIndex-1][0], this.listRoot[this.pointIndex-1][1], this.listRoot[this.pointIndex][2]);
-        this.scene.translate(this.temp[0],this.temp[1],this.temp[2]);
+        }
+}
+
+apply(){
+    if(!this.animationDone){
+        //consolt.log(this.vectors[this.pointIndex].vec[0]+this.extraVect[0],) 
+        this.scene.translate(this.vectors[this.pointIndex].previousPoint[0]+this.extraVect[0], this.vectors[this.pointIndex].previousPoint[1]+this.extraVect[1],this.vectors[this.pointIndex].previousPoint[2]+this.extraVect[2]);
+        //this.scene.rotate(this.angle,0,1,0);
     }
+}
 }
