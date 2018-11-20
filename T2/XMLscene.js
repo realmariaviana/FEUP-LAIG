@@ -18,6 +18,11 @@ class XMLscene extends CGFscene {
         this.materialsStack = [];
         this.defaultMaterial = new CGFappearance(this);
         this.lastUpdateTime = (new Date()).getTime();
+        this.translations = [];
+        //this.enableTextures(true);
+	   
+
+		
 
     }
 
@@ -42,7 +47,16 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-    }
+        this.surfaces = [];
+	};
+
+	makeSurface(degree1, degree2, controlvertexes) {
+			
+		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+
+		return new CGFnurbsObject(this, 20, 20, nurbsSurface ); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+	}
+    
 
     /**
      * Initializes the scene cameras.
@@ -214,6 +228,12 @@ class XMLscene extends CGFscene {
         else {
             // Draw axis
             this.axis.display();
+        }
+        for (i =0; i<this.surfaces.length; i++) {
+			this.pushMatrix();
+	
+			this.surfaces[i].display();
+			this.popMatrix();
         }
 
 

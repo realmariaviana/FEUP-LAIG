@@ -207,7 +207,7 @@
 
 
             <children>
-                <componentref id="temp"/>
+                 <primitiveref id="ss"/>
                 <!--<componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -228,9 +228,7 @@
                 <componentref id="door"/>-->
             </children>
 
-            <animations>
-                <animationred id = "linear"/>
-            </animations>
+           
 
          </component>
 
@@ -246,7 +244,7 @@
              <texture id="walltxt" length_s="1" length_t="1"/>
 
             <children>
-                <primitiveref id="MySphere"/>
+                <primitiveref id="MyPlane"/>
             </children>
          </component>   
 

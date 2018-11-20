@@ -26,7 +26,6 @@ class LinearAnimation extends Animation {
 
         }
         this.totalDistance = endDist;
-        console.log(this.vectors);
     }
 
      getAngle(a, b) {
