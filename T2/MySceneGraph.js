@@ -1060,15 +1060,14 @@ class MySceneGraph {
         var nPartsV= this.reader.getInteger(node, 'npartsV');
         if(!this.isAttrValid(nPartsV,null, 1,1)) return "Attribute nPartsV in primitive ID = " + id + " invalid";
 
-        let numCP = nPartsU * nPartsV;
         let controlNodes = node.children;
         let controlPoints = [];
 
-        for(let i = 0; i < numCP; i++){
+        for(let i = 0; i < controlNodes.length; i++){
             controlPoints.push(this.parseXYZ(controlNodes[i],"Control Point"));
         }
 
-        this.primitives.push([id, new MyPlane(this.scene, nPointsU, nPointsV, nPartsU, nPartsV, controlPoints)]);
+        this.primitives.push([id, new MyPatch(this.scene, id,nPartsU,nPartsV, nPointsU, nPointsV, controlPoints)]);
         return null;
     }
 

@@ -185,8 +185,15 @@
         </primitive>
 
         <primitive id="s2">
-           <patch npointsU="1" npointsV="1" npartsU="1" npartsV="1">
-                <controlpoint xx="1" yy="1" zz="1" />
+           <patch npartsU="50" npartsV="50" npointsU="4" npointsV="2">
+                <controlpoint xx="3" yy="0" zz="0" />
+                <controlpoint xx="3" yy="0" zz="3" />
+                <controlpoint xx="3" yy="2" zz="0" />
+                <controlpoint xx="3" yy="2" zz="3" />
+                <controlpoint xx="0" yy="2" zz="0" />
+                <controlpoint xx="0" yy="2" zz="3" />
+                <controlpoint xx="0" yy="0" zz="0" />
+                <controlpoint xx="0" yy="0" zz="3" />
             </patch>
         </primitive>
 
@@ -207,7 +214,7 @@
 
 
             <children>
-                 <primitiveref id="ss"/>
+                 <primitiveref id="s2"/>
                 <!--<componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>

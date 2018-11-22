@@ -14,7 +14,7 @@ class MyPlane extends CGFobject
 		this.degree1 = 1;
 		this.degree2 = 1;
 		this.initControlPoints();
-		this.nurbObj = this.scene.makeSurface(this.degree1, this.degree2, this.controlPoints);
+		this.makeSurface(this.degree1, this.degree2, this.controlPoints, this.nPartsU, this.nPartsV);
 	};
 
 	initControlPoints(){
@@ -33,10 +33,12 @@ class MyPlane extends CGFobject
 		
 	}
 
-	makeSurface(){
-		var nurbsSurface = new CGFnurbsSurface(this.degree1, this.degree2, this.controlPoints);
-		this.nurbObj = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, nurbsSurface); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
-	};
+	makeSurface(degree1, degree2, controlvertexes, npartsU, npartsV) {
+			
+		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
+
+		this.nurbObj = new CGFnurbsObject(this.scene, npartsU, npartsV, nurbsSurface ); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+	}
 
 	display(){
 		this.nurbObj.display();

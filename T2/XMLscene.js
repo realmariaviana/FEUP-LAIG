@@ -49,13 +49,6 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.surfaces = [];
 	};
-
-	makeSurface(degree1, degree2, controlvertexes) {
-			
-		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
-
-		return new CGFnurbsObject(this, 20, 20, nurbsSurface ); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
-	}
     
 
     /**
