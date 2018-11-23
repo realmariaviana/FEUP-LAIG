@@ -83,6 +83,9 @@
         <texture id="pinktxt" file="scenes/images/pink.jpg"/>
         <texture id="terraintxt" file="scenes/images/terrain.jpg"/>
         <texture id="heightmaptxt" file="scenes/images/terrain-height-map.jpg"/>
+        <texture id="water" file="scenes/images/water.jpg"/>
+        <texture id="wavemap" file="scenes/images/wavemap.png"/>
+
     </textures>
 
      <materials>
@@ -213,6 +216,10 @@
             </patch>
         </primitive>
 
+        <primitive id="water">
+        <water idtexture="water" idwavemap="wavemap" parts="50" heightscale="2.0" texscale="1" />
+        </primitive>
+
 
     </primitives>
 
@@ -230,7 +237,7 @@
 
 
             <children>
-                 <primitiveref id="terrain"/>
+                 <primitiveref id="water"/>
                 <!--<componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>

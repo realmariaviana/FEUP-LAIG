@@ -10,8 +10,7 @@ class MyTerrain extends MyPlane
 
 		this.parts = parts;
 		this.heightscale = heightscale;
-		this.terrain = new CGFshader(this.scene.gl,"../shaders/texture1.vert","../shaders/texture1.frag");
-		this.terrain.setUniformsValues({uSampler2:0});
+		this.terrain = new CGFshader(this.scene.gl,"../shaders/terrain.vert","../shaders/terrain.frag");
 		this.terrain.setUniformsValues({uSampler2:1});
 		this.terrain.setUniformsValues({heightscale:heightscale});
 		this.terraintxt = texture;

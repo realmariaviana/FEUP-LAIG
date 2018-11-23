@@ -19,11 +19,7 @@ class XMLscene extends CGFscene {
         this.defaultMaterial = new CGFappearance(this);
         this.lastUpdateTime = (new Date()).getTime();
         this.translations = [];
-        //this.enableTextures(true);
-	   
-
-		
-
+        this.animatedObjects = [];
     }
 
     /**
@@ -170,6 +166,11 @@ class XMLscene extends CGFscene {
 
     update(currTime){
         this.graph.updateScene((currTime - this.lastUpdateTime)/1000);
+       
+        for(let i = 0; i<this.animatedObjects.length;i++){
+            this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
+        }
+
         this.lastUpdateTime = currTime;
     }
 

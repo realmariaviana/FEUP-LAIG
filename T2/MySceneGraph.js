@@ -1127,7 +1127,6 @@ class MySceneGraph {
         if(!this.isAttrValid(heightscale,null, 1,1)) return "Attribute heightscale in primitive ID = " + id + " invalid";
 
         this.primitives.push([id, new MyTerrain(this.scene, texture, heightmap, parts, heightscale)]);
-        return null; 
     }
 
     /**
@@ -1138,16 +1137,12 @@ class MySceneGraph {
     parseWater(node, id){
         let temp = 0;
         var idtexture = this.reader.getString(node, 'idtexture');
-
-        for(let i = 0; i< this.textures.length;i++){
-            if(this.textures[i][0]==idtexture){
-                 temp = 1;
-                 break;
-            }     
-        }
-
+        let texture = this.findGraphElement(this.textures,idtexture)
+        if(texture==null)  return "Attribute idtexture in primitive ID = " + id + " invalid";
+        
         var idwavemap = this.reader.getString(node, 'idwavemap');
-        if(!this.isAttrValid(idwavemap,null, 0,1)) return "Attribute idwavemap in primitive ID = " + id + " invalid";
+        let wavemap = this.findGraphElement(this.textures,idwavemap)
+        if(wavemap==null)  return "Attribute idtexture in primitive ID = " + id + " invalid";
 
         var parts = this.reader.getInteger(node, 'parts');
         if(!this.isAttrValid(parts,null, 1,1)) return "Attribute parts in primitive ID = " + id + " invalid";
@@ -1158,8 +1153,10 @@ class MySceneGraph {
         var texscale = this.reader.getFloat(node, 'texscale');
         if(!this.isAttrValid(texscale,null, 1,1)) return "Attribute texscale in primitive ID = " + id + " invalid";
 
-        this.primitives.push([id, new MyWater(this.scene, idtexture, idwavemap, parts, heightscale, texscale)]);
-        return null;
+        let waterObj = new MyWater(this.scene, texture, wavemap, parts, heightscale, texscale);
+        this.primitives.push([id, waterObj]);
+        this.scene.animatedObjects.push(waterObj);
+
     }
 
     /**
