@@ -176,6 +176,10 @@
              <triangle x1="1" y1="0" z1="0" x2="-1" y2="0" z2="0" x3="0" y3="0" z3="2"/>
         </primitive>
 
+        <primitive id="cil2">
+            <cylinder2 base="1" top="1" height="3" slices="50" stacks="60" />
+        </primitive>
+
         <primitive id="ss">
             <plane npartsU="1" npartsV="1" />
         </primitive>
@@ -214,7 +218,7 @@
 
 
             <children>
-                 <primitiveref id="s2"/>
+                 <primitiveref id="cil2"/>
                 <!--<componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>

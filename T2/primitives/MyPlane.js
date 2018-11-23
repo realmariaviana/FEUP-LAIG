@@ -4,10 +4,9 @@
  */
 class MyPlane extends CGFobject
 {
-	constructor(scene, id, nPartsU, nPartsV)
+	constructor(scene, nPartsU, nPartsV)
 	{
 		super(scene);
-		this.id = id;
 		this.nPartsU = nPartsU;
 		this.nPartsV = nPartsV;
 		this.controlPoints=[];
