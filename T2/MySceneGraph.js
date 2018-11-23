@@ -1112,20 +1112,13 @@ class MySceneGraph {
      * @param {*} id
      */
     parseTerrain(node, id){
-        let temp = 0;
         var idtexture = this.reader.getString(node, 'idtexture');
-        
-        for(let i = 0; i< this.textures.length;i++){
-            if(this.textures[i][0]==idtexture){
-                 temp = 1;
-                 break;
-            }     
-        }
+        let texture = this.findGraphElement(this.textures,idtexture)
+        if(texture==null)  return "Attribute idtexture in primitive ID = " + id + " invalid";
 
-        if(!temp)  return "Attribute idtexture in primitive ID = " + id + " invalid";
-
-        var idheightmap = this.reader.getFloat(node, 'idheightmap');
-        if(!this.isAttrValid(idheightmap,null, 1,1)) return "Attribute idheightmap in primitive ID = " + id + " invalid";
+        var idheightmap = this.reader.getString(node, 'idheightmap');
+        let heightmap = this.findGraphElement(this.textures,idheightmap);
+        if(heightmap==null)  return "Attribute idheightmap in primitive ID = " + id + " invalid";
 
         var parts = this.reader.getFloat(node, 'parts');
         if(!this.isAttrValid(parts,null, 1,1)) return "Attribute parts in primitive ID = " + id + " invalid";
@@ -1133,7 +1126,7 @@ class MySceneGraph {
         var heightscale = this.reader.getInteger(node, 'heightscale');
         if(!this.isAttrValid(heightscale,null, 1,1)) return "Attribute heightscale in primitive ID = " + id + " invalid";
 
-        this.primitives.push([id, new MyTerrain(this.scene, idtexture, idheightmap, parts, heightscale)]);
+        this.primitives.push([id, new MyTerrain(this.scene, texture, heightmap, parts, heightscale)]);
         return null; 
     }
 

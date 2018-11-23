@@ -81,6 +81,8 @@
         <texture id="marbletxt" file="scenes/images/marble.jpg"/>
         <texture id="tabletxt" file="scenes/images/table.jpg"/>
         <texture id="pinktxt" file="scenes/images/pink.jpg"/>
+        <texture id="terraintxt" file="scenes/images/terrain.jpg"/>
+        <texture id="heightmaptxt" file="scenes/images/terrain-height-map.jpg"/>
     </textures>
 
      <materials>
@@ -135,9 +137,15 @@
     </transformations>
 
     <animations>
-        <circular id = "oi" span = "10" center="0 0 0" radius="0" startang="0" rotang="360" />
+        <circular id = "oi" span = "2" center="0 0 0" radius="1" startang="0" rotang="360" />
         <linear id = "linear" span = "5">
             <controlpoint xx="0" yy="0" zz="0" />
+            <controlpoint xx="5" yy="0" zz="0" />
+
+        </linear> 
+
+        <linear id = "l" span = "5">
+           <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="5" yy="0" zz="0" />
             <controlpoint xx="5" yy="0" zz="5" />
             <controlpoint xx="0" yy="0" zz="5" />
@@ -180,15 +188,19 @@
             <cylinder2 base="1" top="1" height="3" slices="50" stacks="60" />
         </primitive>
 
-        <primitive id="ss">
+        <primitive id="plane">
             <plane npartsU="1" npartsV="1" />
         </primitive>
 
-        <primitive id="s1">
+        <primitive id="vehicle">
             <vehicle />
         </primitive>
 
-        <primitive id="s2">
+        <primitive id="terrain">
+            <terrain idtexture="terraintxt" idheightmap="heightmaptxt" parts="50" heightscale="2.0"/>
+        </primitive>
+
+        <primitive id="patch">
            <patch npartsU="50" npartsV="50" npointsU="4" npointsV="2">
                 <controlpoint xx="3" yy="0" zz="0" />
                 <controlpoint xx="3" yy="0" zz="3" />
@@ -218,7 +230,7 @@
 
 
             <children>
-                 <primitiveref id="cil2"/>
+                 <primitiveref id="terrain"/>
                 <!--<componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -239,6 +251,8 @@
                 <componentref id="door"/>-->
             </children>
 
+        <animations>
+        </animations>
            
 
          </component>

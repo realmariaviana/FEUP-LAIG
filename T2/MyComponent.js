@@ -19,6 +19,7 @@ class MyComponent
         this.changing = 0;
         this.animations = animations;
         this.setDefaultMaterial();
+        this.index = 0;
         
     };
 
@@ -85,9 +86,15 @@ class MyComponent
         }
     }
 
+
     update(timePassed){
-        for(let i = 0; i < this.animations.length; i++){
-            this.animations[i].update(timePassed);
+        if(this.animations.length<=0) return;
+        
+        if(!this.animations[this.index].animationDone) this.animations[this.index].update(timePassed);
+
+        if(this.animations[this.index].animationDone) {
+            if(this.index==this.animations.length-1) this.index = 0;
+            else this.index++;
         }
 
         for(let i = 0; i < this.childComponents.length; i++){
@@ -97,9 +104,8 @@ class MyComponent
     }
 
     apply(){
-        for(let i = 0; i < this.animations.length; i++){
-            this.animations[i].apply();
-        }
+        if(this.animations.length<=0) return;
+            this.animations[this.index].apply();
     }
 
     /**

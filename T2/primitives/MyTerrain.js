@@ -2,16 +2,31 @@
  * MyTerrain
  * @constructor
  */
-class MyTerrain extends CGFobject
+class MyTerrain extends MyPlane
 {
-	constructor(scene, idtexture, idheightmap, parts, heightscale)
+	constructor(scene, texture, heightmap, parts, heightscale)
 	{
-		super(scene);
+		super(scene, parts, parts);
 
-		this.idtexture = idtexture;
-		this.idheightmap = idheightmap;
 		this.parts = parts;
 		this.heightscale = heightscale;
-
+		this.terrain = new CGFshader(this.scene.gl,"../shaders/texture1.vert","../shaders/texture1.frag");
+		this.terrain.setUniformsValues({uSampler2:0});
+		this.terrain.setUniformsValues({uSampler2:1});
+		this.terrain.setUniformsValues({heightscale:heightscale});
+		this.terraintxt = texture;
+		this.heightmap = heightmap;
 	};
+
+	display(){
+		this.scene.setActiveShader(this.terrain);
+		this.terraintxt.bind(0);
+		this.heightmap.bind(1);
+		this.scene.scale(10,1,10);
+		super.display();
+		this.heightmap.unbind(1);
+		this.terraintxt.unbind(0);
+		this.scene.setActiveShader(this.scene.defaultShader);
+
+	}
 };

@@ -16,7 +16,6 @@ class MyCylinder2 extends CGFobject
 		this.degree1 = 3;
 		this.degree2 = 1;
 		this.initControlPoints();
-		console.log(this.degree1, this.degree2, this.controlPoints, this.npartsU, this.npartsV);
 		this.makeSurface(this.degree1, this.degree2, this.controlPoints, this.npartsU, this.npartsV);
 	};
 

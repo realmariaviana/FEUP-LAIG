@@ -45,6 +45,7 @@ class LinearAnimation extends Animation {
     }
 
 update(deltaTime){
+    
     this.timePassed += deltaTime ;
     this.percentage = this.timePassed/this.time;
     let parcialDist = this.percentage * this.totalDistance;
@@ -60,11 +61,9 @@ update(deltaTime){
                 }  
             }
             this.angle = this.getAngle(this.vectors[this.pointIndex].vec, [0,0,1]);
-          
             let ratio = (parcialDist-this.vectors[this.pointIndex].startDist)/(this.vectors[this.pointIndex].endDist-this.vectors[this.pointIndex].startDist);
             this.extraVect = [this.vectors[this.pointIndex].vec[0]*ratio,this.vectors[this.pointIndex].vec[1]*ratio,this.vectors[this.pointIndex].vec[2]*ratio];
             this.translateVec = [this.vectors[this.pointIndex].previousPoint[0]+this.extraVect[0], this.vectors[this.pointIndex].previousPoint[1]+this.extraVect[1],this.vectors[this.pointIndex].previousPoint[2]+this.extraVect[2]];
-
         }
 }
 
