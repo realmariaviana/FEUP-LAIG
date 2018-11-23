@@ -1,5 +1,5 @@
 /**
- * MyCylinder
+ * MySphere
  * @constructor
  */
 class MySphere extends CGFobject
