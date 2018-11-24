@@ -17,7 +17,7 @@ class MyWater extends MyPlane
 
 		this.water = new CGFshader(this.scene.gl,"../shaders/water.vert","../shaders/water.frag");
 		this.water.setUniformsValues({uSampler2:1});
-		this.water.setUniformsValues({heightscale: 0.5});
+		this.water.setUniformsValues({heightscale: 0.2});
 		this.water.setUniformsValues({time:this.time});
 	};
 
@@ -30,7 +30,6 @@ class MyWater extends MyPlane
 		this.scene.setActiveShader(this.water);
 		this.texture.bind(0);
 		this.wavemap.bind(1);
-		this.scene.scale(10,1,10);
 		super.display();
 		this.wavemap.unbind(1);
 		this.texture.unbind(0);

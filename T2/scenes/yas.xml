@@ -140,7 +140,7 @@
     </transformations>
 
     <animations>
-        <circular id = "oi" span = "2" center="0 0 0" radius="1" startang="0" rotang="360" />
+        <circular id = "oi" span = "5" center="0 0 0" radius="1" startang="0" rotang="360"/>
         <linear id = "linear" span = "5">
             <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="5" yy="0" zz="0" />
@@ -195,22 +195,18 @@
             <plane npartsU="1" npartsV="1" />
         </primitive>
 
-        <primitive id="vehicle">
-            <vehicle />
-        </primitive>
-
         <primitive id="terrain">
-            <terrain idtexture="terraintxt" idheightmap="heightmaptxt" parts="50" heightscale="2.0"/>
+            <terrain idtexture="terraintxt" idheightmap="heightmaptxt" parts="50" heightscale="1.0"/>
         </primitive>
 
-        <primitive id="patch">
+        <primitive id="topPatch">
            <patch npartsU="50" npartsV="50" npointsU="4" npointsV="2">
                 <controlpoint xx="3" yy="0" zz="0" />
                 <controlpoint xx="3" yy="0" zz="3" />
-                <controlpoint xx="3" yy="2" zz="0" />
-                <controlpoint xx="3" yy="2" zz="3" />
-                <controlpoint xx="0" yy="2" zz="0" />
-                <controlpoint xx="0" yy="2" zz="3" />
+                <controlpoint xx="3" yy="1" zz="0" />
+                <controlpoint xx="3" yy="1" zz="3" />
+                <controlpoint xx="0" yy="1" zz="0" />
+                <controlpoint xx="0" yy="1" zz="3" />
                 <controlpoint xx="0" yy="0" zz="0" />
                 <controlpoint xx="0" yy="0" zz="3" />
             </patch>
@@ -218,6 +214,10 @@
 
         <primitive id="water">
         <water idtexture="water" idwavemap="wavemap" parts="50" heightscale="2.0" texscale="1" />
+        </primitive>
+
+        <primitive id="vehicle">
+            <vehicle />
         </primitive>
 
 
@@ -228,17 +228,16 @@
             <transformation>
             </transformation>
 
-
             <materials>
                 <material id="standard"/>
             </materials>
         
              <texture id="none"/>
 
-
             <children>
-                 <primitiveref id="water"/>
-                <!--<componentref id="wall1"/>
+                <primitiveref id="vehicle"/>
+               <!--> <componentref id="shaders"/>
+                <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
                 <componentref id="wall4"/>
@@ -258,27 +257,64 @@
                 <componentref id="door"/>-->
             </children>
 
-        <animations>
-        </animations>
-           
+            <animations>
+            </animations>
 
-         </component>
+        </component>
 
-         <component id="temp">
-            <transformation>
+        <component id="shaders">
+        <transformation>
+            <translate x="0.2" y="0.5" z="0.5"/>
             </transformation>
 
-            <materials>
-                <material id="inherit"/>
+             <materials>
+                <material id="standard"/>
             </materials>
-
-            
-             <texture id="walltxt" length_s="1" length_t="1"/>
+        
+             <texture id="none"/>
 
             <children>
-                <primitiveref id="MyPlane"/>
+                <componentref id="water"/>
+                <componentref id="terrain"/>
             </children>
-         </component>   
+
+             <animations>
+            </animations>
+         </component> 
+
+         <component id="water">
+            <transformation>
+            <scale x="1.8" y="1" z="1.8"/>
+            <translate x="6" y="1" z="0.5"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="water"/>
+            </children>
+         </component> 
+
+        <component id="terrain">
+            <transformation>
+            <scale x="2" y="0.8" z="2"/>
+            <translate x="5.4" y="1" z="0.45"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="terrain"/>
+            </children>
+         </component>     
 
         <!-- Wall1 -->
          <component id="wall1">
@@ -716,6 +752,9 @@
                 <componentref id="seat3"/>
                 <componentref id="seat4"/>
             </children>
+
+            <animations>
+            </animations>
         </component>
 
         <component id="seat1">
@@ -1300,7 +1339,7 @@
         <!-- Table on corner -->
           <component id="littletable">
             <transformation>
-                <translate x="11" y="0" z="1"/>
+                <translate x="11" y="0" z="1.4"/>
             </transformation>
             <materials>
                 <material id="inherit"/>
@@ -1317,7 +1356,7 @@
         <component id="top">
             <transformation>
                 <translate x="0" y="1.4" z="0"/>
-                <scale x="0.7" y="0.03" z="0.7"/>
+                <scale x="1.4" y="0.05" z="1.4"/>
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
@@ -1358,20 +1397,6 @@
                 <primitiveref id="MyCylinder"/>
             </children>
         </component>
-
-        <component id="crystal">
-            <transformation>
-                <translate x="0" y="1.7" z="0"/>
-                 <scale x="0.25" y="0.25" z="0.25"/>
-            </transformation>
-            <materials>
-                <material id="light"/>
-            </materials>
-            <texture id="pinktxt" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id="MySphere"/>
-            </children>
-        </component >
 
         <!-- Lamp on the table -->
         <component id="desklamp">

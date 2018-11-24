@@ -8,6 +8,7 @@ class LinearAnimation extends Animation {
         this.vectors=[];
         this.initVectors();
         this.pointIndex=0;
+        this.translateVec=[];
     }
 
     initVectors(){

@@ -88,14 +88,18 @@ class MyComponent
 
 
     update(timePassed){
-        if(this.animations.length<=0) return;
-        
+        console.log(this.id,this.animations);
+
+        if(this.animations.length>0){;
+
         if(!this.animations[this.index].animationDone) this.animations[this.index].update(timePassed);
+        console.log(this.id,this.animations[this.index]);
 
         if(this.animations[this.index].animationDone) {
             if(this.index==this.animations.length-1) this.index = 0;
             else this.index++;
         }
+    }
 
         for(let i = 0; i < this.childComponents.length; i++){
             this.childComponents[i].update(timePassed);
@@ -105,6 +109,7 @@ class MyComponent
 
     apply(){
         if(this.animations.length<=0) return;
+
             this.animations[this.index].apply();
     }
 
