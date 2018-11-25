@@ -89,13 +89,15 @@ class MyComponent
 
     update(timePassed){
 
-        if(this.animations.length>0){;
+        if(this.animations.length>0){
 
-        if(!this.animations[this.index].animationDone) this.animations[this.index].update(timePassed);
+        if(!this.animations[this.index].animationDone) 
+            this.animations[this.index].update(timePassed);
 
         if(this.animations[this.index].animationDone) {
             if(this.index==this.animations.length-1) this.index = 0;
             else this.index++;
+            this.animations[this.index].update(timePassed);
         }
     }
 

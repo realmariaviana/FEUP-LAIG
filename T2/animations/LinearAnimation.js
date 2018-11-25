@@ -52,17 +52,23 @@ update(deltaTime){
     this.percentage = this.timePassed/this.time;
     let parcialDist = this.percentage * this.totalDistance;
 
-    if(parcialDist>=this.totalDistance) this.animationDone = true;
+    if(parcialDist>=this.totalDistance){ 
+        this.animationDone = true;
+    }
 
         if(! this.animationDone){
+            //console.log(this.translateVec);
 
             for(let i = 0; i<this.vectors.length;i++){
                 if(parcialDist >= this.vectors[i].startDist && parcialDist <= this.vectors[i].endDist){
                     this.pointIndex = i;
                     break; 
-                }  
+                } 
+                 
             }
-            this.angle = this.getAngle(this.vectors[this.pointIndex].vec, [0,0,1]);
+    
+                this.angle = this.getAngle(this.vectors[this.pointIndex].vec, [0,0,1]);
+
             let ratio = (parcialDist-this.vectors[this.pointIndex].startDist)/(this.vectors[this.pointIndex].endDist-this.vectors[this.pointIndex].startDist);
             this.extraVect = [this.vectors[this.pointIndex].vec[0]*ratio,this.vectors[this.pointIndex].vec[1]*ratio,this.vectors[this.pointIndex].vec[2]*ratio];
             this.translateVec = [this.vectors[this.pointIndex].previousPoint[0]+this.extraVect[0], this.vectors[this.pointIndex].previousPoint[1]+this.extraVect[1],this.vectors[this.pointIndex].previousPoint[2]+this.extraVect[2]];
@@ -72,7 +78,11 @@ update(deltaTime){
 apply(){
     if(!this.animationDone){
         this.scene.translate( this.translateVec[0],   this.translateVec[1], this.translateVec[2]);
-        this.scene.rotate(this.angle,0,1,0);
+        if(!(this.vectors[this.pointIndex].vec[0]==0 && this.vectors[this.pointIndex].vec[2]==0))
+        { 
+            console.log("rotating",this.translateVec);
+            this.scene.rotate(this.angle,0,1,0);
+        }else console.log("not rotating");
     }
 }
 }
