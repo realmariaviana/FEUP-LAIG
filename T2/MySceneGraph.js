@@ -757,6 +757,7 @@ class MySceneGraph {
             if(span == null){
                 this.onXMLMinorError("span value missing for ID = " + aniID);
             }
+
             
             if(nodeNames[i] == "circular")
                 this.parseCirularAnimation(children[i], aniID, span);

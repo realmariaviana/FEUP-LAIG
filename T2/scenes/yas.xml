@@ -144,6 +144,8 @@
 
         <circular id = "orbit" span = "3" center="0 4 0" radius="4" startang="0" rotang="360"/>
 
+        <circular id = "tabbleAnimation" span = "30" center="0 0 0" radius="0" startang="0" rotang="360" loop="1"/>
+
         <linear id = "toRadius" span = "3">
             <controlpoint xx="0" yy="4" zz="0" />  
             <controlpoint xx="0" yy="4" zz="4" />  
@@ -246,7 +248,6 @@
 
             <children>
                 <componentref id="vehicle"/>
-                <componentref id="shaders"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -301,7 +302,7 @@
 
         <component id="shaders">
         <transformation>
-            <translate x="0.2" y="0.5" z="0.5"/>
+            <translate x="0" y="0" z="0"/>
             </transformation>
 
              <materials>
@@ -322,7 +323,7 @@
          <component id="water">
             <transformation>
             <scale x="1.8" y="1" z="1.8"/>
-            <translate x="5.8" y="1" z="0.8"/>
+            <translate x="0" y="1.6" z="0"/>
             </transformation>
 
              <materials>
@@ -339,7 +340,7 @@
         <component id="terrain">
             <transformation>
             <scale x="2.8" y="0.8" z="2.8"/>
-            <translate x="3.68" y="1" z="0.6"/>
+            <translate x="0" y="1.8" z="0"/>
             </transformation>
 
              <materials>
@@ -1386,8 +1387,12 @@
                 <componentref id="top"/>
                 <componentref id="baset"/>
                 <componentref id="middle"/>
-                <componentref id="crystal"/>
+                 <componentref id="shaders"/>
             </children>
+
+            <animations>
+                <animationred id="tabbleAnimation"/>
+            </animations>    
         </component>
 
         <component id="top">

@@ -18,6 +18,7 @@ class MyWater extends MyPlane
 		this.water = new CGFshader(this.scene.gl,"../shaders/water.vert","../shaders/water.frag");
 		this.water.setUniformsValues({uSampler2:1});
 		this.water.setUniformsValues({heightscale: heightscale});
+		this.water.setUniformsValues({texscale: texscale});
 		this.water.setUniformsValues({time:this.time});
 	};
 
