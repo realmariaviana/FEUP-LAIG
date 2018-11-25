@@ -1148,7 +1148,7 @@ class MySceneGraph {
         if(!this.isAttrValid(parts,null, 1,1)) return "Attribute parts in primitive ID = " + id + " invalid";
 
         var heightscale = this.reader.getFloat(node, 'heightscale');
-        if(!this.isAttrValid(heightscale,null, 1,1)) return "Attribute heightscale in primitive ID = " + id + " invalid";
+        if(!this.isAttrValid(heightscale,null,1,0)) return "Attribute heightscale in primitive ID = " + id + " invalid";
 
         var texscale = this.reader.getFloat(node, 'texscale');
         if(!this.isAttrValid(texscale,null, 1,1)) return "Attribute texscale in primitive ID = " + id + " invalid";
