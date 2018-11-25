@@ -88,12 +88,10 @@ class MyComponent
 
 
     update(timePassed){
-        console.log(this.id,this.animations);
 
         if(this.animations.length>0){;
 
         if(!this.animations[this.index].animationDone) this.animations[this.index].update(timePassed);
-        console.log(this.id,this.animations[this.index]);
 
         if(this.animations[this.index].animationDone) {
             if(this.index==this.animations.length-1) this.index = 0;

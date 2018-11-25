@@ -5,7 +5,7 @@
     <views default="view1-perspective" >
          <!-- perspective view 1 -->
         <perspective id="view1-perspective" near="0.1" far="500" angle="20">
-            <from x="25" y="25" z="25"/>
+            <from x="30" y="30" z="30"/>
             <to x="0" y="-3" z="0"/>
         </perspective>
 
@@ -147,11 +147,10 @@
 
         </linear> 
 
-        <linear id = "l" span = "5">
-           <controlpoint xx="0" yy="0" zz="0" />
-            <controlpoint xx="5" yy="0" zz="0" />
-            <controlpoint xx="5" yy="0" zz="5" />
-            <controlpoint xx="0" yy="0" zz="5" />
+        <linear id = "droneUp" span = "5">
+            <controlpoint xx="6.5" yy="0" zz="6.5" />
+            <controlpoint xx="6.5" yy="4" zz="6.5" />
+
 
         </linear>    
     </animations>
@@ -235,8 +234,8 @@
              <texture id="none"/>
 
             <children>
-                <primitiveref id="vehicle"/>
-               <!--> <componentref id="shaders"/>
+                <componentref id="vehicle"/>
+                <componentref id="shaders"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -254,13 +253,32 @@
                 <componentref id="windowborders"/>
                 <componentref id="littletable"/>
                 <componentref id="desklamp"/>
-                <componentref id="door"/>-->
+                <componentref id="door"/>
             </children>
 
             <animations>
             </animations>
 
         </component>
+
+        <component id="vehicle">
+        <transformation>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="vehicle"/>
+            </children>
+
+             <animations>
+                        <animationred id="droneUp"/>
+            </animations>
+         </component> 
 
         <component id="shaders">
         <transformation>

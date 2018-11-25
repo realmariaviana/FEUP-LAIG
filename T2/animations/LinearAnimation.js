@@ -15,7 +15,7 @@ class LinearAnimation extends Animation {
         let startDist = 0;
         let endDist = 0;
         let vec, p1, p2;
-        let currP = [0,0,0];
+        let currP = [this.listRoot[0][0],this.listRoot[0][1],this.listRoot[0][2]];
 
         for(let i = 0; i<this.listRoot.length-1;i++){
             
