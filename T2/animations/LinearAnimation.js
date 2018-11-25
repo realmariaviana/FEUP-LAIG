@@ -9,6 +9,7 @@ class LinearAnimation extends Animation {
         this.initVectors();
         this.pointIndex=0;
         this.translateVec=[];
+        this.angle = Math.PI/2;
     }
 
     initVectors(){

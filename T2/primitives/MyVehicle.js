@@ -26,8 +26,7 @@ class MyVehicle extends CGFobject
 
 	display(){
 		this.scene.pushMatrix();
-		this.scene.translate(6.5,0.8,6.5);
-		this.scene.scale(0.6,0.6,0.6);
+		
 
 		this.scene.pushMatrix();
 		this.whiteAppearance.apply();

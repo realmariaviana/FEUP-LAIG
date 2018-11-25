@@ -9,7 +9,7 @@ class CircularAnimation extends Animation{
         this.rotAng = rotAng;
         this.speed = rotAng/this.time;
         this.timePasesed = 0;
-        this.currentAngle = startAng;
+        this.currentAngle =0;
         this.animationDone = false;
     }
 

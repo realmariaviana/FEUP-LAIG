@@ -5,8 +5,8 @@
     <views default="view1-perspective" >
          <!-- perspective view 1 -->
         <perspective id="view1-perspective" near="0.1" far="500" angle="20">
-            <from x="30" y="30" z="30"/>
-            <to x="0" y="-3" z="0"/>
+        <from x="25" y="25" z="25"/>            
+        <to x="0" y="-3" z="0"/>
         </perspective>
 
         <!-- perspective view 2 -->
@@ -140,19 +140,30 @@
     </transformations>
 
     <animations>
-        <circular id = "oi" span = "5" center="0 0 0" radius="1" startang="0" rotang="360"/>
-        <linear id = "linear" span = "5">
+        <circular id = "onItself" span = "3" center="0 4 0" radius="0" startang="0" rotang="360"/>
+
+        <circular id = "orbit" span = "3" center="0 4 0" radius="4" startang="0" rotang="360"/>
+
+        <linear id = "toRadius" span = "3">
+            <controlpoint xx="0" yy="4" zz="0" />  
+            <controlpoint xx="0" yy="4" zz="4" />  
+        </linear>  
+
+        <linear id = "fromRadius" span = "3">
+            <controlpoint xx="0" yy="4" zz="4" />  
+            <controlpoint xx="0" yy="4" zz="0" />  
+        </linear>
+
+        <linear id = "droneUp" span = "3">
             <controlpoint xx="0" yy="0" zz="0" />
-            <controlpoint xx="5" yy="0" zz="0" />
-
-        </linear> 
-
-        <linear id = "droneUp" span = "5">
-            <controlpoint xx="6.5" yy="0" zz="6.5" />
-            <controlpoint xx="6.5" yy="4" zz="6.5" />
-
-
+            <controlpoint xx="0" yy="4" zz="0" />    
         </linear>    
+
+        <linear id = "droneDown" span = "3">
+            <controlpoint xx="0" yy="4" zz="0" /> 
+            <controlpoint xx="0" yy="0" zz="0" />   
+        </linear>   
+
     </animations>
 
      <primitives>
@@ -262,7 +273,9 @@
         </component>
 
         <component id="vehicle">
-        <transformation>
+            <transformation>
+                <scale x="0.6" y="0.6" z="0.6"/>
+                <translate x="11" y="2.5" z="11"/>
             </transformation>
 
              <materials>
@@ -276,7 +289,13 @@
             </children>
 
              <animations>
-                        <animationred id="droneUp"/>
+                <animationred id="droneUp"/>
+                <animationred id="onItself"/>
+                <animationred id="toRadius"/>
+                <animationred id="orbit"/>
+                <animationred id="fromRadius"/>
+                <animationred id="droneDown"/>
+
             </animations>
          </component> 
 
