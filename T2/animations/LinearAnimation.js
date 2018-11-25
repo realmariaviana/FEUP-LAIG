@@ -1,5 +1,11 @@
 class LinearAnimation extends Animation {
-
+    /**
+     * Linear animation construction
+     * @param scene Scene to apply the animation to.
+     * @param id Animation identification string.
+     * @param time Animation time span.
+     * @param listRoot Control point list root.
+     */
     constructor(scene, id, time, listRoot) {
         super(scene, id, time);
         this.listRoot = listRoot;
@@ -12,6 +18,9 @@ class LinearAnimation extends Animation {
         this.angle = Math.PI/2;
     }
 
+    /**
+     * Initializes vectors.
+     */
     initVectors(){
         let startDist = 0;
         let endDist = 0;
@@ -45,16 +54,19 @@ class LinearAnimation extends Animation {
           return Math.acos(cosine);
         }
     }
-
-update(deltaTime){
+    /**
+     * Updates the current rotation angle of the object.
+     * @param deltaTime Time delta since the last update.
+     */
+    update(deltaTime){
     
-    this.timePassed += deltaTime ;
-    this.percentage = this.timePassed/this.time;
-    let parcialDist = this.percentage * this.totalDistance;
+        this.timePassed += deltaTime ;
+        this.percentage = this.timePassed/this.time;
+        let parcialDist = this.percentage * this.totalDistance;
 
-    if(parcialDist>=this.totalDistance){ 
-        this.animationDone = true;
-    }
+        if(parcialDist>=this.totalDistance){ 
+            this.animationDone = true;
+        }
 
         if(! this.animationDone){
 
@@ -73,14 +85,16 @@ update(deltaTime){
             this.translateVec = [this.vectors[this.pointIndex].previousPoint[0]+this.extraVect[0], this.vectors[this.pointIndex].previousPoint[1]+this.extraVect[1],this.vectors[this.pointIndex].previousPoint[2]+this.extraVect[2]];
         }
 }
-
-apply(){
-    if(!this.animationDone){
-        this.scene.translate( this.translateVec[0],   this.translateVec[1], this.translateVec[2]);
-        if(!(this.vectors[this.pointIndex].vec[0]==0 && this.vectors[this.pointIndex].vec[2]==0))
-        { 
-            this.scene.rotate(this.angle,0,1,0);
+    /**
+     * Applies the transformations according to the current state of the animation.
+     */
+    apply(){
+        if(!this.animationDone){
+            this.scene.translate( this.translateVec[0],   this.translateVec[1], this.translateVec[2]);
+            if(!(this.vectors[this.pointIndex].vec[0]==0 && this.vectors[this.pointIndex].vec[2]==0))
+            { 
+             this.scene.rotate(this.angle,0,1,0);
+            }
         }
     }
-}
 }

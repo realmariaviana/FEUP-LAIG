@@ -3,7 +3,16 @@
  * @constructor
  */
 class MyPatch extends CGFobject
-{
+{	
+	/**
+	 * MyPatch class constructor
+	 * @param scene Scene
+	 * @param npartsU Parts in the u direction
+	 * @param npartsV Parts in the v direction
+	 * @param nPointsU Control Points in the u direction
+	 * @param nPointsV Control Points in the v direction
+	 * @param controlPoints All control points for the patch
+	 */
 	constructor(scene,nPartsU,nPartsV, nPointsU, nPointsV, controlPoints)
 	{
 		super(scene);
@@ -17,6 +26,12 @@ class MyPatch extends CGFobject
 
 	};
 
+	/**
+	*Initializes control points
+	* @param controlPoints
+	* @param nPointsU Control Points in the u direction
+	* @param nPointsV Control Points in the v direction
+	*/
 	initControlPoints(controlPoints,nPointsU,nPointsV){
 		for(let i = 0; i<controlPoints.length;i++){
 		controlPoints[i].push(1);
@@ -37,6 +52,14 @@ class MyPatch extends CGFobject
 	
 	}
 
+	/**
+	* Creates surfaces 
+	* @param degree1 nPointsU-1
+	* @param degree2 nPointsV-1
+	* @param controlvertexes Control Points
+	* @param npartsU Parts in the u direction
+	* @param npartsV Parts in the v direction
+	*/
 	makeSurface(degree1, degree2, controlvertexes, npartsU, npartsV) {
 			
 		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
@@ -44,6 +67,9 @@ class MyPatch extends CGFobject
 		this.nurbObj = new CGFnurbsObject(this.scene, npartsU, npartsV, nurbsSurface ); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
 	}
 
+	/**
+     * Displays surface.
+     */
 	display(){
 		this.nurbObj.display();
 	};

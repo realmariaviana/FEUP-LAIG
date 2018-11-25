@@ -4,6 +4,14 @@
  */
 class MyTerrain extends MyPlane
 {
+	/**
+	 * MyTerrain class constructor
+	 * @param scene Scene
+	 * @param texture 
+	 * @param heightmap
+	 * @param parts
+	 * @param heightscale
+	 */
 	constructor(scene, texture, heightmap, parts, heightscale)
 	{
 		super(scene, parts, parts);
@@ -17,6 +25,9 @@ class MyTerrain extends MyPlane
 		this.heightmap = heightmap;
 	};
 
+	/**
+     * Displays terrain.
+     */
 	display(){
 		this.scene.setActiveShader(this.terrain);
 		this.terraintxt.bind(0);

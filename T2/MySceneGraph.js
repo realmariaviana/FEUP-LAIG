@@ -734,12 +734,11 @@ class MySceneGraph {
         
     }
 
-    //FALTA CONTROLPOINT
     /**
-     * Parses the <ANIMATIONS> node.
-     * @param {animations block element} animationsNode 
-     */
-     parseAnimations(animationsNode){
+    * Parses the <ANIMATIONS> node.
+    * @param {animations block element} animationsNode 
+    */
+    parseAnimations(animationsNode){
          var children = animationsNode.children;
          if(children) var nodeNames = this.getChildrensNames(children);
         var ids = [];
@@ -773,8 +772,14 @@ class MySceneGraph {
 
 
         console.log("Parsed Animations");
-     }
+    }
 
+    /**
+     * Parses Linear Animation
+     * @param {*} node
+     * @param {*} id
+     * @param {*} span
+     */
     parseLinearAnimation(node, id, span){
         let children = node.children;
         let coords = [];
@@ -788,9 +793,14 @@ class MySceneGraph {
         }
 
         this.animations.push([id,new LinearAnimation(this.scene,id,span,coords)]);
-     }
+    }
 
-
+    /**
+     * Parses Circular Animation
+     * @param {*} node
+     * @param {*} id
+     * @param {*} span
+     */
     parseCirularAnimation(node,id,span){
 
         var center = this.reader.getVector3(node, 'center');
@@ -981,8 +991,6 @@ class MySceneGraph {
 
         this.primitives.push([id,new MyCylinder(this.scene, base, top, height, slices, stacks)]);
         return null;
-
-
     }
 
      /**
@@ -1044,7 +1052,6 @@ class MySceneGraph {
         return null;
     }
 
-    //NOT COMPLETE
     /**
      * Parses Patch
      * @param {*} node

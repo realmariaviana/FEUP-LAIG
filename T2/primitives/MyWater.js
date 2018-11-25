@@ -3,7 +3,16 @@
  * @constructor
  */
 class MyWater extends MyPlane
-{
+{	
+	/**
+	 * MyWater class constructor
+	 * @param scene Scene
+	 * @param texture 
+	 * @param wavemap
+	 * @param parts
+	 * @param heightscale 
+	 * @param texscale 
+	 */
 	constructor(scene, texture, wavemap, parts, heightscale, texscale)
 	{
 		super(scene, parts, parts);
@@ -22,11 +31,17 @@ class MyWater extends MyPlane
 		this.water.setUniformsValues({time:this.time});
 	};
 
+	/**
+     * @param deltaTime Time delta since the last update.
+     */
 	update(deltaTime){
 		this.time+=deltaTime;
 		this.water.setUniformsValues({time:this.time});
 	}
 
+	/**
+     * Displays water.
+     */
 	display(){
 		this.scene.setActiveShader(this.water);
 		this.texture.bind(0);

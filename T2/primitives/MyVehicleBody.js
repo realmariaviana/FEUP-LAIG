@@ -3,13 +3,19 @@
  * @constructor
  */
 class MyVehicleBody extends CGFobject
-{
+{	/**
+	* Creates the vehicle body.
+	* @param scene Scene to draw the Vehicle on.
+	*/
 	constructor(scene)
 	{
 		super(scene);
 		this.initElements();
 	};
 
+	/**
+	/Initializes vehicle parts
+	*/
 	initElements(){
 		let topPatchControlPoints = 
 		[[-2,0,2],[-1,0,0],
@@ -21,6 +27,9 @@ class MyVehicleBody extends CGFobject
 		this.topPatch = new MyPatch(this.scene,30,30, 3, 3, topPatchControlPoints);
 	};
 
+	 /**
+     * Displays the vehicle.
+     */
 	display(){
 
 		this.scene.pushMatrix();

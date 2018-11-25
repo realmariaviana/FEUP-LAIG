@@ -3,13 +3,20 @@
  * @constructor
  */
 class MyVehicle extends CGFobject
-{
+{	
+	/**
+	* Creates the vehicle body, that is represented as a drone.
+	* @param scene Scene to draw the Vehicle on.
+	*/
 	constructor(scene)
 	{
 		super(scene);
 		this.initElements();
 	};
 
+	/**
+	/Initializes vehicle parts
+	*/
 	initElements(){
 		this.body = new MyVehicleBody(this.scene);
 		this.leg = new MyVehicleLeg(this.scene);
@@ -24,10 +31,12 @@ class MyVehicle extends CGFobject
 		this.metalAppearance.loadTexture("../scenes/images/metal.jpg");
 	}
 
+	/**
+     * Displays the vehicle.
+     */
 	display(){
 		this.scene.pushMatrix();
 		
-
 		this.scene.pushMatrix();
 		this.whiteAppearance.apply();
 		this.body.display();

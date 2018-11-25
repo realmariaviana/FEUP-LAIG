@@ -4,6 +4,15 @@
  */
 class MyCylinder2 extends CGFobject
 {
+	/**
+	 * MyPatch class constructor
+	 * @param scene Scene
+	 * @param base
+	 * @param top
+	 * @param height
+	 * @param slices
+	 * @param stacks
+	 */
 	constructor(scene, base, top, height, slices, stacks)
 	{
 		super(scene);
@@ -19,7 +28,9 @@ class MyCylinder2 extends CGFobject
 		this.makeSurface(this.degree1, this.degree2, this.controlPoints, this.npartsU, this.npartsV);
 	};
 
-
+	/**
+	*Initializes control points
+	*/
 	initControlPoints(){
 		this.controlPoints=[
 			[
@@ -42,6 +53,14 @@ class MyCylinder2 extends CGFobject
 
 	}
 
+	/**
+	* Creates surfaces 
+	* @param degree1
+	* @param degree2
+	* @param controlvertexes Control Points
+	* @param npartsU Parts in the u direction
+	* @param npartsV Parts in the v direction
+	*/
 	makeSurface(degree1, degree2, controlvertexes, npartsU, npartsV) {
 			
 		var nurbsSurface = new CGFnurbsSurface(degree1, degree2, controlvertexes);
@@ -49,6 +68,9 @@ class MyCylinder2 extends CGFobject
 		this.nurbObj = new CGFnurbsObject(this.scene, npartsU, npartsV, nurbsSurface ); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
 	}
 
+	/**
+     * Displays surface.
+     */
 	display(){
 		this.nurbObj.display();
 		this.scene.pushMatrix();
