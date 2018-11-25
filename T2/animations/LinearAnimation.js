@@ -57,7 +57,6 @@ update(deltaTime){
     }
 
         if(! this.animationDone){
-            //console.log(this.translateVec);
 
             for(let i = 0; i<this.vectors.length;i++){
                 if(parcialDist >= this.vectors[i].startDist && parcialDist <= this.vectors[i].endDist){
@@ -80,9 +79,8 @@ apply(){
         this.scene.translate( this.translateVec[0],   this.translateVec[1], this.translateVec[2]);
         if(!(this.vectors[this.pointIndex].vec[0]==0 && this.vectors[this.pointIndex].vec[2]==0))
         { 
-            console.log("rotating",this.translateVec);
             this.scene.rotate(this.angle,0,1,0);
-        }else console.log("not rotating");
+        }
     }
 }
 }

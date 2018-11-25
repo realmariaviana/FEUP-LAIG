@@ -144,7 +144,7 @@
 
         <circular id = "orbit" span = "3" center="0 4 0" radius="4" startang="0" rotang="360"/>
 
-        <circular id = "tabbleAnimation" span = "30" center="0 0 0" radius="0" startang="0" rotang="360" loop="1"/>
+        <circular id = "tabbleAnimation" span = "40" center="0 0 0" radius="0" startang="0" rotang="360" loop="1"/>
 
         <linear id = "toRadius" span = "3">
             <controlpoint xx="0" yy="4" zz="0" />  

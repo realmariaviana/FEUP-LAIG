@@ -813,7 +813,9 @@ class MySceneGraph {
             this.onXMLMinorError("rotang value missing for ID = " + aniID);
         }
 
-        this.animations.push([id,new CircularAnimation(this.scene,id,span,center,radius,startang,rotang)]);
+        var loop = this.reader.getFloat(node, 'loop',false);
+
+        this.animations.push([id,new CircularAnimation(this.scene,id,span,center,radius,startang,rotang,loop)]);
      }
 
     /**

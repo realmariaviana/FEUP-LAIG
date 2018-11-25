@@ -1,6 +1,6 @@
 class CircularAnimation extends Animation{
 
-    constructor(scene, id, time, center, radius, startAng, rotAng) {
+    constructor(scene, id, time, center, radius, startAng, rotAng,loop) {
 
         super(scene, id, time);
         this.center = center;
@@ -11,6 +11,7 @@ class CircularAnimation extends Animation{
         this.timePasesed = 0;
         this.currentAngle =0;
         this.animationDone = false;
+        this.loop=loop;
     }
 
     update(deltaTime) {
@@ -21,7 +22,7 @@ class CircularAnimation extends Animation{
             this.currentAngle += partialRotation;
 
             if(this.timePasesed>=this.time) this.animationDone = true;
-        }
+        } else if(this.loop!=null) this.resetAnimation();
     }
 
     apply(){
@@ -30,6 +31,12 @@ class CircularAnimation extends Animation{
             this.scene.translate(this.radius * Math.sin(this.currentAngle*Math.PI / 180), 0, this.radius * Math.cos(this.currentAngle*Math.PI / 180));
             this.scene.rotate(Math.PI / 180 *this.currentAngle,0,1,0);
         }
+    }
+
+    resetAnimation(){
+        this.timePasesed = 0;
+        this.currentAngle =0;
+        this.animationDone = false;
     }
 
 }
