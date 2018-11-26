@@ -17,8 +17,8 @@
 
         <!-- perspective view 3 -->
          <perspective id="view3-perspective" near="0.1" far="500" angle="30">
-            <from x="25" y="25" z="0"/>
-            <to x="6" y="3" z="5"/>
+            <from x="20" y="12" z="0"/>
+            <to x="10" y="3" z="3"/>
         </perspective>
 
         <!-- perspective view 4 -->
@@ -140,7 +140,7 @@
     </transformations>
 
     <animations>
-        <circular id = "onItself" span = "3" center="0 4 0" radius="0" startang="0" rotang="360"/>
+        <circular id = "onItself" span = "3" center="0 0 0" radius="0" startang="0" rotang="360"/>
 
         <circular id = "orbit" span = "3" center="0 4 0" radius="4" startang="0" rotang="360"/>
 
@@ -273,10 +273,8 @@
 
         </component>
 
-        <component id="vehicle">
+        <component id="vehicleAux">
             <transformation>
-                <scale x="0.6" y="0.6" z="0.6"/>
-                <translate x="11" y="2.5" z="11"/>
             </transformation>
 
              <materials>
@@ -290,12 +288,32 @@
             </children>
 
              <animations>
-                <animationred id="droneUp"/>
                 <animationred id="onItself"/>
+            </animations>
+         </component> 
+
+        <component id="vehicle">
+            <transformation>
+                <scale x="0.6" y="0.6" z="0.6"/>
+                <translate x="11" y="2.5" z="11"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <componentref id="vehicleAux"/>
+            </children>
+
+             <animations>
+                <animationred id="droneUp"/>
                 <animationred id="toRadius"/>
                 <animationred id="orbit"/>
                 <animationred id="fromRadius"/>
-                <animationred id="droneDown"/>
+                <animationred id="droneDown"/>-->
 
             </animations>
          </component> 
@@ -323,7 +341,7 @@
          <component id="water">
             <transformation>
             <scale x="1.8" y="1" z="1.8"/>
-            <translate x="0" y="1.6" z="0"/>
+            <translate x="0" y="1.75" z="0"/>
             </transformation>
 
              <materials>
