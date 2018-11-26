@@ -902,6 +902,9 @@ class MySceneGraph {
             case 'water':
             return this.parseWater(node, id);
 
+            case 'helix':
+            return this.parseHelix(node, id);
+
         }
     }
 
@@ -1088,6 +1091,11 @@ class MySceneGraph {
      */
     parseVehicle(node, id){
         this.primitives.push([id, new MyVehicle(this.scene)]);
+        return null;
+    }
+
+    parseHelix(node, id){
+        this.primitives.push([id, new MyVehicleHelix(this.scene)]);
         return null;
     }
 

@@ -21,19 +21,39 @@ class MyVehicleHelix extends CGFobject
 	/Initializes vehicle parts
 	*/
 	initElements(){
-        this.helix =  new MySphere(this.scene,1,60,60);
+	this.helix =  new MySphere(this.scene,1,60,60);
+	this.sphere = new MySphere(this.scene,1,60,60);
+
 	}
 
 	/**
      	* Displays the vehicle.
      	*/
 	display(){
-        this.scene.pushMatrix();
+	
+	this.scene.pushMatrix();
+	this.scene.translate(0.2,0.1,0);
         this.scene.scale(0.2,0.03,0.1);
         this.scene.rotate(-Math.PI/2,1,0,0);
         this.whiteAppearance.apply();
         this.helix.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+        this.scene.translate(-0.2,0.1,0);
+	this.scene.scale(0.2,0.03,0.1);
+	this.scene.rotate(-Math.PI,0,1,0);
+        this.scene.rotate(-Math.PI/2,1,0,0);
+        this.whiteAppearance.apply();
+        this.helix.display();
+	this.scene.popMatrix();
+	
+	this.scene.pushMatrix();
+        this.scene.translate(0,0.15,0);
+        this.scene.scale(0.05,0.05,0.05);
+        this.sphere.display();
         this.scene.popMatrix();
+        
 
 	};
 
