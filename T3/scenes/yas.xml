@@ -238,6 +238,10 @@
             <vehicle />
         </primitive>
 
+        <primitive id="game">
+            <game />
+        </primitive>
+
 
     </primitives>
 
@@ -253,7 +257,8 @@
              <texture id="none"/>
 
             <children>
-                <componentref id="vehicle"/>
+            <primitiveref id="game"/>
+                <!--<componentref id="vehicle"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -271,7 +276,7 @@
                 <componentref id="windowborders"/>
                 <componentref id="littletable"/>
                 <componentref id="desklamp"/>
-                <componentref id="door"/>
+                <componentref id="door"/>-->
             </children>
 
             <animations>

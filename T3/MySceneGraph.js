@@ -905,7 +905,14 @@ class MySceneGraph {
             case 'helix':
             return this.parseHelix(node, id);
 
+            case 'game':
+            return this.parseGame(id);
         }
+    }
+
+
+    parseGame(id){
+        this.primitives.push([id,new MyGame(this.scene)]);
     }
 
     /**
