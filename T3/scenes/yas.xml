@@ -17,8 +17,8 @@
 
         <!-- perspective view 3 -->
          <perspective id="view3-perspective" near="0.1" far="500" angle="30">
-            <from x="25" y="25" z="0"/>
-            <to x="6" y="3" z="5"/>
+            <from x="20" y="12" z="0"/>
+            <to x="10" y="3" z="3"/>
         </perspective>
 
         <!-- perspective view 4 -->
@@ -140,11 +140,13 @@
     </transformations>
 
     <animations>
-        <circular id = "onItself" span = "3" center="0 4 0" radius="0" startang="0" rotang="360"/>
+        <circular id = "onItself" span = "5" center="0 0 0" radius="0" startang="0" rotang="360"/>
 
-        <circular id = "orbit" span = "3" center="0 4 0" radius="4" startang="0" rotang="360"/>
+        <circular id = "helixesAnim" span = "2" center="0 0 0" radius="0" startang="0" rotang="360" loop="1"/>
 
-        <circular id = "tabbleAnimation" span = "40" center="0 0 0" radius="0" startang="0" rotang="360" loop="1"/>
+        <circular id = "orbit" span = "5" center="0 4 0" radius="4" startang="0" rotang="360"/>
+
+        <circular id = "tabbleAnimation" span = "120" center="0 0 0" radius="0" startang="0" rotang="360" loop="1"/>
 
         <linear id = "toRadius" span = "3">
             <controlpoint xx="0" yy="4" zz="0" />  
@@ -156,12 +158,12 @@
             <controlpoint xx="0" yy="4" zz="0" />  
         </linear>
 
-        <linear id = "droneUp" span = "3">
+        <linear id = "droneUp" span = "5">
             <controlpoint xx="0" yy="0" zz="0" />
             <controlpoint xx="0" yy="4" zz="0" />    
         </linear>    
 
-        <linear id = "droneDown" span = "3">
+        <linear id = "droneDown" span = "5">
             <controlpoint xx="0" yy="4" zz="0" /> 
             <controlpoint xx="0" yy="0" zz="0" />   
         </linear>   
@@ -228,6 +230,10 @@
         <water idtexture="water" idwavemap="wavemap" parts="50" heightscale="0.2" texscale="1" />
         </primitive>
 
+        <primitive id="helix">
+            <helix />
+        </primitive>
+
         <primitive id="vehicle">
             <vehicle />
         </primitive>
@@ -273,6 +279,129 @@
 
         </component>
 
+        <component id="helix1">
+            <transformation>
+                <translate x="1.8" y="0" z="1.8"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="helix"/>
+            </children>
+
+             <animations>
+                <animationred id="helixesAnim"/>
+            </animations>
+         </component>
+
+
+         <component id="helix2">
+            <transformation>
+                <translate x="-1.8" y="0" z="1.8"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="helix"/>
+            </children>
+
+             <animations>
+                <animationred id="helixesAnim"/>
+            </animations>
+         </component>
+
+
+         <component id="helix3">
+            <transformation>
+                <translate x="-1.8" y="0" z="-1.8"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="helix"/>
+            </children>
+
+             <animations>
+                <animationred id="helixesAnim"/>
+            </animations>
+         </component>
+
+         <component id="helix4">
+            <transformation>
+                <translate x="1.8" y="0" z="-1.8"/>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="helix"/>
+            </children>
+
+             <animations>
+                <animationred id="helixesAnim"/>
+            </animations>
+         </component>
+
+        <component id="helixes">
+            <transformation>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <componentref id="helix1"/>
+                <componentref id="helix2"/>
+                <componentref id="helix3"/>
+                <componentref id="helix4"/>
+            </children>
+
+             <animations>
+            </animations>
+         </component> 
+
+        <component id="vehicleAux">
+            <transformation>
+            </transformation>
+
+             <materials>
+                <material id="standard"/>
+            </materials>
+        
+             <texture id="none"/>
+
+            <children>
+                <primitiveref id="vehicle"/>
+                <componentref id="helixes"/>
+            </children>
+
+             <animations>
+                <animationred id="onItself"/>
+            </animations>
+         </component> 
+
         <component id="vehicle">
             <transformation>
                 <scale x="0.6" y="0.6" z="0.6"/>
@@ -286,12 +415,11 @@
              <texture id="none"/>
 
             <children>
-                <primitiveref id="vehicle"/>
+                <componentref id="vehicleAux"/>
             </children>
 
              <animations>
                 <animationred id="droneUp"/>
-                <animationred id="onItself"/>
                 <animationred id="toRadius"/>
                 <animationred id="orbit"/>
                 <animationred id="fromRadius"/>
@@ -323,7 +451,7 @@
          <component id="water">
             <transformation>
             <scale x="1.8" y="1" z="1.8"/>
-            <translate x="0" y="1.6" z="0"/>
+            <translate x="0" y="1.75" z="0"/>
             </transformation>
 
              <materials>

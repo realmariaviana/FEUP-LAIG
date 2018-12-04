@@ -18,11 +18,11 @@ class MyVehicleBody extends CGFobject
 	*/
 	initElements(){
 		let topPatchControlPoints = 
-		[[-2,0,2],[-1,0,0],
-		[-2,0,-2],[0,0,1],
+		[[-2,0,2],[-0.5,0,0],
+		[-2,0,-2],[0,0,0.5],
 		[0,2,0],
-		[0,0,-1],[2,0,2],
-		[1,0,0],[2,0,-2]];
+		[0,0,-0.5],[2,0,2],
+		[0.5,0,0],[2,0,-2]];
 		
 		this.topPatch = new MyPatch(this.scene,30,30, 3, 3, topPatchControlPoints);
 	};

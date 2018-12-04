@@ -53,7 +53,7 @@ class MyVehicle extends CGFobject
 		this.leg.display();
 		this.scene.popMatrix();
 
-		this.scene.pushMatrix();
+		/*this.scene.pushMatrix();
 		this.scene.translate(1.85,0,1.85);
 		this.metalAppearance.apply();
 		this.helix.display();
@@ -75,7 +75,7 @@ class MyVehicle extends CGFobject
 		this.scene.translate(1.85,0,-1.85);
 		this.whiteAppearance.apply();
 		this.helix.display();
-		this.scene.popMatrix();
+		this.scene.popMatrix();*/
 
 		this.scene.popMatrix();
 

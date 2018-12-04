@@ -730,7 +730,8 @@ class MySceneGraph {
         //RBG specularN
         specular = this.parseRGBA(specularN,"specular in material",id);
         temp.setSpecular(specular[0],specular[1], specular[2],specular[3]);
-        this.materials.push([id,temp]); 
+        this.materials.push([id,temp]);
+        
     }
 
     /**
@@ -900,6 +901,9 @@ class MySceneGraph {
 
             case 'water':
             return this.parseWater(node, id);
+
+            case 'helix':
+            return this.parseHelix(node, id);
 
         }
     }
@@ -1087,6 +1091,11 @@ class MySceneGraph {
      */
     parseVehicle(node, id){
         this.primitives.push([id, new MyVehicle(this.scene)]);
+        return null;
+    }
+
+    parseHelix(node, id){
+        this.primitives.push([id, new MyVehicleHelix(this.scene)]);
         return null;
     }
 
@@ -1355,6 +1364,7 @@ class MySceneGraph {
 
          this.referenceComponents(); 
      }
+
 
      /**
       * Loads
