@@ -199,7 +199,7 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
-                this.gameBoard.display();
+        this.gameBoard.display();
 
         if (this.sceneInited) {
             // Draw axis

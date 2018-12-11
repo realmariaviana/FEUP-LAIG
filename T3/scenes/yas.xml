@@ -265,9 +265,10 @@
             <vehicle />
         </primitive>
 
-        <primitive id="scoreboard">
-            <scoreboard />
+        <primitive id="game">
+            <game />
         </primitive>
+
 
     </primitives>
 
