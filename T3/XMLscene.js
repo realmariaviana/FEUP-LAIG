@@ -6,7 +6,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 class XMLscene extends CGFscene {
     /**
      * @constructor
-     * @param {MyInterface} myinterface 
+     * @param {MyInterface} myinterface
      */
     constructor(myinterface) {
         super();
@@ -44,8 +44,10 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.surfaces = [];
+
+        this.gameBoard = new MyGameBoard(this);
 	};
-    
+
 
     /**
      * Initializes the scene cameras.
@@ -60,7 +62,7 @@ class XMLscene extends CGFscene {
     initViews() {
 
         var views = this.graph.views;
-        
+
         for(var id in views){
 
             if(views[id].type == "perspective"){
@@ -72,7 +74,7 @@ class XMLscene extends CGFscene {
                 this.views[id] = new CGFcameraOrtho(views[id][2],views[id][3],views[id][5],views[id][4],views[id][0],views[id][1], vec3.fromValues(o[0], o[1], o[2]), vec3.fromValues(views[id][6][0], views[id][6][1], views[id][6][2]), vec3.fromValues(0, 1, 0));
             }
         if(id == this.graph.defaultView) this.selectView(id);
-            
+
         }
     }
 
@@ -112,7 +114,7 @@ class XMLscene extends CGFscene {
                     this.lights[i].enable();
                 else
                     this.lights[i].disable();
-                    
+
                 if(light[5]!=null){
                     this.lights[i].setSpotCutOff(light[5]);
                     this.lights[i].setSpotExponent(light[6]);
@@ -139,7 +141,7 @@ class XMLscene extends CGFscene {
     }
 
 
-    /* Handler called when the graph is finally loaded. 
+    /* Handler called when the graph is finally loaded.
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
@@ -151,7 +153,7 @@ class XMLscene extends CGFscene {
         this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
 
         // TODO: Change ambient and background details according to parsed graph
-        
+
         this.initLights();
         this.initViews();
 
@@ -166,7 +168,7 @@ class XMLscene extends CGFscene {
 
     update(currTime){
         this.graph.updateScene((currTime - this.lastUpdateTime)/1000);
-       
+
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
@@ -180,6 +182,7 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -195,6 +198,8 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
+
+                this.gameBoard.display();
 
         if (this.sceneInited) {
             // Draw axis
@@ -225,7 +230,7 @@ class XMLscene extends CGFscene {
         }
         for (i =0; i<this.surfaces.length; i++) {
 			this.pushMatrix();
-	
+
 			this.surfaces[i].display();
 			this.popMatrix();
         }

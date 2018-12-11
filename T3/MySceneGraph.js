@@ -904,7 +904,6 @@ class MySceneGraph {
 
             case 'helix':
             return this.parseHelix(node, id);
-
         }
     }
 

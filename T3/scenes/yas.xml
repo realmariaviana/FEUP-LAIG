@@ -57,10 +57,37 @@
         </omni>
 
         <!-- spot light 1 -->
-        <spot id=" lamp light (spot)" enabled="1" angle="10" exponent="2">
-            <location x="5.3" y="1.95" z="5" w="1"/>
+        <spot id="board light1" enabled="1" angle="10" exponent="2">
+            <location x="5" y="1.95" z="5" w="1"/>
             <target x="5" y="-5" z="5"/>
-             <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+            <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
+            <specular r="1" g="1" b="1" a="0.1" />
+        </spot>
+
+         <!-- spot light 1 -->
+        <spot id="board light2" enabled="1" angle="10" exponent="2">
+            <location x="5" y="1.95" z="8" w="1"/>
+            <target x="5" y="-5" z="5"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
+            <specular r="1" g="1" b="1" a="0.1" />
+        </spot>
+
+         <!-- spot light 1 -->
+        <spot id="board light3" enabled="1" angle="10" exponent="2">
+            <location x="8" y="1.95" z="5" w="1"/>
+            <target x="5" y="-5" z="5"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
+            <specular r="1" g="1" b="1" a="0.1" />
+        </spot>
+
+         <!-- spot light 1 -->
+        <spot id="board light4" enabled="1" angle="10" exponent="2">
+            <location x="8" y="1.95" z="8" w="1"/>
+            <target x="5" y="-5" z="5"/>
+            <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
             <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
             <specular r="1" g="1" b="1" a="0.1" />
         </spot>
@@ -238,6 +265,9 @@
             <vehicle />
         </primitive>
 
+        <primitive id="scoreboard">
+            <scoreboard />
+        </primitive>
 
     </primitives>
 
@@ -253,7 +283,6 @@
              <texture id="none"/>
 
             <children>
-                <componentref id="vehicle"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
@@ -263,21 +292,19 @@
                 <componentref id="table"/>
                 <componentref id="seats"/>
                 <componentref id="lamp"/> 
-                <componentref id="tv"/>
-                <componentref id="visor"/>
+                <!-- <componentref id="tv"/>
+                <componentref id="visor"/> -->
                 <componentref id="mirrors"/>
-                <componentref id="vase"/>
                 <componentref id="window"/>
                 <componentref id="windowborders"/>
                 <componentref id="littletable"/>
-                <componentref id="desklamp"/>
                 <componentref id="door"/>
             </children>
 
             <animations>
             </animations>
 
-        </component>
+        </component> 
 
         <component id="helix1">
             <transformation>

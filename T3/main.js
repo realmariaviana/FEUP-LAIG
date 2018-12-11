@@ -19,7 +19,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 '/primitives/MyPatch.js', '/primitives/MyTerrain.js', '/primitives/MyVehicle.js', 
 '/animations/Animation.js', '/animations/CircularAnimation.js', '/animations/LinearAnimation.js',
 '/animations/AnimationVector.js', '/primitives/MyVehicleBody.js', '/primitives/MyVehicleLeg.js',
-'/primitives/MyVehicleHelix.js','/primitives/MyVehicleHelixLeg.js',
+'/primitives/MyVehicleHelix.js','/primitives/MyVehicleHelixLeg.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGameBoard.js',
 
 main=function()
 {
