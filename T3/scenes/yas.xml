@@ -284,7 +284,8 @@
              <texture id="none"/>
 
             <children>
-                <componentref id="wall1"/>
+            <primitiveref id="game"/>
+                <!--<componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="wall3"/>
                 <componentref id="wall4"/>
@@ -292,14 +293,13 @@
                 <componentref id="rug"/>
                 <componentref id="table"/>
                 <componentref id="seats"/>
-                <componentref id="lamp"/> 
+                <componentref id="lamp"/> -->
                 <!-- <componentref id="tv"/>
                 <componentref id="visor"/> -->
-                <componentref id="mirrors"/>
+               <!-- <componentref id="mirrors"/>
                 <componentref id="window"/>
                 <componentref id="windowborders"/>
-                <componentref id="littletable"/>
-                <componentref id="door"/>
+                <componentref id="door"/>-->
             </children>
 
             <animations>
@@ -639,8 +639,8 @@
         <!-- Table -->
         <component id="table">
             <transformation>
-                <translate x="-1.5" y="0.2" z="4"/> 
-                <scale x="4.5" y="0.8" z="4.25"/>
+                <translate x="-4.5" y="0.2" z="3"/> 
+                <scale x="6" y="0.8" z="6"/>
                 <transformationref id = "to_origin"/>
             </transformation>
             <materials>
@@ -953,7 +953,7 @@
 
         <component id="seat1">
             <transformation>
-                <translate x="6" y="0" z="9.25"/>
+                <translate x="6" y="0" z="10"/>
                 <rotate axis="x" angle= "90"/> 
                 <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -968,7 +968,7 @@
 
          <component id="seat2">
             <transformation>
-                <translate x="6" y="0" z="3"/>
+                <translate x="6" y="0" z="2"/>
                 <rotate axis="x" angle= "90"/> 
                  <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -983,7 +983,7 @@
 
          <component id="seat3">
             <transformation>
-                <translate x="2.75" y="0" z="6"/>
+                <translate x="2" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
                  <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -998,7 +998,7 @@
 
          <component id="seat4">
             <transformation>
-                <translate x="9.25" y="0" z="6"/>
+                <translate x="10" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
                 <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -1736,7 +1736,7 @@
             <texture id="tabletxt" length_s="1" length_t="1"/>
             <children>
                 <componentref id="doort"/>
-                <componentref id="knob"/>
+                <!--<componentref id="knob"/>-->
             </children>
         </component>
 

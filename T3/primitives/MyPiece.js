@@ -1,6 +1,6 @@
 class MyPiece extends CGFobject{
 
-	constructor(scene){
+	constructor(scene,x,y){
         super(scene);
         this.base1 = new MyTorus(this.scene, 1,2,60,5);
         this.base2 = new MyTorus(this.scene, 1,1.5,60,60);
@@ -8,6 +8,8 @@ class MyPiece extends CGFobject{
         this.sphere = new MySphere(this.scene,1,60,60);
 
         this.appearance = new CGFappearance(this.scene);
+        this.x=x;
+        this.y=y;
     }
 
 

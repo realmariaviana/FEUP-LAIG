@@ -20,7 +20,26 @@ class XMLscene extends CGFscene {
         this.lastUpdateTime = (new Date()).getTime();
         this.translations = [];
         this.animatedObjects = [];
+        this.objects=[];
+        this.setPickEnabled(true);
     }
+
+
+    logPicking(){
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+			for (var i=0; i< this.pickResults.length; i++) {
+				var obj = this.pickResults[i][0];
+				if (obj)
+				{
+					var customId = this.pickResults[i][1];				
+					console.log("Picked object: " + obj + ", with pick id " + customId);
+				}
+			}
+			this.pickResults.splice(0,this.pickResults.length);
+		}		
+	}
+}
 
     /**
      * Initializes the scene, setting some WebGL defaults, initializing the camera and the axis.
@@ -183,6 +202,9 @@ class XMLscene extends CGFscene {
      */
     display() {
 
+        this.logPicking();
+	    this.clearPickRegistration();
+
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -235,7 +257,25 @@ class XMLscene extends CGFscene {
 			this.popMatrix();
         }
 
+        let index=0,k;
+        this.pushMatrix();
+        this.translate(0.8, 0, 0.8);
+       
+        for (i =0; i<this.objects.length; i++) {
+            this.pushMatrix();
+            this.translate(i, 0, 0);
 
+            for (k =0; k<this.objects[i].length; k++) {
+                this.pushMatrix();
+                this.translate(0, 0, k);
+                this.registerForPick(index+1, this.objects[i][k]);
+                if(this.pickMode) this.objects[i][k].display();
+                this.popMatrix();
+                index++;
+            }
+            this.popMatrix();
+        }
+        this.popMatrix();
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }

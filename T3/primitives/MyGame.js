@@ -4,18 +4,15 @@ class MyGame extends CGFobject{
         super(scene);
         this.tab = new MyTab(this.scene);
         this.piece = new MyPiece(this.scene);
+        this.board = [];
     }
 
 
     display(){
-
         this.scene.pushMatrix();
-        this.scene.scale(0.1,0.1,0.1);
-        this.piece.display();
-        this.scene.popMatrix();
-        
+        this.scene.translate(5.28,-0.05,5.28);
         this.tab.display();
-
+        this.scene.popMatrix();
     }
 
     updateTextCoords(length_s, length_t){
