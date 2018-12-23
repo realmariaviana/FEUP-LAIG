@@ -11,72 +11,72 @@ class MyGame extends CGFobject{
         //pieces for the game
         //first line
         this.pieces.push(new MyPiece(scene, 13, 4.5, "black"));
-        this.pieces.push(new MyPiece(scene, 31, 4.5, "black"));
+        this.pieces.push(new MyPiece(scene, 31, 4.5, "white"));
         this.pieces.push(new MyPiece(scene, 49, 4.5, "black"));
-        this.pieces.push(new MyPiece(scene, 67, 4.5, "black"));
+        this.pieces.push(new MyPiece(scene, 67, 4.5, "white"));
         this.pieces.push(new MyPiece(scene, 84, 4.5, "black"));
 
       //second line
         this.pieces.push(new MyPiece(scene, 4.5, 13, "white"));
         this.pieces.push(new MyPiece(scene, 22, 13, "white"));
-        this.pieces.push(new MyPiece(scene, 40.5, 13, "white"));
+        this.pieces.push(new MyPiece(scene, 40.5, 13, "black"));
         this.pieces.push(new MyPiece(scene, 58, 13, "white"));
-        this.pieces.push(new MyPiece(scene, 75, 13, "white"));
+        this.pieces.push(new MyPiece(scene, 75, 13, "black"));
 
         //third line
         this.pieces.push(new MyPiece(scene, 13, 22, "black"));
         this.pieces.push(new MyPiece(scene, 31, 22, "black"));
-        this.pieces.push(new MyPiece(scene, 49, 22, "black"));
+        this.pieces.push(new MyPiece(scene, 49, 22, "white"));
         this.pieces.push(new MyPiece(scene, 67, 22, "black"));
-        this.pieces.push(new MyPiece(scene, 84, 22, "black"));
+        this.pieces.push(new MyPiece(scene, 84, 22, "white"));
 
         //fourth line
-        this.pieces.push(new MyPiece(scene, 4.5, 31, "white"));
+        this.pieces.push(new MyPiece(scene, 4.5, 31, "black"));
         this.pieces.push(new MyPiece(scene, 22, 31, "white"));
         this.pieces.push(new MyPiece(scene, 40.5, 31, "white"));
-        this.pieces.push(new MyPiece(scene, 58, 31, "white"));
+        this.pieces.push(new MyPiece(scene, 58, 31, "black"));
         this.pieces.push(new MyPiece(scene, 75, 31, "white"));
 
         //fifth line
-        this.pieces.push(new MyPiece(scene, 13, 40, "black"));
+        this.pieces.push(new MyPiece(scene, 13, 40, "white"));
         this.pieces.push(new MyPiece(scene, 31, 40, "black"));
         this.pieces.push(new MyPiece(scene, 49, 40, "black"));
-        this.pieces.push(new MyPiece(scene, 67, 40, "black"));
+        this.pieces.push(new MyPiece(scene, 67, 40, "white"));
         this.pieces.push(new MyPiece(scene, 84, 40, "black"));
 
         //sixth line
         this.pieces.push(new MyPiece(scene, 4.5, 49, "white"));
-        this.pieces.push(new MyPiece(scene, 22, 49, "white"));
+        this.pieces.push(new MyPiece(scene, 22, 49, "black"));
         this.pieces.push(new MyPiece(scene, 40.5, 49, "white"));
         this.pieces.push(new MyPiece(scene, 58, 49, "white"));
-        this.pieces.push(new MyPiece(scene, 75, 49, "white"));
+        this.pieces.push(new MyPiece(scene, 75, 49, "black"));
 
         //seventh
         this.pieces.push(new MyPiece(scene, 13, 58, "black"));
-        this.pieces.push(new MyPiece(scene, 31, 58, "black"));
+        this.pieces.push(new MyPiece(scene, 31, 58, "white"));
         this.pieces.push(new MyPiece(scene, 49, 58, "black"));
         this.pieces.push(new MyPiece(scene, 67, 58, "black"));
-        this.pieces.push(new MyPiece(scene, 84, 58, "black"));
+        this.pieces.push(new MyPiece(scene, 84, 58, "white"));
 
         //eigth line
-        this.pieces.push(new MyPiece(scene, 4.5, 67, "white"));
+        this.pieces.push(new MyPiece(scene, 4.5, 67, "black"));
         this.pieces.push(new MyPiece(scene, 22, 67, "white"));
-        this.pieces.push(new MyPiece(scene, 40.5, 67, "white"));
+        this.pieces.push(new MyPiece(scene, 40.5, 67, "black"));
         this.pieces.push(new MyPiece(scene, 58, 67, "white"));
         this.pieces.push(new MyPiece(scene, 75, 67, "white"));
 
         //nineth
-        this.pieces.push(new MyPiece(scene, 13, 76, "black"));
+        this.pieces.push(new MyPiece(scene, 13, 76, "white"));
         this.pieces.push(new MyPiece(scene, 31, 76, "black"));
-        this.pieces.push(new MyPiece(scene, 49, 76, "black"));
+        this.pieces.push(new MyPiece(scene, 49, 76, "white"));
         this.pieces.push(new MyPiece(scene, 67, 76, "black"));
         this.pieces.push(new MyPiece(scene, 84, 76, "black"));
 
         //tenth line
         this.pieces.push(new MyPiece(scene, 4.5, 85, "white"));
-        this.pieces.push(new MyPiece(scene, 22, 85, "white"));
+        this.pieces.push(new MyPiece(scene, 22, 85, "black"));
         this.pieces.push(new MyPiece(scene, 40.5, 85, "white"));
-        this.pieces.push(new MyPiece(scene, 58, 85, "white"));
+        this.pieces.push(new MyPiece(scene, 58, 85, "black"));
         this.pieces.push(new MyPiece(scene, 75, 85, "white"));
         
     }
