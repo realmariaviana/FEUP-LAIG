@@ -64,7 +64,7 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.surfaces = [];
 
-        this.gameBoard = new MyGameBoard(this);
+        this.game = new MyGame(this);
 	};
 
 
@@ -221,7 +221,7 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
 
-        this.gameBoard.display();
+        this.game.display();
 
         if (this.sceneInited) {
             // Draw axis
