@@ -19,8 +19,8 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 '/primitives/MyPatch.js', '/primitives/MyTerrain.js', '/primitives/MyVehicle.js', 
 '/animations/Animation.js', '/animations/CircularAnimation.js', '/animations/LinearAnimation.js',
 '/animations/AnimationVector.js', '/primitives/MyVehicleBody.js', '/primitives/MyVehicleLeg.js',
-'/primitives/MyVehicleHelix.js','/primitives/MyVehicleHelixLeg.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGameBoard.js', '/primitives/MyGame.js','/primitives/MyTab.js',
-'/primitives/MyPiece.js',
+'/primitives/MyVehicleHelix.js','/primitives/MyVehicleHelixLeg.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGame.js','/game/MyTab.js',
+'/game/MyPiece.js', '/animations/CameraAnimation.js', 
 
 main=function()
 {
@@ -39,7 +39,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "yas.xml";
+    var filename=getUrlVars()['file'] || "sala.xml";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors

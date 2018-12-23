@@ -7,6 +7,8 @@ class MyTab extends CGFobject{
 		this.appearance.setAmbient(0.4,0.4,0.4,1);
         this.appearance.loadTexture("../scenes/images/tabuleiro.png");
         this.default=new CGFappearance(this.scene);
+
+        this.pieces=[];
         
         for(let i=0;i<10;i++){
             let line = [];

@@ -14,7 +14,7 @@ class MyPiece extends CGFobject{
 
 
     display(){
-        this.appearance.apply();
+       // this.appearance.apply();
 
         this.scene.pushMatrix();
         this.scene.scale(1,0.5,1);
