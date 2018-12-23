@@ -20,6 +20,24 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
+        this.scenes = this.gui.addFolder("Scenes");
+  	    this.scenes.open();
+    	this.gui.scene = 'sala';
+  	    this.gui.sceneList = this.scenes.add(this.gui, 'scene', ['sala', 'outro']);
+        this.gui.sceneList.onFinishChange(function(){
+        this.removeFolder("Lights", this.gui);
+  		this.scene.changeGraph(this.gui.scene + '.xml');
+        this.scene.changeView(this.gui.view);
+          }.bind(this))
+          
+        this.views = this.gui.addFolder("Views");
+        this.views.open();
+        this.gui.view = 'view1';
+        this.gui.viewList = this.views.add(this.gui, 'view', ['view1', 'view2','view3']);
+        this.gui.viewList.onFinishChange(function(){
+        this.scene.changeView(this.gui.view);
+        }.bind(this))
+
         // add a group of controls (and open/expand by defult)
 
         return true;
@@ -33,7 +51,7 @@ class MyInterface extends CGFinterface {
     addLightsGroup(lights) {
 
         var group = this.gui.addFolder("Lights");
-        group.open();
+        //group.open();
 
         // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
         // e.g. this.option1=true; this.option2=false;
@@ -50,20 +68,34 @@ class MyInterface extends CGFinterface {
      * Adds a folder containing the IDs of the views passed as parameter.
      * @param {array} views
      */
-    addViewsGroup(views) {
+    // addViewsGroup(views) {
 
-        var group = this.gui.addFolder("Views");
-        group.open();
+    //     var group = this.gui.addFolder("Views");
+    //     //group.open();
 
-        const cameraIdArray = Object.keys(views);
-        this.currentCameraId = this.scene.graph.defaultView;
+    //     const cameraIdArray = Object.keys(views);
+    //     this.currentCameraId = this.scene.graph.defaultView;
 
-        group.add(this, 'currentCameraId', cameraIdArray).name('Camera').onChange(val => this.scene.selectView(val));
-    }
+    //     group.add(this, 'currentCameraId', cameraIdArray).name('Camera').onChange(val => this.scene.selectView(val));
+    // }
+
+    removeFolder(name, parent) {
+        if(!parent)
+            parent = this.gui;
+      var folder = parent.__folders[name];
+      if (!folder) {
+        return;
+      }
+      folder.close();
+      parent.__ul.removeChild(folder.domElement.parentNode);
+      delete parent.__folders[name];
+      parent.onResize();
+    };
 
     /**
       * init keyboard keys
       */
+
     initKeys() {
         this.scene.gui=this;
         this.processKeyboard=function(){};

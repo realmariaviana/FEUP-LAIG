@@ -4,25 +4,25 @@
  
     <views default="view1-perspective" >
          <!-- perspective view 1 -->
-        <perspective id="view1-perspective" near="0.1" far="500" angle="20">
+        <perspective id="view1" near="0.1" far="500" angle="20">
         <from x="25" y="25" z="25"/>            
         <to x="0" y="-3" z="0"/>
         </perspective>
 
         <!-- perspective view 2 -->
-         <perspective id="view2-perspective" near="0.1" far="500" angle="30">
+         <perspective id="view2" near="0.1" far="500" angle="30">
             <from x="6" y="10" z="6"/>
             <to x="5" y="2" z="5"/>
         </perspective>
 
         <!-- perspective view 3 -->
-         <perspective id="view3-perspective" near="0.1" far="500" angle="30">
+         <perspective id="view3" near="0.1" far="500" angle="30">
             <from x="20" y="12" z="0"/>
             <to x="10" y="3" z="3"/>
         </perspective>
 
         <!-- perspective view 4 -->
-         <perspective id="view4-perspective" near="0.5" far="500" angle="60">
+         <perspective id="view4" near="0.5" far="500" angle="60">
             <from x="5" y="20" z="5"/>
             <to x="6" y="0" z="5"/>
         </perspective>
@@ -294,12 +294,12 @@
                 <componentref id="table"/>
                 <componentref id="seats"/>
                 <componentref id="lamp"/>
-               <componentref id="tv"/>
+               <!-- <componentref id="tv"/>
                 <componentref id="visor"/>
               <componentref id="mirrors"/>
                 <componentref id="window"/>
                 <componentref id="windowborders"/>
-                <componentref id="door"/>
+                <componentref id="door"/> -->
             </children>
 
             <animations>

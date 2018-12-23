@@ -44,7 +44,7 @@ class MySceneGraph {
         this.lights=[];
         this.primitives=[];
         this.animations=[];
-
+        this.file_name = filename;
         // File reading
         this.reader = new CGFXMLreader();
 
@@ -904,16 +904,12 @@ class MySceneGraph {
 
             case 'helix':
             return this.parseHelix(node, id);
-
-            case 'game':
-            return this.parseGame(id);
         }
     }
 
 
     parseGame(id){
-        let primitive = new MyGame(this.scene);
-        this.primitives.push([id,primitive]);
+        this.primitives.push([id,new MyGame(this.scene)]);
     }
 
     /**

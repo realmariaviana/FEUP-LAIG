@@ -16,8 +16,7 @@ class MyTab extends CGFobject{
                 line.push(this.tab);
             }
             this.scene.objects.push(line);   
-        }
-       
+        }  
     }
 
 
