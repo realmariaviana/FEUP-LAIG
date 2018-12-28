@@ -195,7 +195,7 @@ class XMLscene extends CGFscene {
         }
 
       //  this.game.update((currTime - this.lastUpdateTime)/1000);
-       this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
+       //this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
 
        this.lastUpdateTime = currTime;
     }
@@ -216,7 +216,7 @@ class XMLscene extends CGFscene {
               this.cameraAnimation.done = false;
               this.currentCamera="view2";
             }
-            else if(this.graph.file_name == "outro.xml"){
+            else if(this.graph.file_name == "casino.xml"){
               this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="view2";
@@ -228,7 +228,7 @@ class XMLscene extends CGFscene {
               this.cameraAnimation.done = false;
               this.currentCamera="view3";
             }
-            else if(this.graph.file_name == "outro.xml"){
+            else if(this.graph.file_name == "casino.xml"){
               this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="view3";
@@ -325,7 +325,7 @@ class XMLscene extends CGFscene {
             this.translate(42,0.2,40);
             this.scale(0.22,1,0.22);
           }
-          else if(this.graph.filename == "outro.xml"){
+          else if(this.graph.filename == "casino.xml"){
             this.translate(0,8.7,0);
             this.scale(0.22,1,0.22);
           }
