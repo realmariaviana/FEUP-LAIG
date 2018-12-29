@@ -32,8 +32,13 @@ class XMLscene extends CGFscene {
 				var obj = this.pickResults[i][0];
 				if (obj)
 				{
-					var customId = this.pickResults[i][1];				
-					console.log("Picked object: " + obj + ", with pick id " + customId);
+                    var customId = this.pickResults[i][1];
+                    console.log("Picked object: " + obj + ", with pick id " + customId);
+
+                    console.log(this.game.boardState[0][1]);
+                    /*if(this.game.boardState[0][1]!=0)
+                        this.game.getPieceInPosition(0,customId).x=1000;*/
+                    console.log(this.game.pieces);			
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);
@@ -299,19 +304,23 @@ class XMLscene extends CGFscene {
 			this.popMatrix();
         }
 
+        this.game.display();
+
         let index=0,k;
         this.pushMatrix();
-        this.translate(0.8, 0, 0.8);
+        this.translate(0.55, 0, 0.55);
        
         for (i =0; i<this.objects.length; i++) {
             this.pushMatrix();
-            this.translate(i, 0, 0);
+            this.translate(i+i*0.1, 0, 0);
 
             for (k =0; k<this.objects[i].length; k++) {
                 this.pushMatrix();
+                this.scale(1.1,1,1.1);
                 this.translate(0, 0, k);
                 this.registerForPick(k*10+i, this.objects[i][k]);
-                if(this.pickMode) this.objects[i][k].display();
+                if(this.pickMode) 
+                    this.objects[i][k].display();
                 this.popMatrix();
                 index++;
             }
@@ -329,7 +338,7 @@ class XMLscene extends CGFscene {
             this.translate(0,8.7,0);
             this.scale(0.22,1,0.22);
           }
-        this.game.display();
+        
         this.popMatrix();
 
         this.popMatrix();

@@ -50,7 +50,7 @@ class MyGame {
 
        for(let i=0; i<this.pieces.length; i++){
             this.scene.pushMatrix();
-            this.scene.translate(this.pieces[i].x*1.1,this.pieces[i].y,this.pieces[i].z*1.1);
+            this.scene.translate(this.pieces[i].z*1.1,this.pieces[i].y,this.pieces[i].x*1.1);
             this.pieces[i].display();
             this.scene.popMatrix();
         }
@@ -64,5 +64,12 @@ class MyGame {
         this.boardState = JSON.parse(data.target.response)[0];
         this.playerTurn = JSON.parse(data.target.response)[3];
         this.initPieces();
+    }
+
+    getPieceInPosition(x,z){
+        for(let i=0;i<this.pieces.length;i++){
+            if(this.pieces[i].x==x && this.pieces[i].z==z)
+            return this.pieces[i];
+        }
     }
 };

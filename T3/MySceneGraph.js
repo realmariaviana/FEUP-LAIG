@@ -908,10 +908,6 @@ class MySceneGraph {
     }
 
 
-    parseGame(id){
-        this.primitives.push([id,new MyGame(this.scene)]);
-    }
-
     /**
      * Parses Rectangle
      * @param {*} node
