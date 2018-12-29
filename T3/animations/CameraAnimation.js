@@ -19,7 +19,7 @@ constructor (scene, initialView, finalView){
         this.initialPosition=[10,10,30];
         this.initialTarget=[0,0,0];
       }
-      else if(this.scene.graph.file_name == "outro.xml"){
+      else if(this.scene.graph.file_name == "casino.xml"){
         this.initialPosition= [20,15,30];
         this.initialTarget=[10,0,0];
       }
@@ -29,7 +29,7 @@ constructor (scene, initialView, finalView){
         this.initialPosition=[5,10,15];
         this.initialTarget=[-2,0,-5];
       }
-      else if(this.scene.graph.file_name == "outro.xml"){
+      else if(this.scene.graph.file_name == "casino.xml"){
         this.initialPosition= [17,10,20];
         this.initialTarget=[12,0,5];
       }
@@ -46,7 +46,7 @@ constructor (scene, initialView, finalView){
         this.finalPosition=[10,10,30];
         this.finalTarget=[0,0,0];
       }
-      else if(this.scene.graph.file_name == "outro.xml"){
+      else if(this.scene.graph.file_name == "casino.xml"){
         this.finalPosition=[20,15,30];
         this.finalTarget=[10,0,0];
       }
@@ -56,7 +56,7 @@ constructor (scene, initialView, finalView){
         this.finalPosition=[5,10,15];
         this.finalTarget=[-2,0,-5];
       }
-      else if(this.scene.graph.file_name == "outro.xml"){
+      else if(this.scene.graph.file_name == "casino.xml"){
         this.finalPosition=[17,10,20];
         this.finalTarget=[12,0,5];
       }
