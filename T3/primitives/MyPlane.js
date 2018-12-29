@@ -60,7 +60,6 @@ class MyPlane extends CGFobject
      * Displays surface.
      */
 	display(){
-		//if(this.scene.pickMode) 
 			this.nurbObj.display();
 	};
 

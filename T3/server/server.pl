@@ -88,4 +88,5 @@ check_end_of_header(_).
 % Function to Output Request Lines (uncomment the line bellow to see more information on received HTTP Requests)
 % print_header_line(LineCodes) :- catch((atom_codes(Line,LineCodes),write(Line),nl),_,fail), !.
 print_header_line(_).
-parse_input(hello,print_line):-print_line.
+parse_input(initial_state,[B,PiecesP1,PiecesP2, Player]):-
+	initial_state(state(board(B,PiecesP1,PiecesP2), Player)).

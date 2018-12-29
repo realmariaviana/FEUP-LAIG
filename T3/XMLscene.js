@@ -195,7 +195,7 @@ class XMLscene extends CGFscene {
         }
 
       //  this.game.update((currTime - this.lastUpdateTime)/1000);
-       this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
+       //this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
 
        this.lastUpdateTime = currTime;
     }
@@ -310,7 +310,7 @@ class XMLscene extends CGFscene {
             for (k =0; k<this.objects[i].length; k++) {
                 this.pushMatrix();
                 this.translate(0, 0, k);
-                this.registerForPick(index+1, this.objects[i][k]);
+                this.registerForPick(k*10+i, this.objects[i][k]);
                 if(this.pickMode) this.objects[i][k].display();
                 this.popMatrix();
                 index++;

@@ -14,8 +14,13 @@ function getPrologRequest(requestString, onSuccess, onError, port) {
 
     request.onload = onSuccess;
 
-    request.onerror = onError || prologRequestError;
+    request.onerror = onError || function(){console.log("Error waiting for response");};
 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.send();
 }
+
+function makeRequest(requestString,handleReply){
+	getPrologRequest(requestString, handleReply);
+}
+			

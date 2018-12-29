@@ -1,59 +1,34 @@
-class Piece extends CGFobject{
+class Piece{
 
-	constructor(scene){
-        super(scene);
-        this.base1 = new MyTorus(this.scene, 1,2,60,5);
-        this.base2 = new MyTorus(this.scene, 1,1.5,60,60);
-        this.cil = new MyCylinder2(this.scene, 1.8,1.2,6.5,60,60);
-        this.sphere = new MySphere(this.scene,1,60,60); 
+	constructor(scene,x,z, symbol){
+        this.scene = scene;
+        this.piece = new MyBishop(this.scene);
+        this.x=x;
+        this.y=0.1;
+        this.z=z;
+        this.pieceAppearance = new CGFappearance(this.scene);
+        this.translateSymbolToColor(symbol);
     }
 
 
     display(){
         this.scene.pushMatrix();
-        this.scene.scale(1,0.5,1);
-        this.scene.rotate(Math.PI/2,1,0,0);
-        this.base1.display();
+        this.scene.scale(0.12,0.12,0.12);
+        this.pieceAppearance.apply();
+        this.piece.display();
         this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(0,1.5,0);
-        this.scene.scale(1,1.5,1);
-        this.scene.rotate(Math.PI/2,1,0,0);
-        this.base2.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.translate(0,3,0);
-        this.scene.scale(0.8,0.5,0.8);
-        this.scene.rotate(Math.PI/2,1,0,0);
-        this.base2.display();
-        this.scene.popMatrix();
-
-
-        this.scene.pushMatrix();
-        this.scene.translate(0,2.8,0);
-        this.scene.rotate(-Math.PI/2,1,0,0);
-        this.cil.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.translate(0,9,0);
-        this.scene.scale(0.6,0.3,0.6);
-        this.scene.rotate(Math.PI/2,1,0,0);
-        this.base2.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.translate(0,10.5,0);
-        this.scene.scale(1.8,1.8,1.8);
-        this.scene.rotate(Math.PI/2,1,0,0);
-        this.sphere.display();
-        this.scene.popMatrix();
     }
 
-    updateTextCoords(length_s, length_t){
-
-	};
+    translateSymbolToColor(symbol){
+        if(symbol==2){
+            this.color="black";
+            this.pieceAppearance.loadTexture("scenes/images/black.jpg");
+        }
+        else {
+            this.color="white"; 
+            this.pieceAppearance.loadTexture("scenes/images/white.jpg");   
+        }    
+    }
 
 };
