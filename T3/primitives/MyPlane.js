@@ -20,9 +20,6 @@ class MyPlane extends CGFobject
 		this.degree2 = 1;
 		this.initControlPoints();
 		this.makeSurface(this.degree1, this.degree2, this.controlPoints, this.nPartsU, this.nPartsV);
-		this.appearance = new CGFappearance(this.scene);
-		this.appearance.setAmbient(0.4,0.4,0.4,1);
-        this.appearance.loadTexture("../scenes/images/tabuleiro.png");
        
 	};
 
@@ -64,8 +61,7 @@ class MyPlane extends CGFobject
      * Displays surface.
      */
 	display(){
-		this.appearance.apply();
-			this.nurbObj.display();
+		this.nurbObj.display();
 	};
 
 	updateTextCoords(length_s, length_t){

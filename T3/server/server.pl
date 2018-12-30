@@ -90,3 +90,14 @@ check_end_of_header(_).
 print_header_line(_).
 parse_input(initial_state,[B,PiecesP1,PiecesP2, Player]):-
 	initial_state(state(board(B,PiecesP1,PiecesP2), Player)).
+
+parse_input(valid_play(FromX,FromY,ToX,ToY,B,Player),[1,Bool]):-
+    valid_play(B, Player, point(FromX,FromY),point(ToX,ToY),Bool).
+
+parse_input(valid_play(FromX,FromY,ToX,ToY,B,Player),[0]).
+
+parse_input(move(FromX,FromY,ToX,ToY,B,PiecesP1,PiecesP2,Player),[NewB,NewPiecesP1,NewPiecesP2,NewPlayer]):-
+    move(move(point(FromX,FromY), point(ToX,ToY)), board(B,PiecesP1,PiecesP2), board(NewB,NewPiecesP1,NewPiecesP2), Player),
+	change_player(Player,NewPlayer).
+
+

@@ -17,6 +17,18 @@ valid_play(B, Player, PFrom, PTo):-
     valid_kill(B, Player,PFrom,PTo);
     valid_engage(B, Player, PFrom,PTo).
 
+valid_play(B, Player, PFrom, PTo,1):-
+    between_board(PFrom),
+    between_board(PTo),
+    check_player_piece(B, Player,PFrom),
+    valid_kill(B, Player,PFrom,PTo).
+
+valid_play(B, Player, PFrom, PTo,0):-
+    between_board(PFrom),
+    between_board(PTo),
+    check_player_piece(B, Player,PFrom),
+    valid_engage(B, Player, PFrom,PTo).   
+
 % Checks if valid kill
 % B - board
 % Player - current player

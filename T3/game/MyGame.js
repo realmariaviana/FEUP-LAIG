@@ -2,32 +2,34 @@ class MyGame {
 
 	constructor(scene){
         this.scene=scene;
+
         this.board = new MyBoard(this.scene);
         this.scoreboard = new MyScoreBoard(this.scene);
         this.pieces = [];
-        this.player1 = new Player(1,25);
-        this.player2 = new Player(2,25);
-        
+        this.board.selectedSquareId = null;
+        this.whitePieceAppearance = new CGFappearance(this.scene);
+        this.whitePieceAppearance.loadTexture("scenes/images/white.jpg");
+        this.blackPieceAppearance = new CGFappearance(this.scene);
+        this.blackPieceAppearance.loadTexture("scenes/images/black.jpg");
+        this.player1 = new Player(this.scene,1,25,this.whitePieceAppearance);
+        this.player2 = new Player(this.scene,2,25,this.blackPieceAppearance);
         makeRequest("initial_state",data => this.initializeBoard(data));
-    
-
     }
 
     initPieces(){
-        let color="black";
-        let blocked =false;
 
-        
-            for(let i=0; i<this.boardState.length; i++){
-                for(let k=0; k<this.boardState[i].length; k++){
-                    if(this.boardState[i][k]!='0'){
-                        let piece = new Piece(this.scene,i,k,this.boardState[i][k]);
+        for(let i=0; i<this.boardState.length; i++){
+            for(let k=0; k<this.boardState[i].length; k++){
+                if(this.boardState[i][k]=='2'){
+                        let piece = new Piece(this.scene,i,k,this.blackPieceAppearance);
                         this.pieces.push(piece);
-                    }
+                }else if(this.boardState[i][k]=='3'){
+                        let piece = new Piece(this.scene,i,k,this.whitePieceAppearance);
+                        this.pieces.push(piece);
                 }
             }
+        }
         
-
     }
 
 
@@ -51,11 +53,14 @@ class MyGame {
        for(let i=0; i<this.pieces.length; i++){
             this.scene.pushMatrix();
             this.scene.translate(this.pieces[i].z*1.1,this.pieces[i].y,this.pieces[i].x*1.1);
+            this.scene.registerForPick(this.pieces[i].getId(), this.pieces[i]);
             this.pieces[i].display();
             this.scene.popMatrix();
         }
 
         this.scene.popMatrix();
+
+        this.displayCapturedPieces();
 
     }
 
@@ -66,10 +71,90 @@ class MyGame {
         this.initPieces();
     }
 
-    getPieceInPosition(x,z){
+    getPieceWithId(id){
         for(let i=0;i<this.pieces.length;i++){
-            if(this.pieces[i].x==x && this.pieces[i].z==z)
+            if(this.pieces[i].getId()==id)
             return this.pieces[i];
         }
+        return null;
+    }
+
+    getPositionById(id){
+        let x = Math.floor(id/10);
+        let z = id % 10;
+        return [x,z];
+    }
+
+    userPick(id){
+
+        if(!this.selectedSquareId){
+            this.selectedSquareId=id;
+            return;
+        }
+        
+        if(id==this.selectedSquareId)
+            this.selectedSquareId=null;
+        else{
+            let oldPos = this.getPositionById(this.selectedSquareId);
+            let newPos = this.getPositionById(id);
+            let requestString = `valid_play(${oldPos[0]},${oldPos[1]},${newPos[0]},${newPos[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
+
+            this.updatedCoordinates=newPos;
+            makeRequest(requestString,data => this.checkValidMove(data));
+        }
+    }
+
+    checkValidMove(data){
+
+        if(JSON.parse(data.target.response)[0]=='1'){
+
+            if(JSON.parse(data.target.response)[1]=='1') this.moveType = "kill";
+            else this.moveType = "engage";   
+
+            let oldPos = this.getPositionById(this.selectedSquareId);
+
+            let requestString = `move(${oldPos[0]},${oldPos[1]},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
+            makeRequest(requestString,data => this.move(data));
+
+        }else{
+            console.log("invalid move\n"); 
+            this.selectedSquareId=null;
+        } 
+
+    }
+
+    move(data){
+        if(this.moveType=="kill"){
+            this.removePiece(this.updatedCoordinates[0],this.updatedCoordinates[1]);
+        }
+
+        this.boardState = JSON.parse(data.target.response)[0];
+        
+        this.player1.pieces = JSON.parse(data.target.response)[1];
+        this.player2.pieces = JSON.parse(data.target.response)[2];
+
+        this.player1.score = 25-this.player2.pieces;
+        this.player2.score = 25-this.player1.pieces;
+
+        this.playerTurn = JSON.parse(data.target.response)[3];
+
+        this.getPieceWithId(this.selectedSquareId).updateCoords(this.updatedCoordinates[0], this.updatedCoordinates[1]);
+        this.selectedSquareId=null;
+    }
+
+    removePiece(x,z){
+        for(let i=0;i<this.pieces.length;i++){
+            if(this.pieces[i].x==x && this.pieces[i].z==z){
+                this.pieces.splice(i,1);
+                if(this.playerTurn==1)
+                    this.player1.addCapturedPiece();
+                else this.player2.addCapturedPiece();
+            }
+        }
+    }
+
+    displayCapturedPieces(){
+        this.player1.displayCapturedPieces();
+        this.player2.displayCapturedPieces();
     }
 };

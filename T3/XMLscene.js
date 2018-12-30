@@ -34,11 +34,7 @@ class XMLscene extends CGFscene {
 				{
                     var customId = this.pickResults[i][1];
                     console.log("Picked object: " + obj + ", with pick id " + customId);
-
-                    console.log(this.game.boardState[0][1]);
-                    /*if(this.game.boardState[0][1]!=0)
-                        this.game.getPieceInPosition(0,customId).x=1000;*/
-                    console.log(this.game.pieces);			
+                    this.game.userPick(customId);
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);

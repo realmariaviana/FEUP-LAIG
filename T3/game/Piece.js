@@ -1,13 +1,12 @@
 class Piece{
 
-	constructor(scene,x,z, symbol){
+	constructor(scene,x,z, pieceAppearance){
         this.scene = scene;
         this.piece = new MyBishop(this.scene);
         this.x=x;
         this.y=0.1;
         this.z=z;
-        this.pieceAppearance = new CGFappearance(this.scene);
-        this.translateSymbolToColor(symbol);
+        this.pieceAppearance=pieceAppearance;
     }
 
 
@@ -23,12 +22,21 @@ class Piece{
     translateSymbolToColor(symbol){
         if(symbol==2){
             this.color="black";
-            this.pieceAppearance.loadTexture("scenes/images/black.jpg");
+            return this.scene.game.blackPieceAppearance;
         }
         else {
             this.color="white"; 
-            this.pieceAppearance.loadTexture("scenes/images/white.jpg");   
+            return this.scene.game.whitePieceAppearance;
         }    
+    }
+
+    updateCoords(x,z){
+        this.x=x;
+        this.z=z;
+    }
+
+    getId(){
+        return this.x*10+this.z;
     }
 
 };
