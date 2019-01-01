@@ -20,8 +20,23 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
+        this.menu = this.gui.addFolder('Menu');
+        this.menu.open();
+        this.menu.add(this.scene, 'NewGame').name('new game');
+        //this.menu.add(this.scene, 'Undo').name('Undo');
+        this.gui.mode = 'PlayerVsPlayer';
+        this.gui.modeList = this.menu.add(this.gui, 'mode', ['PlayerVsPlayer', 'PlayerVsBot']);
+        this.gui.modeList.onFinishChange(function(){
+        this.scene.changeMode(this.gui.mode);
+        }.bind(this))
+        this.gui.difficulty = 'easy';
+        this.gui.diffList = this.menu.add(this.gui, 'difficulty', ['easy', 'medium']);
+        this.gui.diffList.onFinishChange(function(){
+        this.scene.changeDifficulty(this.gui.difficulty);
+        }.bind(this))
+
         this.scenes = this.gui.addFolder("Scenes");
-  	    this.scenes.open();
+  	    //this.scenes.open();
     	this.gui.scene = 'sala';
   	    this.gui.sceneList = this.scenes.add(this.gui, 'scene', ['sala', 'casino']);
         this.gui.sceneList.onFinishChange(function(){
@@ -31,12 +46,14 @@ class MyInterface extends CGFinterface {
           }.bind(this))
           
         this.views = this.gui.addFolder("Views");
-        this.views.open();
+        //this.views.open();
         this.gui.view = 'view1';
         this.gui.viewList = this.views.add(this.gui, 'view', ['view1', 'view2','view3']);
         this.gui.viewList.onFinishChange(function(){
         this.scene.changeView(this.gui.view);
         }.bind(this))
+
+        
 
         // add a group of controls (and open/expand by defult)
 

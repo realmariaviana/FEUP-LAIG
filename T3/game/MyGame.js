@@ -1,8 +1,8 @@
 class MyGame {
 
-	constructor(scene){
+	constructor(scene, botMode){
         this.scene=scene;
-
+        this.botMode = botMode;
         this.board = new MyBoard(this.scene);
         this.scoreboard = new MyScoreBoard(this.scene);
         this.pieces = [];

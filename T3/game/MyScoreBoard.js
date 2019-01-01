@@ -20,7 +20,7 @@ class MyScoreBoard extends CGFobject
 	initElements(){
 
         this.font = new MyLedFont(this.scene);
-	    this.scoreboard=new MyQuad(this.scene,0,0,1,1);
+	   // this.scoreboard=new MyQuad(this.scene,0,0,1,1);
 	    this.quad=new MyQuad(this.scene, 0, 0, 1,1);
 
 	    this.grayMaterial = new CGFappearance(this.scene);
@@ -93,9 +93,9 @@ class MyScoreBoard extends CGFobject
             this.scene.popMatrix();
 
             this.grayMaterial.apply();
-            this.scene.pushMatrix();
-                this.scoreboard.display();
-            this.scene.popMatrix();
+            // this.scene.pushMatrix();
+            //     this.scoreboard.display();
+            // this.scene.popMatrix();
         this.scene.popMatrix();
 	};
 

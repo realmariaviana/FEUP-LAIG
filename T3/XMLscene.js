@@ -67,6 +67,8 @@ class XMLscene extends CGFscene {
         this.currentCamera='view1';
         this.cameraAnimation= new CameraAnimation(this,this.currentCamera,this.currentCamera);
         this.game = new MyGame(this);
+
+        this.botDifficulty = 1;
 	};
 
 
@@ -194,8 +196,7 @@ class XMLscene extends CGFscene {
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
-
-      //  this.game.update((currTime - this.lastUpdateTime)/1000);
+        
        //this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
 
        this.lastUpdateTime = currTime;
@@ -238,7 +239,33 @@ class XMLscene extends CGFscene {
 
     }
 
+    changeMode(mode){
+        if(mode == 'PlayerVsPlayer'){
+          this.game = new MyGame(this,false);
+        }
+        else if(mode == 'PlayerVsBot'){
+          this.game = new MyGame(this,true);
+          this.game.botDifficulty = this.botDifficulty;
+        }
+      }
+    
+    changeDifficulty(difficulty){
+        if(difficulty == 'easy'){
+          this.botDifficulty= 1;
+          this.game.botDifficulty = this.botDifficulty;
+        }
+        else if(difficulty == 'medium'){
+          this.botDifficulty = 2;
+          this.game.botDifficulty = this.botDifficulty;
+        }
+      }
 
+    NewGame(){
+    if(!this.game.botMode){
+          this.game = new MyGame(this, false);
+    } else{
+        this.game = new MyGame(this,true);
+    }}
 
     /**
      * Displays the scene.
