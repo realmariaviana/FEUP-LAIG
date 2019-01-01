@@ -11,7 +11,7 @@ class MyScoreBoard extends CGFobject
 	constructor(scene)
 	{
 		super(scene);
-		this.initElements();
+        this.initElements();
 	};
 
 	/**
@@ -20,8 +20,7 @@ class MyScoreBoard extends CGFobject
 	initElements(){
 
         this.font = new MyLedFont(this.scene);
-	   // this.scoreboard=new MyQuad(this.scene,0,0,1,1);
-	    this.quad=new MyQuad(this.scene, 0, 0, 1,1);
+	    this.quad=new MyQuad(this.scene, 0, 0, 1, 1);
 
 	    this.grayMaterial = new CGFappearance(this.scene);
         this.grayMaterial.setDiffuse(0.2,0.2,0.2,1);
@@ -49,14 +48,33 @@ class MyScoreBoard extends CGFobject
             pointDigits[1][1] = String(this.points[1] % 10);
         }
 
+        var timeDigits = ['-','-'];
+	    if(this.playTime >= 0){
+		timeDigits[0] = String(Math.floor(this.playTime/10));
+		timeDigits[1] = String(this.playTime % 10);
+	    }
+
         this.scene.setActiveShader(this.font.shader);
         this.scene.pushMatrix();
 
         this.scene.translate(1.8, 0, 0);
 
+        this.scene.pushMatrix();
+			this.scene.scale(0.5, 0.7, 1);
+			this.scene.pushMatrix();
+				this.scene.translate(5.5, 3.7, 0.35);
+				this.font.displayWithLetter(timeDigits[0], this.quad);
+			this.scene.popMatrix();
+
+			this.scene.pushMatrix();
+				this.scene.translate(7.5, 3.7, 0.35);
+				this.font.displayWithLetter(timeDigits[1], this.quad);
+			this.scene.popMatrix();
+		this.scene.popMatrix();
+
             this.scene.pushMatrix();
                 this.scene.scale(0.6, 0.8, 1);
-                this.scene.translate(2, -1.2, 0);
+                this.scene.translate(2, -1.4, 0);
                 this.scene.pushMatrix();
                     this.scene.translate(-1, 2, 0.35);
                     this.font.displayWithLetter(pointDigits[0][0], this.quad);
@@ -70,7 +88,7 @@ class MyScoreBoard extends CGFobject
 
             this.scene.pushMatrix();
                 this.scene.scale(0.6, 0.8, 1);
-                this.scene.translate(8.5, -1.2, 0);
+                this.scene.translate(8.5, -1.4, 0);
                 this.scene.pushMatrix();
                     this.scene.translate(-1, 2, 0.35);
                     this.font.displayWithLetter(pointDigits[1][0], this.quad);
@@ -87,15 +105,13 @@ class MyScoreBoard extends CGFobject
 
             this.scene.pushMatrix();
                 this.scene.translate(0, 0, 0.6);
-                this.scene.scale(2, 1, 1);
+                this.scene.scale(2, 1.5, 1);
                 this.boardMaterial.apply();
                 this.quad.display();
             this.scene.popMatrix();
 
             this.grayMaterial.apply();
-            // this.scene.pushMatrix();
-            //     this.scoreboard.display();
-            // this.scene.popMatrix();
+            
         this.scene.popMatrix();
 	};
 

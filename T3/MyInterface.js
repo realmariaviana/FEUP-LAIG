@@ -35,6 +35,9 @@ class MyInterface extends CGFinterface {
         this.scene.changeDifficulty(this.gui.difficulty);
         }.bind(this))
 
+        this.gui.playTime=10;
+        this.gui.add(this.gui, 'playTime', 1, 30);
+
         this.scenes = this.gui.addFolder("Scenes");
   	    //this.scenes.open();
     	this.gui.scene = 'sala';
@@ -52,8 +55,6 @@ class MyInterface extends CGFinterface {
         this.gui.viewList.onFinishChange(function(){
         this.scene.changeView(this.gui.view);
         }.bind(this))
-
-        
 
         // add a group of controls (and open/expand by defult)
 

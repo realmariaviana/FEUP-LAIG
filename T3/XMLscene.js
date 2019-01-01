@@ -22,6 +22,7 @@ class XMLscene extends CGFscene {
         this.animatedObjects = [];
         this.objects=[];
         this.setPickEnabled(true);
+        this.playTime=10;
     }
 
 
@@ -66,7 +67,7 @@ class XMLscene extends CGFscene {
         this.surfaces = [];
         this.currentCamera='view1';
         this.cameraAnimation= new CameraAnimation(this,this.currentCamera,this.currentCamera);
-        this.game = new MyGame(this);
+        this.game = new MyGame(this,false);
 
         this.botDifficulty = 1;
 	};
@@ -196,8 +197,23 @@ class XMLscene extends CGFscene {
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
+
+        this.game.scoreboard.playTime -= ((currTime - this.lastUpdateTime)/1000);
         
        //this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
+
+       if(this.previousPlayer != this.game.playerTurn){
+        this.game.scoreboard.playTime = this.interface.gui.playTime;
+       }
+
+       this.previousPlayer = this.game.playerTurn;
+
+       if(this.game.scoreboard.playTime <= 0){
+           if(this.game.playerTurn == 1)
+            this.game.playerTurn = 2;
+            else if(this.game.playerTurn == 2)
+            this.game.playerTurn = 1;
+       }
 
        this.lastUpdateTime = currTime;
     }
@@ -263,8 +279,10 @@ class XMLscene extends CGFscene {
     NewGame(){
     if(!this.game.botMode){
           this.game = new MyGame(this, false);
+          this.game.scoreboard.playTime = this.interface.gui.playTime;
     } else{
         this.game = new MyGame(this,true);
+        this.game.scoreboard.playTime = this.interface.gui.playTime;
     }}
 
     /**
