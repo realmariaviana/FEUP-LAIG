@@ -10,57 +10,13 @@ constructor (scene, initialView, finalView){
     this.span=1;
 
     //InicialPosition
-    if(initialView == "view1"){
-      this.initialPosition=[40,10,30];
-      this.initialTarget= [0,0,0];
-    }
-    else if(initialView == "view2"){
-      if(this.scene.graph.file_name == "sala.xml"){
-        this.initialPosition=[10,10,30];
-        this.initialTarget=[0,0,0];
-      }
-      else if(this.scene.graph.file_name == "casino.xml"){
-        this.initialPosition= [20,15,30];
-        this.initialTarget=[10,0,0];
-      }
-    }
-    else if(initialView == "view3"){
-      if(this.scene.graph.file_name == "sala.xml"){
-        this.initialPosition=[5,10,15];
-        this.initialTarget=[-2,0,-5];
-      }
-      else if(this.scene.graph.file_name == "casino.xml"){
-        this.initialPosition= [17,10,20];
-        this.initialTarget=[12,0,5];
-      }
-    }
+      this.initialPosition=initialView[4];
+      this.initialTarget= initialView[3];
   
   
     //FinalPosition
-    if(finalView == "view1"){
-      this.finalPosition=[40,10,30];
-      this.finalTarget=[0,0,0];
-    }
-    else if(finalView == "view2"){
-      if(this.scene.graph.file_name == "sala.xml"){
-        this.finalPosition=[10,10,30];
-        this.finalTarget=[0,0,0];
-      }
-      else if(this.scene.graph.file_name == "casino.xml"){
-        this.finalPosition=[20,15,30];
-        this.finalTarget=[10,0,0];
-      }
-    }
-    else if(finalView == "view3"){
-      if(this.scene.graph.file_name == "sala.xml"){
-        this.finalPosition=[5,10,15];
-        this.finalTarget=[-2,0,-5];
-      }
-      else if(this.scene.graph.file_name == "casino.xml"){
-        this.finalPosition=[17,10,20];
-        this.finalTarget=[12,0,5];
-      }
-    }
+      this.finalPosition=finalView[4];
+      this.finalTarget=finalView[3];
 
     this.currTime=0;
     this.done = true;

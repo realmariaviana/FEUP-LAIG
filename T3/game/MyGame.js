@@ -1,18 +1,22 @@
 class MyGame {
 
-	constructor(scene, botMode){
+	constructor(scene, botMode,botDifficulty){
         this.scene=scene;
         this.botMode = botMode;
         this.board = new MyBoard(this.scene);
         this.scoreboard = new MyScoreBoard(this.scene);
         this.pieces = [];
         this.board.selectedSquareId = null;
+
         this.whitePieceAppearance = new CGFappearance(this.scene);
         this.whitePieceAppearance.loadTexture("scenes/images/white.jpg");
         this.blackPieceAppearance = new CGFappearance(this.scene);
         this.blackPieceAppearance.loadTexture("scenes/images/black.jpg");
+
         this.player1 = new Player(this.scene,1,25,this.whitePieceAppearance);
         this.player2 = new Player(this.scene,2,25,this.blackPieceAppearance);
+        this.selectedSquare = new MySelectedSquare(this.scene,60);
+
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
 
@@ -34,6 +38,7 @@ class MyGame {
 
 
     display(){
+
         if(this.player1 !=null && this.player2!=null)
             this.scoreboard.points=[this.player1.score,this.player2.score];
 
@@ -43,12 +48,18 @@ class MyGame {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-		this.scene.translate(-0.1,3,0);
+		this.scene.translate(-0.1,0,0);
 		this.scoreboard.display();
         this.scene.popMatrix();
 
+
         this.scene.pushMatrix();
         this.scene.translate(0.55,0,0.55);
+
+        if(this.selectedSquareId){
+            console.log(this.getPositionById(this.selectedSquareId)[0]*1.1);
+            this.selectedSquare.display(this.getPositionById(this.selectedSquareId)[1]*1.1,this.getPositionById(this.selectedSquareId)[0]*1.1);
+        }
 
        for(let i=0; i<this.pieces.length; i++){
             this.scene.pushMatrix();
@@ -154,7 +165,12 @@ class MyGame {
     }
 
     displayCapturedPieces(){
+        
         this.player1.displayCapturedPieces();
         this.player2.displayCapturedPieces();
+    }
+
+    update(time){
+        this.scoreboard.update(time);
     }
 };

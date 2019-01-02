@@ -21,6 +21,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 '/animations/AnimationVector.js', '/primitives/MyVehicleBody.js', '/primitives/MyVehicleLeg.js',
 '/primitives/MyVehicleHelix.js','/primitives/MyVehicleHelixLeg.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGame.js','/primitives/MyBoard.js',
 '/primitives/MyBishop.js', '/animations/CameraAnimation.js', 'game/Piece.js', 'game/Player.js','PrologInterface.js',
+'/animations/BezierAnimation.js', '/primitives/MySelectedSquare.js',
 
 main=function()
 {

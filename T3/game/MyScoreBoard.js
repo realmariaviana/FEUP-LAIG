@@ -32,12 +32,22 @@ class MyScoreBoard extends CGFobject
 	    this.boardMaterial.setDiffuse(0.8,0.8,0.8,1);
 	    this.boardMaterial.setSpecular(0.8,0.8,0.8,1);
         this.boardMaterial.loadTexture("../scenes/images/scoreboard.jpg");
-	}
+
+        this.animation = new BezierAnimation(this.scene,"pieces",10,[[0,0,0],[1,1,0],[2,1,0],[3,0,0]]);
+        this.scene.animatedObjects.push(this);
+    }
+    
+
+    update(time){
+        this.animation.update(time);
+    }
 
 	/**
      * Displays the board.
      */
 	display(){
+        this.animation.apply();
+
         var pointDigits = [['-','1'],['-','1']];
         if(this.points[0] >= 0){
             pointDigits[0][0] = String(Math.floor(this.points[0]/10));
