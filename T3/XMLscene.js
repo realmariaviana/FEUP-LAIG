@@ -200,7 +200,7 @@ class XMLscene extends CGFscene {
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
         
-       //this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
+       this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
 
        if(this.previousPlayer != this.game.playerTurn){
         this.game.scoreboard.playTime = this.interface.gui.playTime;

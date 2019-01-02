@@ -16,12 +16,12 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 '/primitives/MyBaselessCylinder.js','/primitives/MySphere.js',
 '/primitives/MyTriangle.js','MyComponent.js', '/primitives/MyTorus.js', 
 '/primitives/MyPlane.js', '/primitives/MyWater.js', '/primitives/MyCylinder2.js', 
-'/primitives/MyPatch.js', '/primitives/MyTerrain.js', '/primitives/MyVehicle.js', 
+'/primitives/MyPatch.js', '/primitives/MyTerrain.js', 
 '/animations/Animation.js', '/animations/CircularAnimation.js', '/animations/LinearAnimation.js',
-'/animations/AnimationVector.js', '/primitives/MyVehicleBody.js', '/primitives/MyVehicleLeg.js',
-'/primitives/MyVehicleHelix.js','/primitives/MyVehicleHelixLeg.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGame.js','/primitives/MyBoard.js',
+'/animations/AnimationVector.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGame.js','/primitives/MyBoard.js',
 '/primitives/MyBishop.js', '/animations/CameraAnimation.js', 'game/Piece.js', 'game/Player.js','PrologInterface.js',
-'/animations/BezierAnimation.js', '/primitives/MySelectedSquare.js',
+'/animations/BezierAnimation.js', '/primitives/MySelectedSquare.js','game/Utils.js', 'game/Move.js',
+
 
 main=function()
 {
