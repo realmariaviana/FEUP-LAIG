@@ -1,10 +1,11 @@
 class Player{
 
-	constructor(scene,symbol,pieces,appearance){
+	constructor(scene,symbol,pieces,type,appearance){
         this.scene=scene;
         this.pieces = pieces;
         this.score = 0;
         this.symbol = symbol;
+        this.type=type;
         this.capturedPieces=0;
         this.pieceTemplate = new Piece(this.scene,0,0,appearance);
     }

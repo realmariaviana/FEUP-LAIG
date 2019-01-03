@@ -24,16 +24,16 @@ class MyInterface extends CGFinterface {
         this.menu.open();
         this.menu.add(this.scene, 'newGame').name('new game');
         //this.menu.add(this.scene, 'Undo').name('Undo');
-        this.gui.mode = 'PlayerVsPlayer';
-        this.gui.modeList = this.menu.add(this.gui, 'mode', ['PlayerVsPlayer', 'PlayerVsBot']);
-        /*this.gui.modeList.onFinishChange(function(){
-            this.scene.changeMode(this.gui.mode);
-        }.bind(this))*/
+        this.gui.typeP1 = 'Human';
+        this.gui.typeP1List = this.menu.add(this.gui, 'typeP1', ['Human', 'Bot']);
+
+        this.gui.typeP2 = 'Bot';
+        this.gui.typeP2List = this.menu.add(this.gui, 'typeP2', ['Human', 'Bot']);
+
+
         this.gui.difficulty = 'easy';
         this.gui.diffList = this.menu.add(this.gui, 'difficulty', ['easy', 'medium']);
-       /* this.gui.diffList.onFinishChange(function(){
-            this.scene.changeDifficulty(this.gui.difficulty);
-        }.bind(this))*/
+
 
         this.gui.playTime=10;
         this.gui.add(this.gui, 'playTime', 1, 30);

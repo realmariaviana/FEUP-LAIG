@@ -23,8 +23,10 @@ class XMLscene extends CGFscene {
         this.objects=[];
         this.setPickEnabled(true);
         this.playTime=10;
-        this.gameMode = false;
+        this.gameTypeP1 = 0;
+        this.gameTypeP2 = 0;
         this.gameBotDifficulty = null;
+        
     }
 
 
@@ -68,7 +70,9 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.surfaces = [];
         this.currentCamera='view1';
-        this.game = new MyGame(this,10,this.gameBotDifficulty);
+        //this.game = new MyGame(this,10,this.gameBotDifficulty);
+
+        
 
 	};
 
@@ -196,7 +200,9 @@ class XMLscene extends CGFscene {
     update(currTime){
        
         this.graph.updateScene((currTime - this.lastUpdateTime)/1000);
-        this.game.update((currTime - this.lastUpdateTime)/1000);
+
+        if(this.game) this.game.update((currTime - this.lastUpdateTime)/1000);
+
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
@@ -243,12 +249,23 @@ class XMLscene extends CGFscene {
 
     }
 
+    typeToCode(type){
+        if(type=='Human') return 0;
+        else return 1;
+    }
+
+    difficultyToLevel(difficulty){
+        if(difficulty=='Easy') return 1;
+        else return 2;
+    }
+
     newGame(){
-        let mode = this.interface.gui.mode;
-        let difficulty = this.interface.gui.difficulty;
+        let typeP1 = this.typeToCode(this.interface.gui.typeP1);
+        let typeP2 = this.typeToCode(this.interface.gui.typeP2);
+        let difficulty = this.difficultyToLevel(this.interface.gui.difficulty);
         this.playTime = this.interface.gui.playTime;
         
-        this.game = new MyGame(this, this.playTime, mode,difficulty);
+        this.game = new MyGame(this, this.playTime, typeP1,typeP2,difficulty);
     }
 
     /**
@@ -266,7 +283,7 @@ class XMLscene extends CGFscene {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
 
-        // Initialize Model-View matrix as identity (no transformation
+        // Initialize model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
         this.loadIdentity();
 
@@ -311,7 +328,7 @@ class XMLscene extends CGFscene {
 			this.popMatrix();
         }
 
-        this.game.display();
+        if(this.game) this.game.display();
 
         let index=0,k;
         this.pushMatrix();

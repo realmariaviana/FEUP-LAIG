@@ -1,14 +1,16 @@
 class MyGame {
 
-	constructor(scene,timer,botMode,botDifficulty){
+	constructor(scene,timer,typeP1,typeP2,botDifficulty){
         this.scene=scene;
         this.timer = timer;
-        this.botMode = botMode;
+        this.typeP1=typeP1;
+        this.typeP2=typeP2;
         this.botDifficulty=botDifficulty;
-        this.board = new MyBoard(this.scene);
-        this.scoreboard = new MyScoreBoard(this.scene);
         this.pieces = [];
         this.board.selectedSquareId = null;
+
+        this.board = new MyBoard(this.scene);
+        this.scoreboard = new MyScoreBoard(this.scene);
 
         this.whitePieceAppearance = new CGFappearance(this.scene);
         this.whitePieceAppearance.loadTexture("scenes/images/white.jpg");
@@ -19,8 +21,6 @@ class MyGame {
         this.player2 = new Player(this.scene,2,25,this.whitePieceAppearance);
 
         this.selectedSquare = new MySelectedSquare(this.scene,60);
-
-       // this.scene.animatedObjects.push(this);
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
