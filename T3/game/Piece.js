@@ -15,7 +15,7 @@ class Piece{
         this.scene.pushMatrix();
         if(this.animation) this.animation.apply();
         this.scene.scale(0.12,0.12,0.12);
-        this.pieceAppearance.apply();
+        if(this.pieceAppearance) this.pieceAppearance.apply();
         this.piece.display();
         this.scene.popMatrix();
 
@@ -43,6 +43,7 @@ class Piece{
                 this.x = this.nextPos[0];
                 this.z = this.nextPos[1];
                 this.animation=null;
+                this.scene.game.changeTurn = true;
             }
         }     
             
