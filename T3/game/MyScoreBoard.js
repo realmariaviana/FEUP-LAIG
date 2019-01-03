@@ -124,13 +124,13 @@ class MyScoreBoard extends CGFobject
         if(newTime<=0){
 
             this.resetTimer();
-            this.scene.game.changePlayerTurn();
         }
         else this.scene.game.timer = newTime;
 
     }
 
     resetTimer(){
+        this.scene.game.changePlayerTurn();
         this.scene.game.timer=this.scene.interface.gui.playTime;
     }
 

@@ -140,9 +140,9 @@ class MyGame {
         this.player1.score = 25-this.player2.pieces;
         this.player2.score = 25-this.player1.pieces;
 
-        this.changePlayerTurn();
-
         selectedPiece.updateCoords(oldPos,this.updatedCoordinates);
+
+        this.scoreboard.resetTimer();
         
         this.selectedSquareId=null;
     }
