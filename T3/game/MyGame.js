@@ -1,7 +1,8 @@
 class MyGame {
 
-	constructor(scene, botMode,botDifficulty){
+	constructor(scene,timer,botMode,botDifficulty){
         this.scene=scene;
+        this.timer = timer;
         this.botMode = botMode;
         this.botDifficulty=botDifficulty;
         this.board = new MyBoard(this.scene);
@@ -19,7 +20,7 @@ class MyGame {
 
         this.selectedSquare = new MySelectedSquare(this.scene,60);
 
-        this.scene.animatedObjects.push(this);
+       // this.scene.animatedObjects.push(this);
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
@@ -139,11 +140,16 @@ class MyGame {
         this.player1.score = 25-this.player2.pieces;
         this.player2.score = 25-this.player1.pieces;
 
-        this.playerTurn = JSON.parse(data.target.response)[3];
+        this.changePlayerTurn();
 
         selectedPiece.updateCoords(oldPos,this.updatedCoordinates);
         
         this.selectedSquareId=null;
+    }
+
+    changePlayerTurn(){
+        if(this.playerTurn==1) this.playerTurn=2;
+        else this.playerTurn=1;
     }
 
     removePiece(x,z){
@@ -167,6 +173,8 @@ class MyGame {
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
         }
+
+        this.scoreboard.update(deltaTime);
     }
 
 };

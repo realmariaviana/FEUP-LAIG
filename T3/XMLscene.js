@@ -68,7 +68,7 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.surfaces = [];
         this.currentCamera='view1';
-        this.game = new MyGame(this,this.gameBotDifficulty);
+        this.game = new MyGame(this,10,this.gameBotDifficulty);
 
 	};
 
@@ -196,26 +196,12 @@ class XMLscene extends CGFscene {
     update(currTime){
        
         this.graph.updateScene((currTime - this.lastUpdateTime)/1000);
-
+        this.game.update((currTime - this.lastUpdateTime)/1000);
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
 
-        //this.game.scoreboard.playTime -= ((currTime - this.lastUpdateTime)/1000);
         if(this.cameraAnimation) this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
-
-       if(this.previousPlayer != this.game.playerTurn){
-        this.game.scoreboard.playTime = this.playTime;
-       }
-
-       this.previousPlayer = this.game.playerTurn;
-
-       if(this.game.scoreboard.playTime <= 0){
-           if(this.game.playerTurn == 1)
-            this.game.playerTurn = 2;
-            else if(this.game.playerTurn == 2)
-            this.game.playerTurn = 1;
-       }
 
        this.lastUpdateTime = currTime;
     }
@@ -262,8 +248,7 @@ class XMLscene extends CGFscene {
         let difficulty = this.interface.gui.difficulty;
         this.playTime = this.interface.gui.playTime;
         
-        this.game = new MyGame(this, mode,difficulty);
-        this.game.scoreboard.playTime = this.playTime;
+        this.game = new MyGame(this, this.playTime, mode,difficulty);
     }
 
     /**

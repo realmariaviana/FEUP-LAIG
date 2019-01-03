@@ -10,7 +10,8 @@ class MyScoreBoard extends CGFobject
 	*/
 	constructor(scene)
 	{
-		super(scene);
+        super(scene);
+        this.lastUpdateTime = 0;
         this.initElements();
 	};
 
@@ -51,9 +52,9 @@ class MyScoreBoard extends CGFobject
         }
 
         var timeDigits = ['-','-'];
-	    if(this.playTime >= 0){
-		timeDigits[0] = String(Math.floor(this.playTime/10));
-		timeDigits[1] = String(this.playTime % 10);
+	    if(this.scene.game.timer >= 0){
+		timeDigits[0] = String(Math.floor(this.scene.game.timer/10));
+		timeDigits[1] = String(this.scene.game.timer % 10);
 	    }
 
         this.scene.setActiveShader(this.font.shader);
@@ -115,6 +116,22 @@ class MyScoreBoard extends CGFobject
             this.grayMaterial.apply();
             
         this.scene.popMatrix();
-	};
+    };
+    
+    update(deltaTime){
+        let newTime = this.scene.game.timer-deltaTime;
+        
+        if(newTime<=0){
+
+            this.resetTimer();
+            this.scene.game.changePlayerTurn();
+        }
+        else this.scene.game.timer = newTime;
+
+    }
+
+    resetTimer(){
+        this.scene.game.timer=this.scene.interface.gui.playTime;
+    }
 
 };
