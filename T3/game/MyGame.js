@@ -56,6 +56,7 @@ class MyGame {
 
         this.scene.pushMatrix();
         this.scene.translate(5.5,-0.05,5.5);
+       
         this.board.display();
         this.scene.popMatrix();
 
@@ -78,7 +79,7 @@ class MyGame {
             this.pieces[i].display();
             this.scene.popMatrix();
         }
-
+       
         this.scene.popMatrix();
 
         this.displayCapturedPieces();
@@ -149,8 +150,14 @@ class MyGame {
     }
 
     changePlayerTurn(){
-        if(this.playerTurn==1) this.playerTurn=2;
-        else this.playerTurn=1;
+        if(this.playerTurn==1) {
+            this.playerTurn=2;
+            this.scene.changeView("player2");
+        }
+        else {
+            this.playerTurn=1;
+            this.scene.changeView("player1");
+        }
     }
 
     removePiece(x,z){

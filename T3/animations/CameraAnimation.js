@@ -10,13 +10,12 @@ constructor (scene, initialView, finalView){
     this.span=1;
 
     //InicialPosition
-      this.initialPosition=initialView[4];
-      this.initialTarget= initialView[3];
-  
+    this.initialPosition=initialView[4];
+    this.initialTarget= initialView[3];
   
     //FinalPosition
-      this.finalPosition=finalView[4];
-      this.finalTarget=finalView[3];
+    this.finalPosition=finalView[4];
+    this.finalTarget=finalView[3];
 
     this.currTime=0;
     this.done = true;

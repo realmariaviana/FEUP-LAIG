@@ -190,7 +190,7 @@ class XMLscene extends CGFscene {
 
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
-        // this.interface.addViewsGroup(this.views);
+        
         this.interface.initKeys();
 
         this.sceneInited = true;
@@ -246,6 +246,30 @@ class XMLscene extends CGFscene {
               this.currentCamera="view3";
           }
           }
+          else if(viewName == "player1"){
+            if(this.graph.file_name == "sala.xml"){
+                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation.done = false;
+              this.currentCamera="player1";
+            }
+            else if(this.graph.file_name == "casino.xml"){
+                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation.done = false;
+              this.currentCamera="player1";
+          }
+          }
+          else if(viewName == "player2"){
+            if(this.graph.file_name == "sala.xml"){
+                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation.done = false;
+              this.currentCamera="player2";
+            }
+            else if(this.graph.file_name == "casino.xml"){
+                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation.done = false;
+              this.currentCamera="player2";
+          }
+          }
 
     }
 
@@ -266,6 +290,7 @@ class XMLscene extends CGFscene {
         this.playTime = this.interface.gui.playTime;
         
         this.game = new MyGame(this, this.playTime, typeP1,typeP2,difficulty);
+        this.changeView("player1");
     }
 
     /**
@@ -327,8 +352,11 @@ class XMLscene extends CGFscene {
 			this.surfaces[i].display();
 			this.popMatrix();
         }
-
+        this.pushMatrix();
+        this.translate(4.6,2.5,4.36);
+        this.scale(0.3,0.3,0.3);
         if(this.game) this.game.display();
+        this.popMatrix();
 
         let index=0,k;
         this.pushMatrix();

@@ -890,9 +890,6 @@ class MySceneGraph {
             case 'patch':
             return this.parsePatch(node, id);
 
-            case 'vehicle':
-            return this.parseVehicle(node, id);
-
             case 'cylinder2':
             return this.parseCylinder2(node, id);
 
@@ -901,9 +898,6 @@ class MySceneGraph {
 
             case 'water':
             return this.parseWater(node, id);
-
-            case 'helix':
-            return this.parseHelix(node, id);
         }
     }
 
@@ -1081,21 +1075,6 @@ class MySceneGraph {
         }
 
         this.primitives.push([id, new MyPatch(this.scene,nPartsU,nPartsV, nPointsU, nPointsV, controlPoints)]);
-        return null;
-    }
-
-    /**
-     * Parses Vehicle
-     * @param {*} node
-     * @param {*} id
-     */
-    parseVehicle(node, id){
-        this.primitives.push([id, new MyVehicle(this.scene)]);
-        return null;
-    }
-
-    parseHelix(node, id){
-        this.primitives.push([id, new MyVehicleHelix(this.scene)]);
         return null;
     }
 
