@@ -18,8 +18,8 @@ class MyGame {
         this.blackPieceAppearance = new CGFappearance(this.scene);
         this.blackPieceAppearance.loadTexture("scenes/images/black.jpg");
 
-        this.player1 = new Player(this.scene,1,25,this.blackPieceAppearance);
-        this.player2 = new Player(this.scene,2,25,this.whitePieceAppearance);
+        this.player1 = new Player(this.scene,1,25,typeP2,this.blackPieceAppearance);
+        this.player2 = new Player(this.scene,2,25,typeP1,this.whitePieceAppearance);
 
         this.selectedSquare = new MySelectedSquare(this.scene,60);
         this.changeTurn=false;
@@ -30,6 +30,11 @@ class MyGame {
     initializeBoard(data){
         this.boardState = JSON.parse(data.target.response)[0];
         this.playerTurn = JSON.parse(data.target.response)[3];
+
+        if(this.getPlayerBySymbol(this.playerTurn).type == 1){
+            this.getMove();
+        }
+
         this.initPieces();
     }
 
@@ -148,9 +153,31 @@ class MyGame {
         this.selectedSquareId=null;
     }
 
+    get_move(data){
+        let fromX = JSON.parse(data.target.response)[0];
+        let fromZ = JSON.parse(data.target.response)[1];
+
+        this.selectedSquareId = fromX*10+fromZ;
+
+        let toX = JSON.parse(data.target.response)[1];
+        let toZ = JSON.parse(data.target.response)[2];
+
+        let requestString = `move(${fromX},${fromZ},${toX},${toZ},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
+        makeRequest(requestString,data => this.move(data));
+    }
+
+    moveAi(){
+        let requestString = `get_move(${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn},${this.getPlayerBySymbol(this.playerTurn).type},${this.botDifficulty})`;
+        makeRequest(requestString,data => this.get_move(data));
+    }
+
     changePlayerTurn(){
         if(this.playerTurn==1) this.playerTurn=2;
         else this.playerTurn=1;
+
+        this.scoreboard.resetTimer();
+        this.changeTurn=false;
+        this.scoreboard.unfreezeTime();
     }
 
     removePiece(x,z){
@@ -164,6 +191,11 @@ class MyGame {
         }
     }
 
+    getPlayerBySymbol(symbol){
+        if(this.player1.symbol==symbol) return this.player1;
+        else return this.player2;
+    }
+
     displayCapturedPieces(){
         
         this.player1.displayCapturedPieces();
@@ -171,18 +203,18 @@ class MyGame {
     }
 
     update(deltaTime){
+
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
         }
 
         if(this.changeTurn){
-            console.log("move");
-            this.scoreboard.resetTimer();
             this.changePlayerTurn();
-            this.changeTurn=false;
-            this.scoreboard.unfreezeTime();
 
-        } 
+            if(this.getPlayerBySymbol(this.playerTurn).type == 1){
+                this.moveAi();
+            }
+        }  
         else this.scoreboard.update(deltaTime);
     }
 
