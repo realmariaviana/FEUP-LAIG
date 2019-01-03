@@ -23,6 +23,8 @@ class XMLscene extends CGFscene {
         this.objects=[];
         this.setPickEnabled(true);
         this.playTime=10;
+        this.gameMode = false;
+        this.gameBotDifficulty = null;
     }
 
 
@@ -66,9 +68,8 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.surfaces = [];
         this.currentCamera='view1';
-        this.game = new MyGame(this);
+        this.game = new MyGame(this,this.gameBotDifficulty);
 
-        this.botDifficulty = 1;
 	};
 
 
@@ -199,11 +200,12 @@ class XMLscene extends CGFscene {
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
-        
-       this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
+
+        //this.game.scoreboard.playTime -= ((currTime - this.lastUpdateTime)/1000);
+        if(this.cameraAnimation) this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
 
        if(this.previousPlayer != this.game.playerTurn){
-        this.game.scoreboard.playTime = this.interface.gui.playTime;
+        this.game.scoreboard.playTime = this.playTime;
        }
 
        this.previousPlayer = this.game.playerTurn;
@@ -255,34 +257,14 @@ class XMLscene extends CGFscene {
 
     }
 
-    changeMode(mode){
-        if(mode == 'PlayerVsPlayer'){
-          this.game = new MyGame(this,false);
-        }
-        else if(mode == 'PlayerVsBot'){
-          this.game = new MyGame(this,true);
-          this.game.botDifficulty = this.botDifficulty;
-        }
-      }
-    
-    changeDifficulty(difficulty){
-        if(difficulty == 'easy'){
-          this.botDifficulty= 1;
-          this.game.botDifficulty = this.botDifficulty;
-        }
-        else if(difficulty == 'medium'){
-          this.botDifficulty = 2;
-          this.game.botDifficulty = this.botDifficulty;
-        }
-      }
-
-    NewGame(){
-    if(!this.game.botMode){
-          this.game = new MyGame(this, false);
-          this.game.scoreboard.playTime = this.interface.gui.playTime;
-    } else{
-        this.game = new MyGame(this,true);
-    }}
+    newGame(){
+        let mode = this.interface.gui.mode;
+        let difficulty = this.interface.gui.difficulty;
+        this.playTime = this.interface.gui.playTime;
+        
+        this.game = new MyGame(this, mode,difficulty);
+        this.game.scoreboard.playTime = this.playTime;
+    }
 
     /**
      * Displays the scene.

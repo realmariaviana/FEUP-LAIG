@@ -3,6 +3,7 @@ class MyGame {
 	constructor(scene, botMode,botDifficulty){
         this.scene=scene;
         this.botMode = botMode;
+        this.botDifficulty=botDifficulty;
         this.board = new MyBoard(this.scene);
         this.scoreboard = new MyScoreBoard(this.scene);
         this.pieces = [];
