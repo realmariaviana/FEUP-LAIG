@@ -100,4 +100,5 @@ parse_input(move(FromX,FromY,ToX,ToY,B,PiecesP1,PiecesP2,Player),[NewB,NewPieces
     move(move(point(FromX,FromY), point(ToX,ToY)), board(B,PiecesP1,PiecesP2), board(NewB,NewPiecesP1,NewPiecesP2), Player),
 	change_player(Player,NewPlayer).
 
-
+parse_input(get_move(B,PiecesP1, PiecesP2, Player,TypePlayer,Level),[FromX,FromY, ToX,ToY]):-
+    get_move(state(board(B, PiecesP1, PiecesP2),Player),point(FromX,FromY), point(ToX,ToY),TypePlayer, Level).

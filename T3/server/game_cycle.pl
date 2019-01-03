@@ -118,13 +118,7 @@ update(state(board(B, PiecesP1, PiecesP2),Player), state(board(NewB, NewPiecesP1
 % Level - current level
 get_move(state(board(B, PiecesP1, PiecesP2),Player),point(FromX,FromY), point(ToX,ToY),TypePlayer,Level):-
     TypePlayer is 1,
-    choose_move(state(board(B, PiecesP1, PiecesP2),Player), Level, move(point(FromX,FromY),point(ToX,ToY))),
-    write('\n Bot made move: '),
-    write(point(FromX,FromY)),
-    write(' -> '),
-    write(point(ToX,ToY)), nl, 
-    write(' Type enter:'),
-    get_code(_Input). 
+    choose_move(state(board(B, PiecesP1, PiecesP2),Player), Level, move(point(FromX,FromY),point(ToX,ToY))).
 
 get_move(state(board(B, PiecesP1, PiecesP2),Player),point(FromX,FromY), point(ToX,ToY),TypePlayer,_Level):-
     TypePlayer is 0,

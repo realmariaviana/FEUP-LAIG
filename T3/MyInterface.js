@@ -27,7 +27,7 @@ class MyInterface extends CGFinterface {
         this.gui.typeP1 = 'Human';
         this.gui.typeP1List = this.menu.add(this.gui, 'typeP1', ['Human', 'Bot']);
 
-        this.gui.typeP2 = 'Bot';
+        this.gui.typeP2 = 'Human';
         this.gui.typeP2List = this.menu.add(this.gui, 'typeP2', ['Human', 'Bot']);
 
 

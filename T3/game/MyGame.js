@@ -18,10 +18,11 @@ class MyGame {
         this.blackPieceAppearance = new CGFappearance(this.scene);
         this.blackPieceAppearance.loadTexture("scenes/images/black.jpg");
 
-        this.player1 = new Player(this.scene,1,25,this.blackPieceAppearance);
-        this.player2 = new Player(this.scene,2,25,this.whitePieceAppearance);
+        this.player1 = new Player(this.scene,1,25,typeP2,this.blackPieceAppearance);
+        this.player2 = new Player(this.scene,2,25,typeP1,this.whitePieceAppearance);
 
         this.selectedSquare = new MySelectedSquare(this.scene,60);
+        this.changeTurn=false;
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
@@ -29,6 +30,12 @@ class MyGame {
     initializeBoard(data){
         this.boardState = JSON.parse(data.target.response)[0];
         this.playerTurn = JSON.parse(data.target.response)[3];
+        this.updatedCoordinates=[];
+
+        if(this.getPlayerBySymbol(this.playerTurn).type == 1){
+            this.moveAi();
+        }
+
         this.initPieces();
     }
 
@@ -45,7 +52,7 @@ class MyGame {
                 }
             }
         }
-        
+
     }
 
 
@@ -56,7 +63,7 @@ class MyGame {
 
         this.scene.pushMatrix();
         this.scene.translate(5.5,-0.05,5.5);
-       
+
         this.board.display();
         this.scene.popMatrix();
 
@@ -79,7 +86,7 @@ class MyGame {
             this.pieces[i].display();
             this.scene.popMatrix();
         }
-       
+
         this.scene.popMatrix();
 
         this.displayCapturedPieces();
@@ -88,16 +95,17 @@ class MyGame {
 
     userPick(id){
 
-        if(!getPieceWithId(id,this.pieces)) return;
-
         if(!this.selectedSquareId){
+            if(!getPieceWithId(id,this.pieces)) return;
+
             this.selectedSquareId=id;
             return;
         }
-        
+
         if(id==this.selectedSquareId)
             this.selectedSquareId=null;
         else{
+
             let oldPos = getPositionById(this.selectedSquareId);
             let newPos = getPositionById(id);
             let requestString = `valid_play(${oldPos[0]},${oldPos[1]},${newPos[0]},${newPos[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
@@ -112,21 +120,22 @@ class MyGame {
         if(JSON.parse(data.target.response)[0]=='1'){
 
             if(JSON.parse(data.target.response)[1]=='1') this.moveType = "kill";
-            else this.moveType = "engage";   
 
             let oldPos = getPositionById(this.selectedSquareId);
 
             let requestString = `move(${oldPos[0]},${oldPos[1]},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
             makeRequest(requestString,data => this.move(data));
 
+
         }else{
-            console.log("invalid move\n"); 
+            console.log("invalid move\n");
             this.selectedSquareId=null;
-        } 
+        }
 
     }
 
     move(data){
+
         let selectedPiece = getPieceWithId(this.selectedSquareId,this.pieces);
 
         let oldPos = [selectedPiece.x,selectedPiece.z];
@@ -135,29 +144,53 @@ class MyGame {
         }
 
         this.boardState = JSON.parse(data.target.response)[0];
-        
+
         this.player1.pieces = JSON.parse(data.target.response)[1];
         this.player2.pieces = JSON.parse(data.target.response)[2];
 
         this.player1.score = 25-this.player2.pieces;
         this.player2.score = 25-this.player1.pieces;
 
+        this.scoreboard.freezeTime();
+
         selectedPiece.updateCoords(oldPos,this.updatedCoordinates);
 
-        this.scoreboard.resetTimer();
-        
         this.selectedSquareId=null;
     }
 
+    getMove(data){
+        let fromX = JSON.parse(data.target.response)[0];
+        let fromZ = JSON.parse(data.target.response)[1];
+
+        this.updatedCoordinates[0] = JSON.parse(data.target.response)[2];
+        this.updatedCoordinates[1] = JSON.parse(data.target.response)[3];
+
+        this.selectedSquareId = fromX*10+fromZ;
+
+        let requestString = `valid_play(${fromX},${fromZ},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
+
+        makeRequest(requestString,data => this.checkValidMove(data));
+
+    }
+
+    moveAi(){
+        let requestString = `get_move(${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn},${this.getPlayerBySymbol(this.playerTurn).type},1)`;
+        makeRequest(requestString,data => this.getMove(data));
+    }
+
     changePlayerTurn(){
-        if(this.playerTurn==1) {
-            this.playerTurn=2;
-            this.scene.changeView("player2");
-        }
-        else {
-            this.playerTurn=1;
-            this.scene.changeView("player1");
-        }
+			if(this.playerTurn==1) {
+					this.playerTurn=2;
+					this.scene.changeView("player2");
+			}
+			else {
+					this.playerTurn=1;
+					this.scene.changeView("player1");
+			}
+
+        this.scoreboard.resetTimer();
+        this.changeTurn=false;
+        this.scoreboard.unfreezeTime();
     }
 
     removePiece(x,z){
@@ -171,18 +204,31 @@ class MyGame {
         }
     }
 
+    getPlayerBySymbol(symbol){
+        if(this.player1.symbol==symbol) return this.player1;
+        else return this.player2;
+    }
+
     displayCapturedPieces(){
-        
+
         this.player1.displayCapturedPieces();
         this.player2.displayCapturedPieces();
     }
 
     update(deltaTime){
+
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
         }
 
-        this.scoreboard.update(deltaTime);
+        if(this.changeTurn){
+            this.changePlayerTurn();
+
+            if(this.getPlayerBySymbol(this.playerTurn).type == 1){
+                this.moveAi();
+            }
+        }
+        else this.scoreboard.update(deltaTime);
     }
 
 };
