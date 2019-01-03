@@ -7,10 +7,11 @@ class MyGame {
         this.typeP2=typeP2;
         this.botDifficulty=botDifficulty;
         this.pieces = [];
-        this.board.selectedSquareId = null;
 
         this.board = new MyBoard(this.scene);
         this.scoreboard = new MyScoreBoard(this.scene);
+
+        this.board.selectedSquareId = null;
 
         this.whitePieceAppearance = new CGFappearance(this.scene);
         this.whitePieceAppearance.loadTexture("scenes/images/white.jpg");
