@@ -5,7 +5,7 @@ class MyGame {
         this.timer = timer;
         this.typeP1=typeP1;
         this.typeP2=typeP2;
-        this.botDifficulty=botDifficulty;
+        this.botDifficulty=2;
         this.pieces = [];
 
         this.board = new MyBoard(this.scene);
@@ -32,7 +32,7 @@ class MyGame {
         this.playerTurn = JSON.parse(data.target.response)[3];
 
         if(this.getPlayerBySymbol(this.playerTurn).type == 1){
-            this.getMove();
+            this.moveAi();
         }
 
         this.initPieces();
@@ -153,22 +153,24 @@ class MyGame {
         this.selectedSquareId=null;
     }
 
-    get_move(data){
+    getMove(data){
         let fromX = JSON.parse(data.target.response)[0];
         let fromZ = JSON.parse(data.target.response)[1];
 
+        this.updatedCoordinates[0] = JSON.parse(data.target.response)[2];
+        this.updatedCoordinates[1] = JSON.parse(data.target.response)[3];
+
         this.selectedSquareId = fromX*10+fromZ;
 
-        let toX = JSON.parse(data.target.response)[1];
-        let toZ = JSON.parse(data.target.response)[2];
+        console.log(fromX,fromZ,this.updatedCoordinates[0],this.updatedCoordinates[1]);
 
-        let requestString = `move(${fromX},${fromZ},${toX},${toZ},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
+        let requestString = `move(${fromX},${fromZ},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
         makeRequest(requestString,data => this.move(data));
     }
 
     moveAi(){
-        let requestString = `get_move(${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn},${this.getPlayerBySymbol(this.playerTurn).type},${this.botDifficulty})`;
-        makeRequest(requestString,data => this.get_move(data));
+        let requestString = `get_move(${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn},${this.getPlayerBySymbol(this.playerTurn).type},1)`;
+        makeRequest(requestString,data => this.getMove(data));
     }
 
     changePlayerTurn(){
