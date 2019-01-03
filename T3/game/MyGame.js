@@ -5,7 +5,7 @@ class MyGame {
         this.timer = timer;
         this.typeP1=typeP1;
         this.typeP2=typeP2;
-        this.botDifficulty=2;
+        this.botDifficulty=botDifficulty;
         this.pieces = [];
 
         this.board = new MyBoard(this.scene);
@@ -30,6 +30,7 @@ class MyGame {
     initializeBoard(data){
         this.boardState = JSON.parse(data.target.response)[0];
         this.playerTurn = JSON.parse(data.target.response)[3];
+        this.updatedCoordinates=[];
 
         if(this.getPlayerBySymbol(this.playerTurn).type == 1){
             this.moveAi();
@@ -93,9 +94,9 @@ class MyGame {
 
     userPick(id){
 
-        if(!getPieceWithId(id,this.pieces)) return;
-
         if(!this.selectedSquareId){
+            if(!getPieceWithId(id,this.pieces)) return;
+            
             this.selectedSquareId=id;
             return;
         }
@@ -103,6 +104,7 @@ class MyGame {
         if(id==this.selectedSquareId)
             this.selectedSquareId=null;
         else{
+            
             let oldPos = getPositionById(this.selectedSquareId);
             let newPos = getPositionById(id);
             let requestString = `valid_play(${oldPos[0]},${oldPos[1]},${newPos[0]},${newPos[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
@@ -117,12 +119,12 @@ class MyGame {
         if(JSON.parse(data.target.response)[0]=='1'){
 
             if(JSON.parse(data.target.response)[1]=='1') this.moveType = "kill";
-            else this.moveType = "engage";   
 
             let oldPos = getPositionById(this.selectedSquareId);
 
             let requestString = `move(${oldPos[0]},${oldPos[1]},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
             makeRequest(requestString,data => this.move(data));
+
 
         }else{
             console.log("invalid move\n"); 
@@ -132,6 +134,7 @@ class MyGame {
     }
 
     move(data){
+
         let selectedPiece = getPieceWithId(this.selectedSquareId,this.pieces);
 
         let oldPos = [selectedPiece.x,selectedPiece.z];
@@ -148,6 +151,7 @@ class MyGame {
         this.player2.score = 25-this.player1.pieces;
 
         this.scoreboard.freezeTime();
+
         selectedPiece.updateCoords(oldPos,this.updatedCoordinates);
         
         this.selectedSquareId=null;
@@ -162,10 +166,10 @@ class MyGame {
 
         this.selectedSquareId = fromX*10+fromZ;
 
-        console.log(fromX,fromZ,this.updatedCoordinates[0],this.updatedCoordinates[1]);
+        let requestString = `valid_play(${fromX},${fromZ},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
+        
+        makeRequest(requestString,data => this.checkValidMove(data));
 
-        let requestString = `move(${fromX},${fromZ},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
-        makeRequest(requestString,data => this.move(data));
     }
 
     moveAi(){
