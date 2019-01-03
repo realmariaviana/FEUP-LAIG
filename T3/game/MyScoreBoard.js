@@ -11,8 +11,8 @@ class MyScoreBoard extends CGFobject
 	constructor(scene)
 	{
         super(scene);
-        this.lastUpdateTime = 0;
         this.initElements();
+        this.freeze = false;
 	};
 
 	/**
@@ -119,19 +119,28 @@ class MyScoreBoard extends CGFobject
     };
     
     update(deltaTime){
+
+        if(this.freeze) return;
+        
         let newTime = this.scene.game.timer-deltaTime;
         
         if(newTime<=0){
-
-            this.resetTimer();
+            this.scene.game.changeTurn = true;
         }
         else this.scene.game.timer = newTime;
 
     }
 
     resetTimer(){
-        this.scene.game.changePlayerTurn();
         this.scene.game.timer=this.scene.interface.gui.playTime;
+    }
+
+    freezeTime(){
+        this.freeze = true;
+    }
+
+    unfreezeTime(){
+        this.freeze = false;
     }
 
 };

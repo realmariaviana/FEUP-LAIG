@@ -22,6 +22,7 @@ class MyGame {
         this.player2 = new Player(this.scene,2,25,this.whitePieceAppearance);
 
         this.selectedSquare = new MySelectedSquare(this.scene,60);
+        this.changeTurn=false;
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
@@ -141,9 +142,8 @@ class MyGame {
         this.player1.score = 25-this.player2.pieces;
         this.player2.score = 25-this.player1.pieces;
 
+        this.scoreboard.freezeTime();
         selectedPiece.updateCoords(oldPos,this.updatedCoordinates);
-
-        this.scoreboard.resetTimer();
         
         this.selectedSquareId=null;
     }
@@ -175,7 +175,15 @@ class MyGame {
             this.pieces[i].update(deltaTime);
         }
 
-        this.scoreboard.update(deltaTime);
+        if(this.changeTurn){
+            console.log("move");
+            this.scoreboard.resetTimer();
+            this.changePlayerTurn();
+            this.changeTurn=false;
+            this.scoreboard.unfreezeTime();
+
+        } 
+        else this.scoreboard.update(deltaTime);
     }
 
 };
