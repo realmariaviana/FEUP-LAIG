@@ -112,6 +112,7 @@
         <texture id="heightmaptxt" file="scenes/images/terrain-height-map.jpg"/>
         <texture id="water" file="scenes/images/water.jpg"/>
         <texture id="wavemap" file="scenes/images/wavemap.png"/>
+         <texture id="tabuleiro" file="scenes/images/tabuleiro.png"/>
 
     </textures>
 
@@ -267,6 +268,7 @@
                 <componentref id="tv"/>
                 <componentref id="visor"/>
                <componentref id="mirrors"/>
+               <componentref id="board"/>
             </children>
 
             <animations>
@@ -274,6 +276,27 @@
 
         </component> 
 
+
+         <component id="board">
+            <transformation>
+            <translate x="5.92" y="0.71" z="5.92"/>
+                <scale x="4.19" y="1" z="4.19"/>
+                
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            
+             <texture id="tabuleiro" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="plane"/>
+            </children>
+
+
+         </component>
 
 
         <!-- Wall1 -->

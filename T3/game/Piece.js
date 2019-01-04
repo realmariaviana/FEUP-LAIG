@@ -47,7 +47,8 @@ class Piece{
 
                 this.animation=null;
 
-            }else if(this.animation.percentage>=0.55 && this.scene.game.pieceToRemove!=null){
+            }else if(this.animation.percentage>=0.55 && this.scene.game.pieceToRemove){
+                console.log(this.scene.game.pieceToRemove);
                 this.scene.game.removePiece();
             }
         }     
@@ -82,20 +83,4 @@ class Piece{
     getId(){
         return this.x*10+this.z;
     }
-
-
-    /*
-    this.nextPos = newPos;
-        let controlPoints = [[0,0,0]];
-        let distanceVec = [newPos[0] - oldPos[0], newPos[1] - oldPos[1]];
-        
-        let midPoint1 = [distanceVec[0]*(1/3),0.1,distanceVec[1]*(1/3)];
-        let midPoint2 = [distanceVec[0]*(2/3),0.1,distanceVec[1]*(2/3)];
-
-        controlPoints.push(midPoint1);
-        controlPoints.push(midPoint2);
-        controlPoints.push([distanceVec[0],0,distanceVec[1]]);
-
-        this.animation = new BezierAnimation(this.scene,"hello",2,controlPoints);
-        */
 };
