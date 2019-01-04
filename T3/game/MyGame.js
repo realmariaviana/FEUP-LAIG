@@ -23,6 +23,7 @@ class MyGame {
 
         this.selectedSquare = new MySelectedSquare(this.scene,60);
         this.changeTurn=false;
+        this.pieceToRemove= null;
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
@@ -139,9 +140,9 @@ class MyGame {
 
         let selectedPiece = getPieceWithId(this.selectedSquareId,this.pieces);
 
-        let oldPos = [selectedPiece.x,selectedPiece.z];
+        this.oldPos = [selectedPiece.x,selectedPiece.z];
         if(this.moveType=="kill"){
-            this.removePiece(this.updatedCoordinates[0],this.updatedCoordinates[1]);
+            this.pieceToRemove = getPieceWithId(this.updatedCoordinates[0]*10 +this.updatedCoordinates[1],this.pieces);
         }
 
         this.boardState = JSON.parse(data.target.response)[0];
@@ -154,7 +155,7 @@ class MyGame {
 
         this.scoreboard.freezeTime();
 
-        selectedPiece.updateCoords(oldPos,this.updatedCoordinates);
+        selectedPiece.updateCoords(this.oldPos,this.updatedCoordinates);
 
         this.selectedSquareId=null;
     }
@@ -194,18 +195,21 @@ class MyGame {
         this.scoreboard.unfreezeTime();
     }
 
-    removePiece(x,z){
+    removePiece(){
         for(let i=0;i<this.pieces.length;i++){
-            if(this.pieces[i].x==x && this.pieces[i].z==z){
-                let removed = this.pieces[i];
-                if(this.playerTurn==2) removed.remove([removed.x,removed.z],[12,10-this.player2.capturedPieces]);
-                else removed.remove([removed.x,removed.z],[-2,this.player1.capturedPieces]);
+            if(this.pieces[i].x==this.pieceToRemove.x && this.pieces[i].z==this.pieceToRemove.z){
+                let removed = this.pieceToRemove;
+                let player = this.getPlayerBySymbol(this.playerTurn);
+                let unitVec = [(this.oldPos[0]-removed.x)/(this.oldPos[0]-removed.x),(this.oldPos[1]-removed.z)/(this.oldPos[1]-removed.z)];
+                removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec);
                 this.scene.animatedObjects.push(removed);
                 this.pieces.splice(i,1);
 
                 if(this.playerTurn==1)
                     this.player1.addCapturedPiece(removed);
                 else this.player2.addCapturedPiece(removed);
+
+                this.pieceToRemove= null;
             }
         }
     }

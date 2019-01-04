@@ -43,11 +43,12 @@ class Piece{
                 this.z = this.nextPos[1];
                 
                 if(this.animation.id=="move")
-                    this.scene.game.changeTurn = true;
-                
+                   {this.scene.game.changeTurn = true;}
 
                 this.animation=null;
 
+            }else if(this.animation.percentage>=0.55 && this.scene.game.pieceToRemove!=null){
+                this.scene.game.removePiece();
             }
         }     
             
@@ -58,17 +59,22 @@ class Piece{
 
         let distanceVec = [newPos[1] - oldPos[1], newPos[0] - oldPos[0]];
         let controlPoints = [[0,0,0],[distanceVec[0],0,distanceVec[1]]];
-        let timeRatio = 0.8*distance(controlPoints[0],controlPoints[1]);
+        let timeRatio = distance(controlPoints[0],controlPoints[1]);
 
         this.animation = new LinearAnimation(this.scene,"move",timeRatio,controlPoints);
     }
 
-    remove(oldPos,newPos){
 
-        this.nextPos = newPos;            
+    remove(oldPos,newPos,unitVec){
 
-        let controlPoints = [[oldPos[1],0,oldPos[0]],[oldPos[1],1,oldPos[0]],[this.nextPos[0],1,this.nextPos[1]],[this.nextPos[0],0,this.nextPos[1]]];
-        let timeRatio = 2*distance(controlPoints[0],controlPoints[1]);
+        this.nextPos = newPos;    
+        let factor;
+        
+        if(this.pieceAppearance==this.scene.game.blackPieceAppearance) factor = -0.1;
+        else factor = 0.1;
+
+        let controlPoints = [[oldPos[1],0,oldPos[0]],[oldPos[1]-0.1*unitVec[1],0,oldPos[0]-factor*unitVec[0]],[oldPos[1]-0.1*unitVec[1],3.5,oldPos[0]-factor*unitVec[0]],[this.nextPos[0],3.5,this.nextPos[1]],[this.nextPos[0],0,this.nextPos[1]]];
+        let timeRatio = 0.1*(distance(controlPoints[0],controlPoints[1]) + distance(controlPoints[1],controlPoints[2])+distance(controlPoints[2],controlPoints[3])+distance(controlPoints[3],controlPoints[4]));
 
         this.animation = new LinearAnimation(this.scene,"capture",timeRatio,controlPoints);
     }

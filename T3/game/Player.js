@@ -37,6 +37,21 @@ class Player{
         }
     }
 
+    getCapturedCoords(){
+
+        let x,z;
+
+        if(this.symbol==2){
+            x = 12+Math.floor(this.capturedPieces/10);
+            z = 10-this.capturedPieces%10;
+        }else{
+            x = -2-Math.floor(this.capturedPieces/10);
+            z = this.capturedPieces%10;
+        }
+
+        return [x,z];
+    }
+
     displayCapturedPieces(){
 
         let x,z;
@@ -44,21 +59,7 @@ class Player{
         for(let i=0; i<this.capturedPiecesArray.length; i++){
             this.scene.pushMatrix();
             if(!this.capturedPiecesArray[i].animation){
-                if(i<=10){
-                    x = this.capturedPiecesArray[i].x;
-                    z= this.capturedPiecesArray[i].z;
-                } else if(i<=20){
-                    if(this.symbol==2) x = this.capturedPiecesArray[i].x+1;
-                    else x = this.capturedPiecesArray[i].x-1;
-                    if(this.symbol==2) z= 11+this.capturedPiecesArray[i].z;
-                    else z= this.capturedPiecesArray[i].z % 10;
-                }else{
-                    if(this.symbol==2) x = this.capturedPiecesArray[i].x+2;
-                    else x = this.capturedPiecesArray[i].x-2;
-                    if(this.symbol==2) z= 11-this.capturedPiecesArray[i].z;
-                    else z= this.capturedPiecesArray[i].z % 10-1;
-                }
-                this.scene.translate(x,0,z);
+                this.scene.translate(this.capturedPiecesArray[i].x,0,this.capturedPiecesArray[i].z);
             }   
             this.capturedPiecesArray[i].display();
             this.scene.popMatrix();
