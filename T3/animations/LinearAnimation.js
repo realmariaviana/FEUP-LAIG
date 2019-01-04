@@ -16,6 +16,7 @@ class LinearAnimation extends Animation {
         this.pointIndex=0;
         this.translateVec=[];
         this.angle = Math.PI/2;
+        this.percentage=0;
     }
 
     /**

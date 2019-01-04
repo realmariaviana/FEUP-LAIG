@@ -22,7 +22,7 @@ class MyBoard extends CGFobject{
 
     display(){
         this.scene.pushMatrix();
-        this.scene.scale(11,1,11);
+        this.scene.scale(12,1,12);
         this.appearance.apply();
         this.square.display();
         this.scene.popMatrix();
