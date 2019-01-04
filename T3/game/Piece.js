@@ -36,14 +36,18 @@ class Piece{
 
     update(deltaTime){
         if(this.animation){
-
             this.animation.update(deltaTime);
 
             if(this.animation.animationDone){  
                 this.x = this.nextPos[0];
                 this.z = this.nextPos[1];
+                
+                if(this.animation.id=="move")
+                    this.scene.game.changeTurn = true;
+                
+
                 this.animation=null;
-                this.scene.game.changeTurn = true;
+
             }
         }     
             
@@ -56,7 +60,17 @@ class Piece{
         let controlPoints = [[0,0,0],[distanceVec[0],0,distanceVec[1]]];
         let timeRatio = 0.8*distance(controlPoints[0],controlPoints[1]);
 
-        this.animation = new LinearAnimation(this.scene,"",timeRatio,controlPoints);
+        this.animation = new LinearAnimation(this.scene,"move",timeRatio,controlPoints);
+    }
+
+    remove(oldPos,newPos){
+
+        this.nextPos = newPos;            
+
+        let controlPoints = [[oldPos[1],0,oldPos[0]],[oldPos[1],1,oldPos[0]],[this.nextPos[0],1,this.nextPos[1]],[this.nextPos[0],0,this.nextPos[1]]];
+        let timeRatio = 2*distance(controlPoints[0],controlPoints[1]);
+
+        this.animation = new LinearAnimation(this.scene,"capture",timeRatio,controlPoints);
     }
 
     getId(){

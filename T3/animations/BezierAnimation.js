@@ -13,12 +13,12 @@ class BezierAnimation extends Animation{
 
   
   calculateDistance(){
-    var L2 = this.dividePoint(this.addPoints(this.controlPoints[0],this.controlPoints[1]),2);
-    var H  = this.dividePoint(this.addPoints(this.controlPoints[1],this.controlPoints[2]),2);
-    var L3 = this.dividePoint(this.addPoints(L2,H),2);
-    var R3 = this.dividePoint(this.addPoints(this.controlPoints[2],this.controlPoints[3]),2);
-    var R2 = this.dividePoint(this.addPoints(H,R3),2);
-    var R1 = this.dividePoint(this.addPoints(L3,R2),2);
+    var L2 = dividePoint(addPoints(this.controlPoints[0],this.controlPoints[1]),2);
+    var H  = dividePoint(addPoints(this.controlPoints[1],this.controlPoints[2]),2);
+    var L3 = dividePoint(addPoints(L2,H),2);
+    var R3 = dividePoint(addPoints(this.controlPoints[2],this.controlPoints[3]),2);
+    var R2 = dividePoint(addPoints(H,R3),2);
+    var R1 = dividePoint(addPoints(L3,R2),2);
     
   }
   

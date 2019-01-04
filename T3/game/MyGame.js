@@ -76,7 +76,7 @@ class MyGame {
         this.scene.translate(0.55,0,0.55);
 
         if(this.selectedSquareId && getPieceWithId(this.selectedSquareId,this.pieces)){
-            this.selectedSquare.display(getPositionById(this.selectedSquareId)[1]*1.1,getPositionById(this.selectedSquareId)[0]*1.1);
+            this.selectedSquare.display(getPositionById(this.selectedSquareId)[1]*1.1,getPositionById(this.selectedSquareId)[0]*1.09);
         }
 
        for(let i=0; i<this.pieces.length; i++){
@@ -87,9 +87,10 @@ class MyGame {
             this.scene.popMatrix();
         }
 
+        this.displayCapturedPieces();
+
         this.scene.popMatrix();
 
-        this.displayCapturedPieces();
 
     }
 
@@ -196,10 +197,15 @@ class MyGame {
     removePiece(x,z){
         for(let i=0;i<this.pieces.length;i++){
             if(this.pieces[i].x==x && this.pieces[i].z==z){
+                let removed = this.pieces[i];
+                if(this.playerTurn==2) removed.remove([removed.x,removed.z],[12,10-this.player2.capturedPieces]);
+                else removed.remove([removed.x,removed.z],[-2,this.player1.capturedPieces]);
+                this.scene.animatedObjects.push(removed);
                 this.pieces.splice(i,1);
+
                 if(this.playerTurn==1)
-                    this.player1.addCapturedPiece();
-                else this.player2.addCapturedPiece();
+                    this.player1.addCapturedPiece(removed);
+                else this.player2.addCapturedPiece(removed);
             }
         }
     }
@@ -213,6 +219,7 @@ class MyGame {
 
         this.player1.displayCapturedPieces();
         this.player2.displayCapturedPieces();
+
     }
 
     update(deltaTime){
@@ -230,5 +237,6 @@ class MyGame {
         }
         else this.scoreboard.update(deltaTime);
     }
+
 
 };

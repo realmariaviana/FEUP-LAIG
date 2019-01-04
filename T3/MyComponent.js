@@ -20,6 +20,7 @@ class MyComponent
         this.animations = animations;
         this.setDefaultMaterial();
         this.index = 0;
+        if(id=="root") console.log(id);
         
     };
 
