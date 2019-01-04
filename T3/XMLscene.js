@@ -356,8 +356,8 @@ class XMLscene extends CGFscene {
         }
         this.pushMatrix();
         if(this.graph.file_name == "casino.xml"){
-            this.translate(4.6,2.5,4.36);
-            this.scale(0.3,0.3,0.3);
+            this.translate(4.7,2.5,4.7);
+            this.scale(0.23,0.23,0.23);
             
         } else {
             this.translate(4,0.75,4);
