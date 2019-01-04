@@ -70,6 +70,7 @@ class XMLscene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.surfaces = [];
         this.currentCamera='view1';
+        this.cameraAnimation= new CameraAnimation(this,this.currentCamera,this.currentCamera);
         //this.game = new MyGame(this,10,this.gameBotDifficulty);
 
         
@@ -174,7 +175,7 @@ class XMLscene extends CGFscene {
      */
     onGraphLoaded() {
 
-        this.cameraAnimation= new CameraAnimation(this,this.graph.views[this.currentCamera], this.graph.views[this.currentCamera]);
+       // this.cameraAnimation= new CameraAnimation(this,this.graph.views[this.currentCamera], this.graph.views[this.currentCamera]);
 
 
         //TODO: Change reference length according to parsed graph
@@ -218,60 +219,61 @@ class XMLscene extends CGFscene {
 
       changeView(viewName){
         if(viewName == "view1"){
-            this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+            this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
             this.cameraAnimation.done = false;
             this.currentCamera="view1";
           }
           else if(viewName == "view2"){
             if(this.graph.file_name == "sala.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
-                this.cameraAnimation.done = false;
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
+              this.cameraAnimation.done = false;
               this.currentCamera="view2";
             }
             else if(this.graph.file_name == "casino.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="view2";
             }
           }
           else if(viewName == "view3"){
             if(this.graph.file_name == "sala.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="view3";
             }
             else if(this.graph.file_name == "casino.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="view3";
           }
           }
           else if(viewName == "player1"){
             if(this.graph.file_name == "sala.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="player1";
             }
             else if(this.graph.file_name == "casino.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="player1";
           }
           }
           else if(viewName == "player2"){
             if(this.graph.file_name == "sala.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="player2";
             }
             else if(this.graph.file_name == "casino.xml"){
-                this.cameraAnimation = new CameraAnimation(this, this.graph.views[this.currentCamera], this.graph.views[viewName]);
+              this.cameraAnimation = new CameraAnimation(this, this.currentCamera, viewName);
               this.cameraAnimation.done = false;
               this.currentCamera="player2";
           }
           }
 
     }
+
 
     typeToCode(type){
         if(type=='Human') return 0;
@@ -353,8 +355,14 @@ class XMLscene extends CGFscene {
 			this.popMatrix();
         }
         this.pushMatrix();
-        this.translate(4.6,2.5,4.36);
-        this.scale(0.3,0.3,0.3);
+        if(this.graph.file_name == "casino.xml"){
+            this.translate(4.6,2.5,4.36);
+            this.scale(0.3,0.3,0.3);
+            
+        } else {
+            this.translate(4,0.75,4);
+            this.scale(0.35,0.35,0.35);
+        }
         if(this.game) this.game.display();
         this.popMatrix();
 
@@ -382,15 +390,6 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
         this.changeView();
-          if(this.graph.filename == "sala.xml"){
-            this.translate(42,0.2,40);
-            this.scale(0.22,1,0.22);
-          }
-          else if(this.graph.filename == "casino.xml"){
-            this.translate(0,8.7,0);
-            this.scale(0.22,1,0.22);
-          }
-        
         this.popMatrix();
 
         this.popMatrix();

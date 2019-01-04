@@ -2,26 +2,26 @@
 
     <scene root="root" axis_length="5"/>
  
-    <views default="view1" >
+    <views default="view1-perspective" >
          <!-- perspective view 1 -->
-        <perspective id="view1" near="0.1" far="500" angle="20">
+        <perspective id="view1-perspective" near="0.1" far="500" angle="20">
         <from x="25" y="25" z="25"/>            
         <to x="0" y="-3" z="0"/>
         </perspective>
 
         <!-- perspective view 2 -->
-         <perspective id="view2" near="0.2" far="500" angle="0">
+         <perspective id="view2-perspective" near="0.2" far="500" angle="0">
             <from x="9" y="20" z="5"/>
             <to x="2" y="-20" z="5"/>
         </perspective>
 
         <!-- perspective view 3 -->
-         <perspective id="view3" near="0.1" far="500" angle="20">
+         <perspective id="view3-perspective" near="0.1" far="500" angle="20">
             <from x="20" y="28" z="5"/>
             <to x="6" y="0" z="5"/>
         </perspective>
 
-        <perspective id="player1" near="0.1" far="500" angle="20">
+        <!-- <perspective id="player1" near="0.1" far="500" angle="20">
             <from x="6" y="15" z="10"/>
             <to x="6" y="-20" z="-1"/>
         </perspective>
@@ -29,7 +29,7 @@
         <perspective id="player2" near="0.1" far="500" angle="20">
              <from x="6" y="15" z="-1"/>
             <to x="6" y="-20" z="18"/>
-        </perspective>
+        </perspective> -->
 
     </views>
  
