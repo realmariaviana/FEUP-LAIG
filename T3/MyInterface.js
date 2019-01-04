@@ -50,7 +50,7 @@ class MyInterface extends CGFinterface {
         this.views = this.gui.addFolder("Views");
         this.views.open();
         this.gui.view = 'view1';
-        this.gui.viewList = this.views.add(this.gui, 'view', ['view1', 'view2','view3', 'player1', 'player2']);
+        this.gui.viewList = this.views.add(this.gui, 'view', ['view1', 'view2', 'player1', 'player2']);
         this.gui.viewList.onFinishChange(function(){
         this.scene.changeView(this.gui.view);
         }.bind(this))
