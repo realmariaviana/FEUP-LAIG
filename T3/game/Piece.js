@@ -48,12 +48,12 @@ class Piece{
 
                 else if(this.animation.id=="engageHuman"){
                    this.scene.game.scoreboard.unfreezeTime();
-                   //this.scene.game.changeTurn = true;
+                   this.scene.game.changeTurn = true;
                 }
 
                 else if(this.animation.id=="removeHuman"){
                     this.scene.game.scoreboard.unfreezeTime();
-                    //this.scene.game.changeTurn = true;
+                    this.scene.game.changeTurn = true;
                 }
 
                 else if(this.animation.id == "replaceHuman")  
