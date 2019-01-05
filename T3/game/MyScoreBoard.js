@@ -164,5 +164,3 @@ class MyScoreBoard extends CGFobject
     }
 
 };
-
-setTimeout(()=>this.lightAppearance.setTexture(this.blackText);, 2000);
