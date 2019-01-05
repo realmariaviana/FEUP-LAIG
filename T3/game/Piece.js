@@ -8,6 +8,7 @@ class Piece{
         this.z=z;
         this.pieceAppearance=pieceAppearance;
         this.animation=null;
+        this.registerPick = true;
     }
 
 
@@ -47,13 +48,16 @@ class Piece{
 
                 else if(this.animation.id=="engageHuman"){
                    this.scene.game.scoreboard.unfreezeTime();
-                   this.scene.game.changeTurn = true;
+                   //this.scene.game.changeTurn = true;
                 }
 
                 else if(this.animation.id=="removeHuman"){
                     this.scene.game.scoreboard.unfreezeTime();
-                    this.scene.game.changeTurn = true;
+                    //this.scene.game.changeTurn = true;
                 }
+
+                else if(this.animation.id == "replaceHuman")  
+                    this.scene.game.resetRemPieceCoords();
 
                 else if(this.animation.id=="removeBot")
                    this.scene.game.changeTurn = true;
@@ -90,6 +94,7 @@ class Piece{
         let timeRatio = 0.1*(distance(controlPoints[0],controlPoints[1]) + distance(controlPoints[1],controlPoints[2])+distance(controlPoints[2],controlPoints[3])+distance(controlPoints[3],controlPoints[4]));
 
         this.animation = new LinearAnimation(this.scene,type,timeRatio,controlPoints);
+        this.registerPick = false;
     }
 
     getId(){

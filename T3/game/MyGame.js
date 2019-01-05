@@ -27,9 +27,9 @@ class MyGame {
         this.selectedSquare = new MySelectedSquare(this.scene,60);
         this.changeTurn=false;
         this.pieceToRemove= null;
-        this.undo = false;
         this.previousPlayer=1;
         this.playerTurn=1;
+        this.undoFlag = false;
 
         this.currentMove = new Move();
 
@@ -77,7 +77,6 @@ class MyGame {
             }
         }
         else this.scoreboard.update(deltaTime);
-        console.log(this.changeTurn);
     }
 
 
@@ -108,25 +107,25 @@ class MyGame {
 
        for(let i=0; i<this.pieces.length; i++){
             this.scene.pushMatrix();
-            this.scene.translate(this.pieces[i].z*1.1,this.pieces[i].y,this.pieces[i].x*1.1);
-            if(!this.gameOver && this.getPlayerBySymbol(this.playerTurn).type==0 && !this.changeTurn)
-                this.scene.registerForPick(this.pieces[i].getId(), this.pieces[i]);
+
+            if(this.pieces[i].registerPick){
+
+                this.scene.translate(this.pieces[i].z*1.1,this.pieces[i].y,this.pieces[i].x*1.1);
+                if(!this.gameOver && this.getPlayerBySymbol(this.playerTurn).type==0 && !this.changeTurn)
+                    this.scene.registerForPick(this.pieces[i].getId(), this.pieces[i]);
+
+            }else if(!this.pieces[i].animation)
+                this.scene.translate(this.pieces[i].x,this.pieces[i].y,this.pieces[i].z);
+
             this.pieces[i].display();
             this.scene.popMatrix();
         }
-
-        this.displayCapturedPieces();
 
         this.scene.popMatrix();
 
 
     }
 
-    displayCapturedPieces(){
-
-        this.player1.displayCapturedPieces();
-        this.player2.displayCapturedPieces();
-    }
 
     userPick(id){
 
@@ -157,9 +156,6 @@ class MyGame {
             this.currentMove.toCoords = newPos;
             this.currentMove.playerType = this.getPlayerBySymbol(this.playerTurn).type;
             this.currentMove.board=this.boardState;
-            let pieces = this.pieces;
-            this.currentMove.pieces=pieces;
-            console.log(this.currentMove.pieces);
 
             makeRequest(requestString,data => this.checkValidMove(data));
         }
@@ -201,19 +197,16 @@ class MyGame {
 
 
     undo(){
-        if(this.undo)return;
+        if(this.undoFlag)return;
         
         if(!this.currentMove.toCoords) return;
 
         let fromCoords = this.currentMove.fromCoords;
         let toCoords = this.currentMove.toCoords;
 
-        this.boardState = this.currentMove.board;
-        
-        /*this.currentMove.pieceToRemove.z=toCoords[0];
-        this.currentMove.pieceToRemove.x=toCoords[1];*/
-        console.log(this.currentMove.pieces);
-        this.pieces=this.currentMove.pieces;
+        let removed = getPieceWithId(this.currentMove.pieceToRemove.x*10+this.currentMove.pieceToRemove.z,this.pieces);
+        let unitVec = [(fromCoords[0]-removed.x)/(fromCoords[0]-removed.x),(fromCoords[1]-removed.z)/(fromCoords[1]-removed.z)];
+        removed.remove([removed.z,removed.x],[toCoords[1]*1.1,toCoords[0]*1.1],unitVec,"replaceHuman");
 
         this.currentMove.fromCoords=toCoords;
         this.currentMove.toCoords=fromCoords;
@@ -221,7 +214,18 @@ class MyGame {
         let requestString1 = `move(${this.currentMove.fromCoords[0]},${this.currentMove.fromCoords[1]},${this.currentMove.toCoords[0]},${this.currentMove.toCoords[1]},${JSON.stringify(this.currentMove.board)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
         makeRequest(requestString1,data => this.move(data));
 
-        this.undo=true;
+        this.undoFlag=true;
+    }
+
+    resetRemPieceCoords(){
+        let pieceToReplace = getPieceWithId(this.currentMove.pieceToRemove.x*10+this.currentMove.pieceToRemove.z,this.pieces);
+        this.boardState = this.currentMove.board;
+        let x = pieceToReplace.x/1.1;
+        let y = pieceToReplace.x/1.1;
+        pieceToReplace.x=pieceToReplace.z/1.1;
+        pieceToReplace.z=x;
+        pieceToReplace.registerPick=true;
+        this.scoreboard.unfreezeTime();
     }
 
 
@@ -230,7 +234,6 @@ class MyGame {
     initializeBoard(data){
         this.boardState = JSON.parse(data.target.response)[0];
         this.playerTurn = JSON.parse(data.target.response)[3];
-        this.updatedCoordinates=[];
 
         if(this.getPlayerBySymbol(this.playerTurn).type == 1){
             this.moveAi();
@@ -253,7 +256,7 @@ class MyGame {
         }else{
             console.log("invalid move\n");
             this.selectedSquareId=null;
-            this.currentMove.setNull();
+            //this.currentMove.setNull();
         }
 
     }
@@ -306,6 +309,23 @@ class MyGame {
         makeRequest(requestString,data => this.getMove(data));
     }
 
+    changePlayerTurn(){
+			if(this.playerTurn==1) {
+					this.playerTurn=2;
+					 //this.scene.changeView("player2");
+			}
+			else {
+					this.playerTurn=1;
+					//this.scene.changeView("player1");
+			}
+
+        this.scoreboard.resetTimer();
+        this.changeTurn=false;
+        this.scoreboard.unfreezeTime();
+        this.currentMove.setNull();
+        this.undoFlag=false;
+    }
+
     //useful functions
     removePiece(){
         for(let i=0;i<this.pieces.length;i++){
@@ -321,12 +341,12 @@ class MyGame {
 
                 removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec,type);
                 this.currentMove.pieceToRemove=removed;
-                this.scene.animatedObjects.push(removed);
-                this.pieces.splice(i,1);
+                //this.scene.animatedObjects.push(removed);
+                //this.pieces.splice(i,1);
 
-                if(this.playerTurn==1)
+                /*if(this.playerTurn==1)
                     this.player1.addCapturedPiece(removed);
-                else this.player2.addCapturedPiece(removed);
+                else this.player2.addCapturedPiece(removed);*/
 
             }
         }

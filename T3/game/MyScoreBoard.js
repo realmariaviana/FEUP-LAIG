@@ -21,7 +21,8 @@ class MyScoreBoard extends CGFobject
 	initElements(){
 
         this.font = new MyLedFont(this.scene);
-	    this.quad=new MyQuad(this.scene, 0, 0, 1, 1);
+        this.quad=new MyQuad(this.scene, 0, 0, 1, 1);
+        this.cil=new MyCylinder(this.scene, 1,1,1,60,20);
 
 	    this.grayMaterial = new CGFappearance(this.scene);
         this.grayMaterial.setDiffuse(0.2,0.2,0.2,1);
@@ -33,6 +34,18 @@ class MyScoreBoard extends CGFobject
 	    this.boardMaterial.setDiffuse(0.8,0.8,0.8,1);
 	    this.boardMaterial.setSpecular(0.8,0.8,0.8,1);
         this.boardMaterial.loadTexture("../scenes/images/scoreboard.jpg");
+
+        this.lightAppearance = new CGFappearance(this.scene);
+        this.lightAppearance.setAmbient(0.4,0.4,0.4,1);
+	    this.lightAppearance.setDiffuse(0.8,0.8,0.8,1);
+        this.lightAppearance.setSpecular(0.8,0.8,0.8,1);
+        
+        this.regularText=new CGFtexture(this.scene,"../scenes/images/white.jpg");
+        this.redText = new CGFtexture(this.scene,"../scenes/images/white.jpg");
+        this.blackText = new CGFtexture(this.scene,"../scenes/images/black.jpg");
+
+        this.lightAppearance.setTexture(this.regularText);
+
     }
     
 
@@ -116,6 +129,13 @@ class MyScoreBoard extends CGFobject
             this.grayMaterial.apply();
             
         this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(5.3, 1, 0.1);
+        this.scene.scale(0.4, 0.4, 0.3);
+        this.lightAppearance.apply();
+        this.cil.display();
+        this.scene.popMatrix();
     };
     
     update(deltaTime){
@@ -144,3 +164,5 @@ class MyScoreBoard extends CGFobject
     }
 
 };
+
+setTimeout(()=>this.lightAppearance.setTexture(this.blackText);, 2000);

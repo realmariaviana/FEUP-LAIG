@@ -19,11 +19,6 @@ class Player{
         this.score=capturedPieces;
     }
 
-    addCapturedPiece(piece){
-        this.capturedPieces++;
-        this.capturedPiecesArray.push(piece);
-    }
-
     getCapturedCoords(z){
         let x;
         if(this.addCapturedPiece.symbol == 2) x = 1;
@@ -51,21 +46,4 @@ class Player{
 
         return [x,z];
     }
-
-    displayCapturedPieces(){
-
-        let x,z;
-
-        for(let i=0; i<this.capturedPiecesArray.length; i++){
-            this.scene.pushMatrix();
-            if(!this.capturedPiecesArray[i].animation){
-                this.scene.translate(this.capturedPiecesArray[i].x,0,this.capturedPiecesArray[i].z);
-            }   
-            this.capturedPiecesArray[i].display();
-            this.scene.popMatrix();
-        }
-    }
-
-    
-    
 };
