@@ -71,10 +71,6 @@ class XMLscene extends CGFscene {
         this.surfaces = [];
         this.currentCamera ='view1';
         this.cameraAnimation = new CameraAnimation(this, this.currentCamera, this.currentCamera);
-        //this.game = new MyGame(this,10,this.gameBotDifficulty);
-
-        
-
 	};
 
 

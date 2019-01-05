@@ -80,7 +80,9 @@ class MyGame {
             this.scoreboard.points=[this.player1.score,this.player2.score];
 
         this.scene.pushMatrix();
-		this.scene.translate(-0.1,1.5,0);
+        this.scene.translate(-3,0,11);
+        this.scene.rotate(Math.PI/2, 0, 1, 0);
+        this.scene.rotate(-Math.PI/12, 1, 0, 0);
 		this.scoreboard.display();
         this.scene.popMatrix();
 
@@ -283,7 +285,7 @@ class MyGame {
     changePlayerTurn(){
 			if(this.playerTurn==1) {
 					this.playerTurn=2;
-					 this.scene.changeView("player2");
+					this.scene.changeView("player2");
 			}
 			else {
 					this.playerTurn=1;
