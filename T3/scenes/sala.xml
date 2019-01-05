@@ -50,7 +50,7 @@
 
         <!-- omni light 2 -->
          <omni id="light 2 (omni)" enabled="1">
-            <location x="6" y="5" z="8" w="1"/>
+            <location x="6" y="6" z="6" w="1"/>
             <ambient r="0.6" g="0.6" b="0.6" a="1.0"/>
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0"/>
             <specular r="0.8" g="0.8" b="0.8" a="1.0"/>
@@ -58,7 +58,7 @@
 
         <!-- spot light 1 -->
         <spot id="board light1" enabled="1" angle="10" exponent="2">
-            <location x="5" y="1.95" z="5" w="1"/>
+            <location x="3" y="5.4" z="5" w="1"/>
             <target x="5" y="-5" z="5"/>
             <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
             <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
@@ -67,7 +67,7 @@
 
          <!-- spot light 1 -->
         <spot id="board light2" enabled="1" angle="10" exponent="2">
-            <location x="5" y="1.95" z="8" w="1"/>
+            <location x="3" y="5.4" z="8" w="1"/>
             <target x="5" y="-5" z="5"/>
             <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
             <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
@@ -76,7 +76,7 @@
 
          <!-- spot light 1 -->
         <spot id="board light3" enabled="1" angle="10" exponent="2">
-            <location x="8" y="1.95" z="5" w="1"/>
+            <location x="9" y="5.4" z="5" w="1"/>
             <target x="5" y="-5" z="5"/>
             <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
             <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
@@ -85,7 +85,7 @@
 
          <!-- spot light 1 -->
         <spot id="board light4" enabled="1" angle="10" exponent="2">
-            <location x="8" y="1.95" z="8" w="1"/>
+            <location x="9" y="5.4" z="8" w="1"/>
             <target x="5" y="-5" z="5"/>
             <ambient r="0.1" g="0.1" b="0.1" a="0.1" />
             <diffuse r="0.2" g="0.2" b="0.2" a="0.1" />
@@ -278,8 +278,8 @@
 
         <component id="doneButton">
             <transformation> 
-                <translate x="8.5" y="1" z="6.3"/>
-                <scale x="0.2" y="0.05" z="0.2"/>
+                <translate x="9" y="0.7" z="6"/>
+                <scale x="0.18" y="0.05" z="0.18"/>
                 <rotate axis="x" angle = "-90"/>
 
             </transformation>
@@ -408,8 +408,8 @@
         <!-- Table -->
         <component id="table">
             <transformation>
-                <translate x="-4.5" y="0.2" z="3"/> 
-                <scale x="6" y="0.8" z="6"/>
+                <translate x="-5.5" y="0.2" z="3"/> 
+                <scale x="6.5" y="0.8" z="6"/>
                 <transformationref id = "to_origin"/>
             </transformation>
             <materials>
@@ -752,7 +752,7 @@
 
          <component id="seat3">
             <transformation>
-                <translate x="2" y="0" z="6"/>
+                <translate x="1.7" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
                  <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -767,7 +767,7 @@
 
          <component id="seat4">
             <transformation>
-                <translate x="10" y="0" z="6"/>
+                <translate x="10.4" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
                 <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
