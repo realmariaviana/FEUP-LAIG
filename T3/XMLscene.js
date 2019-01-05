@@ -69,8 +69,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.surfaces = [];
-        this.currentCamera='view1';
-        this.cameraAnimation= new CameraAnimation(this,this.currentCamera,this.currentCamera);
+        this.currentCamera ='view1';
+        this.cameraAnimation = new CameraAnimation(this, this.currentCamera, this.currentCamera);
         //this.game = new MyGame(this,10,this.gameBotDifficulty);
 
         
@@ -175,9 +175,6 @@ class XMLscene extends CGFscene {
      */
     onGraphLoaded() {
 
-       // this.cameraAnimation= new CameraAnimation(this,this.graph.views[this.currentCamera], this.graph.views[this.currentCamera]);
-
-
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.axis_length);
 
@@ -187,7 +184,7 @@ class XMLscene extends CGFscene {
         // TODO: Change ambient and background details according to parsed graph
 
         this.initLights();
-        this.initViews();
+        //this.initViews();
 
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
@@ -199,16 +196,16 @@ class XMLscene extends CGFscene {
 
 
     update(currTime){
-       
+        if(this.cameraAnimation) this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
         this.graph.updateScene((currTime - this.lastUpdateTime)/1000);
-
+       
         if(this.game) this.game.update((currTime - this.lastUpdateTime)/1000);
-
+        
         for(let i = 0; i<this.animatedObjects.length;i++){
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
 
-        if(this.cameraAnimation) this.cameraAnimation.updateAnimation((currTime - this.lastUpdateTime)/1000);
+        
 
        this.lastUpdateTime = currTime;
     }
@@ -388,11 +385,9 @@ class XMLscene extends CGFscene {
         }
         this.popMatrix();
 
-        this.pushMatrix();
-        this.changeView();
-        this.popMatrix();
+    
 
-        this.popMatrix();
+    
         // ---- END Background, camera and axis setup
     }
 
