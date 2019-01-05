@@ -188,6 +188,10 @@ class MyGame {
         makeRequest(requestString1,data => this.move(data));
 
         this.undoFlag=true;
+
+        if(this.playerTurn==1)
+                    this.player1.capturedPieces--;
+                else this.player2.capturedPieces--;
     }
 
     resetRemPieceCoords(){
@@ -322,9 +326,9 @@ class MyGame {
                 //this.scene.animatedObjects.push(removed);
                 //this.pieces.splice(i,1);
 
-                /*if(this.playerTurn==1)
-                    this.player1.addCapturedPiece(removed);
-                else this.player2.addCapturedPiece(removed);*/
+                if(this.playerTurn==1)
+                    this.player1.capturedPieces++;
+                else this.player2.capturedPieces++;
 
             }
         }
