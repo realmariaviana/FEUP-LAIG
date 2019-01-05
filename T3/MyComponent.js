@@ -20,7 +20,6 @@ class MyComponent
         this.animations = animations;
         this.setDefaultMaterial();
         this.index = 0;
-        if(id=="root") console.log(id);
         
     };
 
@@ -74,6 +73,8 @@ class MyComponent
         //display children
         for(let i = 0; i<this.primitives.length;i++){
             this.primitives[i].updateTextCoords(currentTextInfo[1],currentTextInfo[2]);
+            if(this.id=="doneButton")
+            this.scene.registerForPick(150, this);
             this.primitives[i].display();
         }
 

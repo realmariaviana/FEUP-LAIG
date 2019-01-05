@@ -27,6 +27,9 @@ class MyGame {
         this.selectedSquare = new MySelectedSquare(this.scene,60);
         this.changeTurn=false;
         this.pieceToRemove= null;
+        this.undo = false;
+
+        this.currentMove = new Move();
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
@@ -117,12 +120,18 @@ class MyGame {
 
     userPick(id){
 
+        if(id==150){
+            this.changeTurn = true;
+            return;
+        } 
+
         if(this.gameOver) return;
 
         if(!this.selectedSquareId){
             if(!getPieceWithId(id,this.pieces)) return;
 
             this.selectedSquareId=id;
+            this.currentMove.selectedPiece = getPieceWithId(id,this.pieces);
             return;
         }
 
@@ -134,7 +143,14 @@ class MyGame {
             let newPos = getPositionById(id);
             let requestString = `valid_play(${oldPos[0]},${oldPos[1]},${newPos[0]},${newPos[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
 
-            this.updatedCoordinates=newPos;
+            this.currentMove.fromCoords = oldPos;
+            this.currentMove.toCoords = newPos;
+            this.currentMove.playerType = this.getPlayerBySymbol(this.playerTurn).type;
+            this.currentMove.board=this.boardState;
+            let pieces = this.pieces;
+            this.currentMove.pieces=pieces;
+            console.log(this.currentMove.pieces);
+
             makeRequest(requestString,data => this.checkValidMove(data));
         }
     }
@@ -174,6 +190,31 @@ class MyGame {
     }
 
 
+    undo(){
+        if(this.undo)return;
+        
+        if(!this.currentMove.toCoords) return;
+
+        let fromCoords = this.currentMove.fromCoords;
+        let toCoords = this.currentMove.toCoords;
+
+        this.boardState = this.currentMove.board;
+        
+        /*this.currentMove.pieceToRemove.z=toCoords[0];
+        this.currentMove.pieceToRemove.x=toCoords[1];*/
+        console.log(this.currentMove.pieces);
+        this.pieces=this.currentMove.pieces;
+
+        this.currentMove.fromCoords=toCoords;
+        this.currentMove.toCoords=fromCoords;
+
+        let requestString1 = `move(${this.currentMove.fromCoords[0]},${this.currentMove.fromCoords[1]},${this.currentMove.toCoords[0]},${this.currentMove.toCoords[1]},${JSON.stringify(this.currentMove.board)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
+        makeRequest(requestString1,data => this.move(data));
+
+        this.undo=true;
+    }
+
+
     //callbacks
 
     initializeBoard(data){
@@ -193,27 +234,24 @@ class MyGame {
         if(JSON.parse(data.target.response)[0]=='1'){
 
             if(JSON.parse(data.target.response)[1]=='1') this.moveType = "kill";
+            else if(this.currentMove.playerType != 0)
+                this.moveType = "engageBot";
 
-            let oldPos = getPositionById(this.selectedSquareId);
-
-            let requestString = `move(${oldPos[0]},${oldPos[1]},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
+            let requestString = `move(${this.currentMove.fromCoords[0]},${this.currentMove.fromCoords[1]},${this.currentMove.toCoords[0]},${this.currentMove.toCoords[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
             makeRequest(requestString,data => this.move(data));
-
 
         }else{
             console.log("invalid move\n");
             this.selectedSquareId=null;
+            this.currentMove.setNull();
         }
 
     }
 
     move(data){
 
-        let selectedPiece = getPieceWithId(this.selectedSquareId,this.pieces);
-
-        this.oldPos = [selectedPiece.x,selectedPiece.z];
         if(this.moveType=="kill"){
-            this.pieceToRemove = getPieceWithId(this.updatedCoordinates[0]*10 +this.updatedCoordinates[1],this.pieces);
+            this.pieceToRemove = getPieceWithId(this.currentMove.toCoords[0]*10 +this.currentMove.toCoords[1],this.pieces);
         }
 
         this.boardState = JSON.parse(data.target.response)[0];
@@ -226,7 +264,7 @@ class MyGame {
 
         this.scoreboard.freezeTime();
 
-        selectedPiece.updateCoords(this.oldPos,this.updatedCoordinates);
+        this.currentMove.selectedPiece.updateCoords(this.currentMove.fromCoords,this.currentMove.toCoords,this.moveType);
 
         this.selectedSquareId=null;
     }
@@ -239,15 +277,15 @@ class MyGame {
             return;
         }
 
-        let fromX = JSON.parse(data.target.response)[0];
-        let fromZ = JSON.parse(data.target.response)[1];
 
-        this.updatedCoordinates[0] = JSON.parse(data.target.response)[2];
-        this.updatedCoordinates[1] = JSON.parse(data.target.response)[3];
+        this.currentMove.fromCoords=[JSON.parse(data.target.response)[0],JSON.parse(data.target.response)[1]];
+        this.currentMove.toCoords=[JSON.parse(data.target.response)[2],JSON.parse(data.target.response)[3]];
+        this.currentMove.board=this.boardState;
+        this.currentMove.selectedPiece = getPieceWithId(this.currentMove.fromCoords[0]*10+this.currentMove.fromCoords[1],this.pieces);
 
-        this.selectedSquareId = fromX*10+fromZ;
+        this.selectedSquareId = this.currentMove.fromCoords[0]*10+this.currentMove.fromCoords[1];
 
-        let requestString = `valid_play(${fromX},${fromZ},${this.updatedCoordinates[0]},${this.updatedCoordinates[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
+        let requestString = `valid_play(${this.currentMove.fromCoords[0]},${this.currentMove.fromCoords[1]},${this.currentMove.toCoords[0]},${this.currentMove.toCoords[1]},${JSON.stringify(this.boardState)},${this.playerTurn})`;
 
         makeRequest(requestString,data => this.checkValidMove(data));
 
@@ -271,6 +309,8 @@ class MyGame {
         this.scoreboard.resetTimer();
         this.changeTurn=false;
         this.scoreboard.unfreezeTime();
+        this.currentMove.setNull();
+        this.undo=false;
     }
 
     //useful functions
@@ -280,8 +320,14 @@ class MyGame {
 
                 let removed = this.pieceToRemove;
                 let player = this.getPlayerBySymbol(this.playerTurn);
-                let unitVec = [(this.oldPos[0]-removed.x)/(this.oldPos[0]-removed.x),(this.oldPos[1]-removed.z)/(this.oldPos[1]-removed.z)];
-                removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec);
+                let unitVec = [(this.currentMove.fromCoords[0]-removed.x)/(this.currentMove.fromCoords[0]-removed.x),(this.currentMove.fromCoords[1]-removed.z)/(this.currentMove.fromCoords[1]-removed.z)];
+                let type;
+
+                if(this.currentMove.playerType == 0) type = "removeHuman";
+                else type = "removeBot";
+
+                removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec,type);
+                this.currentMove.pieceToRemove=removed;
                 this.scene.animatedObjects.push(removed);
                 this.pieces.splice(i,1);
 
