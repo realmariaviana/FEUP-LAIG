@@ -368,8 +368,8 @@ class XMLscene extends CGFscene {
                 this.rotate(Math.PI/2, 0, 1, 0);
                 
             } else {
-                // this.translate(4,0.75,4);
-                // this.scale(0.35,0.35,0.35);
+                this.translate(-5.2,-1,11);
+                this.rotate(Math.PI/2, 0, 1, 0);
             }
             this.rotate(-Math.PI/12, 1, 0, 0);
             this.registerForPick(200, this.scoreboard);
