@@ -4,16 +4,18 @@ class Move{
         this.fromCoords=null;
         this.toCoords = null;
         this.selectedPiece=null;
-        this.removedPiece=null;
+        this.pieceToRemove=null;
         this.playerType = null;
+        this.board = null;
     }
 
     setNull(){
         this.fromCoords=null;
         this.toCoords = null;
         this.selectedPiece=null;
-        this.removedPiece=null;
+        this.pieceToRemove=null;
         this.playerType = null;
+        this.board = null;
     }
    
 };
