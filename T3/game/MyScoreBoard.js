@@ -13,6 +13,8 @@ class MyScoreBoard extends CGFobject
         super(scene);
         this.initElements();
         this.freeze = false;
+        console.log("how");
+        this.points=[['0','0'],['0','0']];
 	};
 
 	/**
@@ -45,6 +47,7 @@ class MyScoreBoard extends CGFobject
         this.greenText = new CGFtexture(this.scene,"../scenes/images/selected.jpg");
 
         this.lightAppearance.setTexture(this.regularText);
+        
 
     }
     
@@ -54,7 +57,7 @@ class MyScoreBoard extends CGFobject
      */
 	display(){
 
-        var pointDigits = [['-','1'],['-','1']];
+        var pointDigits = [['-','-'],['-','-']];
         if(this.points[0] >= 0){
             pointDigits[0][0] = String(Math.floor(this.points[0]/10));
             pointDigits[0][1] = String(this.points[0] % 10);
@@ -64,11 +67,14 @@ class MyScoreBoard extends CGFobject
             pointDigits[1][1] = String(this.points[1] % 10);
         }
 
-        var timeDigits = ['-','-'];
-	    if(this.scene.game.timer >= 0){
-		timeDigits[0] = String(Math.floor(this.scene.game.timer/10));
-		timeDigits[1] = String(this.scene.game.timer % 10);
-	    }
+        if(this.scene.game){
+
+            var timeDigits = ['-','-'];
+            if(this.scene.game.timer >= 0){
+            timeDigits[0] = String(Math.floor(this.scene.game.timer/10));
+            timeDigits[1] = String(this.scene.game.timer % 10);
+            }
+        }else  timeDigits=['0','0'];
 
         this.scene.setActiveShader(this.font.shader);
         this.scene.pushMatrix();

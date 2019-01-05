@@ -898,6 +898,9 @@ class MySceneGraph {
 
             case 'water':
             return this.parseWater(node, id);
+
+            case 'scoreboard':
+            this.scene.scoreboard = new MyScoreBoard(this.scene);
         }
     }
 

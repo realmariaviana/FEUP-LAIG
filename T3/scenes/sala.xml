@@ -238,8 +238,8 @@
             <vehicle />
         </primitive>
 
-        <primitive id="game">
-            <game />
+        <primitive id="scoreboard">
+            <scoreboard />
         </primitive>
 
 
@@ -257,7 +257,6 @@
              <texture id="none"/>
 
             <children>
-            <primitiveref id="game"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="floor"/>
@@ -276,7 +275,6 @@
             </animations>
 
         </component> 
-
 
         <component id="doneButton">
             <transformation> 

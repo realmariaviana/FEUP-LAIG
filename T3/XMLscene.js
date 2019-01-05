@@ -38,8 +38,9 @@ class XMLscene extends CGFscene {
 				if (obj)
 				{
                     var customId = this.pickResults[i][1];
+                    if(customId!=200) this.game.userPick(customId);
                     console.log("Picked object: " + obj + ", with pick id " + customId);
-                    this.game.userPick(customId);
+                    
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);
@@ -281,7 +282,7 @@ class XMLscene extends CGFscene {
         let typeP2 = this.typeToCode(this.interface.gui.typeP2);
         let difficulty = this.difficultyToLevel(this.interface.gui.difficulty);
         
-        this.game = new MyGame(this, this.playTime, typeP1,typeP2,difficulty);
+        this.game = new MyGame(this, this.scoreboard,this.playTime, typeP1,typeP2,difficulty);
         this.changeView("player2");
     }
 
@@ -358,6 +359,18 @@ class XMLscene extends CGFscene {
             this.scale(0.35,0.35,0.35);
         }
         if(this.game) this.game.display();
+
+
+        if (this.scoreboard){
+            this.pushMatrix();
+            this.translate(-2.5,0,11);
+            this.rotate(Math.PI/2, 0, 1, 0);
+            this.rotate(-Math.PI/12, 1, 0, 0);
+            this.registerForPick(200, this.scoreboard);
+            this.scoreboard.display();
+            this.popMatrix();
+
+        } 
         this.popMatrix();
 
         let index=0,k;

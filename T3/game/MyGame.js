@@ -1,10 +1,11 @@
 class MyGame {
 
-	constructor(scene,timer,typeP1,typeP2,botDifficulty){
+	constructor(scene,scoreboard,timer,typeP1,typeP2,botDifficulty){
         this.scene=scene;
         this.timer = timer;
         this.typeP1=typeP1;
         this.typeP2=typeP2;
+        this.scoreboard = scoreboard;
         this.botDifficulty=botDifficulty;
         this.pieces = [];
 
@@ -12,7 +13,6 @@ class MyGame {
         this.gameOver = false;
 
         this.board = new MyBoard(this.scene);
-        this.scoreboard = new MyScoreBoard(this.scene);
 
         this.board.selectedSquareId = null;
 
@@ -80,12 +80,6 @@ class MyGame {
             this.scoreboard.points=[this.player1.score,this.player2.score];
 
         this.scene.pushMatrix();
-        this.scene.translate(-0.1,1.5,0);
-        this.scene.registerForPick(200, this.scoreboard);
-		this.scoreboard.display();
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
         this.scene.translate(0.55,0,0.55);
 
         if(this.selectedSquareId && getPieceWithId(this.selectedSquareId,this.pieces)){
@@ -121,7 +115,7 @@ class MyGame {
         if(id==150){
             this.changeTurn = true;
             return;
-        } 
+        }else if(id==200) return;
 
         if(this.gameOver) return;
 
