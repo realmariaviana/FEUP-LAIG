@@ -77,7 +77,7 @@ class MyScoreBoard extends CGFobject
 
             this.scene.pushMatrix();
                 this.scene.scale(0.6, 0.8, 1);
-                this.scene.translate(2, -1.4, 0);
+                this.scene.translate(8.5, -1.4, 0);
                 this.scene.pushMatrix();
                     this.scene.translate(-1, 2, 0.35);
                     this.font.displayWithLetter(pointDigits[0][0], this.quad);
@@ -91,7 +91,7 @@ class MyScoreBoard extends CGFobject
 
             this.scene.pushMatrix();
                 this.scene.scale(0.6, 0.8, 1);
-                this.scene.translate(8.5, -1.4, 0);
+                this.scene.translate(2, -1.4, 0);
                 this.scene.pushMatrix();
                     this.scene.translate(-1, 2, 0.35);
                     this.font.displayWithLetter(pointDigits[1][0], this.quad);

@@ -286,7 +286,7 @@ class XMLscene extends CGFscene {
         let difficulty = this.difficultyToLevel(this.interface.gui.difficulty);
         
         this.game = new MyGame(this, this.playTime, typeP1,typeP2,difficulty);
-        this.changeView("player1");
+        this.changeView("player2");
     }
 
     undo(){

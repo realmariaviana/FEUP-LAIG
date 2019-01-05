@@ -53,13 +53,6 @@ class MyGame {
     }
 
     update(deltaTime){
-    
-        // if (this.previousPlayer != this.playerTurn){
-        //      this.changeTurn=true; 
-        //      this.scoreboard.resetTimer();   
-        // }
-        //  this.previousPlayer=this.playerTurn;
-
 
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
@@ -77,22 +70,14 @@ class MyGame {
             }
         }
         else this.scoreboard.update(deltaTime);
-        console.log(this.changeTurn);
     }
 
 
 
     display(){
 
-
         if(this.player1 !=null && this.player2!=null)
             this.scoreboard.points=[this.player1.score,this.player2.score];
-
-        this.scene.pushMatrix();
-        this.scene.translate(5.5,-0.05,5.5);
-
-        //this.board.display();
-        this.scene.popMatrix();
 
         this.scene.pushMatrix();
 		this.scene.translate(-0.1,1.5,0);
