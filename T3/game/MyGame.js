@@ -80,9 +80,8 @@ class MyGame {
             this.scoreboard.points=[this.player1.score,this.player2.score];
 
         this.scene.pushMatrix();
-        this.scene.translate(-3,0,11);
-        this.scene.rotate(Math.PI/2, 0, 1, 0);
-        this.scene.rotate(-Math.PI/12, 1, 0, 0);
+        this.scene.translate(-0.1,1.5,0);
+        this.scene.registerForPick(200, this.scoreboard);
 		this.scoreboard.display();
         this.scene.popMatrix();
 
@@ -116,6 +115,8 @@ class MyGame {
 
 
     userPick(id){
+
+        this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
 
         if(id==150){
             this.changeTurn = true;
@@ -188,6 +189,10 @@ class MyGame {
         makeRequest(requestString1,data => this.move(data));
 
         this.undoFlag=true;
+
+        if(this.playerTurn==1)
+                    this.player1.capturedPieces--;
+                else this.player2.capturedPieces--;
     }
 
     resetRemPieceCoords(){
@@ -225,9 +230,13 @@ class MyGame {
 
             let requestString = `move(${this.currentMove.fromCoords[0]},${this.currentMove.fromCoords[1]},${this.currentMove.toCoords[0]},${this.currentMove.toCoords[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
             makeRequest(requestString,data => this.move(data));
+            this.scoreboard.lightAppearance.setTexture(this.scoreboard.greenText);
+            setTimeout(()=>this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText), 2000);
 
         }else{
             console.log("invalid move\n");
+            this.scoreboard.lightAppearance.setTexture(this.scoreboard.redText);
+            setTimeout(()=>this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText), 2000);
             this.selectedSquareId=null;
             //this.currentMove.setNull();
         }
@@ -297,6 +306,7 @@ class MyGame {
         this.scoreboard.unfreezeTime();
         this.currentMove.setNull();
         this.undoFlag=false;
+        this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
     }
 
     //useful functions
@@ -317,9 +327,9 @@ class MyGame {
                 //this.scene.animatedObjects.push(removed);
                 //this.pieces.splice(i,1);
 
-                /*if(this.playerTurn==1)
-                    this.player1.addCapturedPiece(removed);
-                else this.player2.addCapturedPiece(removed);*/
+                if(this.playerTurn==1)
+                    this.player1.capturedPieces++;
+                else this.player2.capturedPieces++;
 
             }
         }
