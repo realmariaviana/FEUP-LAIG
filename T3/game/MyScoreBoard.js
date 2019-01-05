@@ -41,8 +41,8 @@ class MyScoreBoard extends CGFobject
         this.lightAppearance.setSpecular(0.8,0.8,0.8,1);
         
         this.regularText=new CGFtexture(this.scene,"../scenes/images/white.jpg");
-        this.redText = new CGFtexture(this.scene,"../scenes/images/white.jpg");
-        this.blackText = new CGFtexture(this.scene,"../scenes/images/black.jpg");
+        this.redText = new CGFtexture(this.scene,"../scenes/images/red.png");
+        this.greenText = new CGFtexture(this.scene,"../scenes/images/selected.jpg");
 
         this.lightAppearance.setTexture(this.regularText);
 

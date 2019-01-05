@@ -115,6 +115,8 @@ class MyGame {
 
     userPick(id){
 
+        this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
+
         if(id==150){
             this.changeTurn = true;
             return;
@@ -223,9 +225,13 @@ class MyGame {
 
             let requestString = `move(${this.currentMove.fromCoords[0]},${this.currentMove.fromCoords[1]},${this.currentMove.toCoords[0]},${this.currentMove.toCoords[1]},${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn})`;
             makeRequest(requestString,data => this.move(data));
+            this.scoreboard.lightAppearance.setTexture(this.scoreboard.greenText);
+            setTimeout(()=>this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText), 2000);
 
         }else{
             console.log("invalid move\n");
+            this.scoreboard.lightAppearance.setTexture(this.scoreboard.redText);
+            setTimeout(()=>this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText), 2000);
             this.selectedSquareId=null;
             //this.currentMove.setNull();
         }
@@ -295,6 +301,7 @@ class MyGame {
         this.scoreboard.unfreezeTime();
         this.currentMove.setNull();
         this.undoFlag=false;
+        this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
     }
 
     //useful functions
