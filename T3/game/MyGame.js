@@ -80,7 +80,8 @@ class MyGame {
             this.scoreboard.points=[this.player1.score,this.player2.score];
 
         this.scene.pushMatrix();
-		this.scene.translate(-0.1,1.5,0);
+        this.scene.translate(-0.1,1.5,0);
+        this.scene.registerForPick(200, this.scoreboard);
 		this.scoreboard.display();
         this.scene.popMatrix();
 
