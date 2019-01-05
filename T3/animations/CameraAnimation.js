@@ -36,8 +36,8 @@ constructor (scene, initialView, finalView){
       }
       else if(initialView == "player2"){
         if(this.scene.graph.file_name == "sala.xml"){
-            this.initialPosition=[7,10,-5];
-          this.initialTarget=[-30,-60,75];
+            this.initialPosition=[6,10,-5];
+          this.initialTarget=[5,-60,80];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
           this.initialPosition= [17,10,20];
@@ -72,7 +72,7 @@ constructor (scene, initialView, finalView){
       }
       else if(finalView == "player2"){
         if(this.scene.graph.file_name == "sala.xml"){
-          this.finalPosition=[7,10,-5];
+          this.finalPosition=[6,10,-5];
           this.finalTarget=[5,-60,80];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
