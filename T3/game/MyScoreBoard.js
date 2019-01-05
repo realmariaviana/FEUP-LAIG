@@ -132,7 +132,7 @@ class MyScoreBoard extends CGFobject
     }
 
     resetTimer(){
-        this.scene.game.timer=this.scene.interface.menu.playTime;
+        this.scene.game.timer=this.scene.playTime;
     }
 
     freezeTime(){

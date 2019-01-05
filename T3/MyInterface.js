@@ -35,7 +35,7 @@ class MyInterface extends CGFinterface {
         this.gui.diffList = this.menu.add(this.gui, 'difficulty', ['easy', 'medium']);
 
 
-        this.menu.playTime=10;
+        this.scene.playTime=10;
         this.menu.add(this.scene, 'playTime', 1, 30);
         this.scenes = this.gui.addFolder("Scenes");
   	    //this.scenes.open();

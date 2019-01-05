@@ -45,11 +45,15 @@ class Piece{
                 if(this.animation.id=="engageBot")
                    this.scene.game.changeTurn = true;
 
-                else if(this.animation.id=="engageHuman")
+                else if(this.animation.id=="engageHuman"){
                    this.scene.game.scoreboard.unfreezeTime();
+                   this.scene.game.changeTurn = true;
+                }
 
-                else if(this.animation.id=="removeHuman")
+                else if(this.animation.id=="removeHuman"){
                     this.scene.game.scoreboard.unfreezeTime();
+                    this.scene.game.changeTurn = true;
+                }
 
                 else if(this.animation.id=="removeBot")
                    this.scene.game.changeTurn = true;

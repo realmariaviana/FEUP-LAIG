@@ -205,8 +205,6 @@ class XMLscene extends CGFscene {
             this.animatedObjects[i].update((currTime - this.lastUpdateTime)/1000)
         }
 
-        
-
        this.lastUpdateTime = currTime;
     }
 
@@ -286,7 +284,6 @@ class XMLscene extends CGFscene {
         let typeP1 = this.typeToCode(this.interface.gui.typeP1);
         let typeP2 = this.typeToCode(this.interface.gui.typeP2);
         let difficulty = this.difficultyToLevel(this.interface.gui.difficulty);
-        this.playTime = this.interface.menu.playTime;
         
         this.game = new MyGame(this, this.playTime, typeP1,typeP2,difficulty);
         this.changeView("player1");

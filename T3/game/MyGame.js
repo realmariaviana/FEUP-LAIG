@@ -28,6 +28,8 @@ class MyGame {
         this.changeTurn=false;
         this.pieceToRemove= null;
         this.undo = false;
+        this.previousPlayer=1;
+        this.playerTurn=1;
 
         this.currentMove = new Move();
 
@@ -51,6 +53,13 @@ class MyGame {
     }
 
     update(deltaTime){
+    
+        // if (this.previousPlayer != this.playerTurn){
+        //      this.changeTurn=true; 
+        //      this.scoreboard.resetTimer();   
+        // }
+        //  this.previousPlayer=this.playerTurn;
+
 
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
@@ -68,6 +77,7 @@ class MyGame {
             }
         }
         else this.scoreboard.update(deltaTime);
+        console.log(this.changeTurn);
     }
 
 
@@ -163,8 +173,8 @@ class MyGame {
 
     changePlayerTurn(){
 			if(this.playerTurn==1) {
-					this.playerTurn=2;
-					 this.scene.changeView("player2");
+                    this.playerTurn=2;
+					this.scene.changeView("player2");
 			}
 			else {
 					this.playerTurn=1;
@@ -294,23 +304,6 @@ class MyGame {
     moveAi(){
         let requestString = `get_move(${JSON.stringify(this.boardState)},${this.player1.pieces},${this.player2.pieces},${this.playerTurn},${this.getPlayerBySymbol(this.playerTurn).type},1)`;
         makeRequest(requestString,data => this.getMove(data));
-    }
-
-    changePlayerTurn(){
-			if(this.playerTurn==1) {
-					this.playerTurn=2;
-					 //this.scene.changeView("player2");
-			}
-			else {
-					this.playerTurn=1;
-					//this.scene.changeView("player1");
-			}
-
-        this.scoreboard.resetTimer();
-        this.changeTurn=false;
-        this.scoreboard.unfreezeTime();
-        this.currentMove.setNull();
-        this.undo=false;
     }
 
     //useful functions

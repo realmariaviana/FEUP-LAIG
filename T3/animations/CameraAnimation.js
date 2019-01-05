@@ -104,6 +104,8 @@ constructor (scene, initialView, finalView){
   
     this.currTime += deltaTime;
   
+    this.scene.camera._up = vec3.fromValues(0,1,0);
+
     if (this.currTime >= this.span) {
         this.scene.camera.setPosition(vec3.fromValues(this.finalPosition[0],this.finalPosition[1],this.finalPosition[2]));
         this.scene.camera.setTarget(vec3.fromValues(this.finalTarget[0],this.finalTarget[1],this.finalTarget[2]));
