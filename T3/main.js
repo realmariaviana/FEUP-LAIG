@@ -20,7 +20,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
 '/animations/Animation.js', '/animations/CircularAnimation.js', '/animations/LinearAnimation.js',
 '/animations/AnimationVector.js', '/font/MyLedFont.js','/game/MyScoreBoard.js', '/game/MyGame.js','/primitives/MyBoard.js',
 '/primitives/MyBishop.js', '/animations/CameraAnimation.js', 'game/Piece.js', 'game/Player.js','PrologInterface.js',
-'/animations/BezierAnimation.js', '/primitives/MySelectedSquare.js','game/Utils.js', 
+'/primitives/MySelectedSquare.js','game/Utils.js', 'game/Move.js', 
 
 
 main=function()
@@ -40,7 +40,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "casino.xml";
+    var filename=getUrlVars()['file'] || "sala.xml";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors

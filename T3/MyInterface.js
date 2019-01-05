@@ -22,8 +22,8 @@ class MyInterface extends CGFinterface {
 
         this.menu = this.gui.addFolder('Menu');
         this.menu.open();
-        this.menu.add(this.scene, 'newGame').name('new game');
-        //this.menu.add(this.scene, 'Undo').name('Undo');
+        this.menu.add(this.scene, 'newGame').name('New game');
+        this.menu.add(this.scene, 'undo').name('Undo');
         this.gui.typeP1 = 'Human';
         this.gui.typeP1List = this.menu.add(this.gui, 'typeP1', ['Human', 'Bot']);
 
@@ -35,8 +35,8 @@ class MyInterface extends CGFinterface {
         this.gui.diffList = this.menu.add(this.gui, 'difficulty', ['easy', 'medium']);
 
 
-        this.gui.playTime=10;
-        this.gui.add(this.gui, 'playTime', 1, 30);
+        this.menu.playTime=10;
+        this.menu.add(this.scene, 'playTime', 1, 30);
         this.scenes = this.gui.addFolder("Scenes");
   	    //this.scenes.open();
     	this.gui.scene = 'casino';
@@ -48,7 +48,7 @@ class MyInterface extends CGFinterface {
           }.bind(this))
           
         this.views = this.gui.addFolder("Views");
-        this.views.open();
+        //this.views.open();
         this.gui.view = 'view1';
         this.gui.viewList = this.views.add(this.gui, 'view', ['view1', 'view2', 'player1', 'player2']);
         this.gui.viewList.onFinishChange(function(){

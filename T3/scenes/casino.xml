@@ -101,6 +101,7 @@
         <texture id="casinotxt" file="scenes/images/casino.jpg"/>
         <texture id="casinofloortxt" file="scenes/images/casinofloor.jpg"/>
         <texture id="darkwoodtxt" file="scenes/images/darkwood.jpg"/>
+        <texture id="tabuleiro" file="scenes/images/tabuleiro.png"/>
     </textures>
 
      <materials>
@@ -272,7 +273,8 @@
              <texture id="none"/>
 
             <children>
-            <primitiveref id="game"/>
+                <componentref id="board"/>
+                <primitiveref id="game"/>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
                 <componentref id="floor"/>
@@ -285,6 +287,27 @@
             </animations>
 
         </component> 
+
+         <component id="board">
+            <transformation>
+                <translate x="5.96" y="2.3" z="5.92"/>
+                <scale x="2.8" y="1" z="2.8"/>
+                
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+
+            
+             <texture id="tabuleiro" length_s="1" length_t="1"/>
+
+            <children>
+                <primitiveref id="plane"/>
+            </children>
+
+
+         </component>
 
         <!-- Wall1 -->
          <component id="wall1">
