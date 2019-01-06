@@ -31,6 +31,7 @@ class MyGame {
         this.playerTurn=1;
         this.undoFlag = false;
         this.hasPlayed = false;
+        this.scene.cameraAnimDone = false;
 
         this.currentMove = new Move();
         this.moves=[];
@@ -60,7 +61,7 @@ class MyGame {
             this.pieces[i].update(deltaTime);
         }
 
-        if(this.changeTurn){
+        if(this.changeTurn && this.scene.cameraAnimDone){
             this.checkIfGameOver();
 
             if(this.gameOver) return;

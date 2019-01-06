@@ -109,6 +109,7 @@ constructor (scene, initialView, finalView){
     if (this.currTime >= this.span) {
         this.scene.camera.setPosition(vec3.fromValues(this.finalPosition[0],this.finalPosition[1],this.finalPosition[2]));
         this.scene.camera.setTarget(vec3.fromValues(this.finalTarget[0],this.finalTarget[1],this.finalTarget[2]));
+        this.scene.cameraAnimDone = true;
         this.done=true;
         return;
 
