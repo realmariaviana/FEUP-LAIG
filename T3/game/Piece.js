@@ -91,9 +91,6 @@ class Piece{
         let controlPoints = [[oldPosDisp[1],0,oldPosDisp[0]],[oldPosDisp[1]+factorz,0,oldPosDisp[0]+factorx],[oldPosDisp[1]+factorz,3.5,oldPosDisp[0]+factorx],[this.nextPos[0],3.5,this.nextPos[1]],[this.nextPos[0],0,this.nextPos[1]]];
         let timeRatio = 0.1*(distance(controlPoints[0],controlPoints[1]) + distance(controlPoints[1],controlPoints[2])+distance(controlPoints[2],controlPoints[3])+distance(controlPoints[3],controlPoints[4]));
 
-        console.log(unitVec,controlPoints[1]);
-
-
         this.animation = new LinearAnimation(this.scene,type,timeRatio,controlPoints);
         this.registerPick = false;
     }

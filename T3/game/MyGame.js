@@ -275,6 +275,7 @@ class MyGame {
         this.currentMove.toCoords=[JSON.parse(data.target.response)[2],JSON.parse(data.target.response)[3]];
         this.currentMove.board=this.boardState;
         this.currentMove.selectedPiece = getPieceWithId(this.currentMove.fromCoords[0]*10+this.currentMove.fromCoords[1],this.pieces);
+        this.currentMove.playerType = this.getPlayerBySymbol(this.playerTurn).type;
 
         this.selectedSquareId = this.currentMove.fromCoords[0]*10+this.currentMove.fromCoords[1];
 
@@ -313,9 +314,7 @@ class MyGame {
 
                 let removed = this.pieceToRemove;
                 let player = this.getPlayerBySymbol(this.playerTurn);
-                console.log([removed.x,removed.z],this.currentMove.fromCoords);
                 let unitVec = [(removed.x-this.currentMove.fromCoords[0])/Math.abs(removed.x-this.currentMove.fromCoords[0]),(removed.z-this.currentMove.fromCoords[1])/Math.abs(removed.z-this.currentMove.fromCoords[1])];
-                console.log(unitVec);
 
                 let type;
 
@@ -324,8 +323,6 @@ class MyGame {
 
                 removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec,type);
                 this.currentMove.pieceToRemove=removed;
-                //this.scene.animatedObjects.push(removed);
-                //this.pieces.splice(i,1);
 
                 if(this.playerTurn==1)
                     this.player1.capturedPieces++;
