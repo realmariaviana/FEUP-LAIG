@@ -62,7 +62,7 @@ class Piece{
 
                 this.animation=null;
 
-            }else if(this.animation.percentage>=0.55 && this.scene.game.pieceToRemove){
+            }else if(this.animation.remove && this.scene.game.pieceToRemove){
                 this.scene.game.removePiece();
             }
         }     

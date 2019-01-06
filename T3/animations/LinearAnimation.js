@@ -17,6 +17,7 @@ class LinearAnimation extends Animation {
         this.translateVec=[];
         this.angle = Math.PI/2;
         this.percentage=0;
+        this.remove = false;
     }
 
     /**
@@ -70,6 +71,8 @@ class LinearAnimation extends Animation {
         }
 
         if(! this.animationDone){
+
+            if(this.totalDistance-parcialDist < 1) this.remove = true;
 
             for(let i = 0; i<this.vectors.length;i++){
                 if(parcialDist >= this.vectors[i].startDist && parcialDist <= this.vectors[i].endDist){
