@@ -31,6 +31,8 @@ class MyGame {
         this.previousPlayer=1;
         this.playerTurn=1;
         this.undoFlag = false;
+        this.hasPlayed = false;
+        this.scene.cameraAnimDone = false;
 
         this.currentMove = new Move();
         this.moves=[];
@@ -56,13 +58,11 @@ class MyGame {
 
     update(deltaTime){
 
-        console.log(this.moves);
-
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
         }
 
-        if(this.changeTurn){
+        if(this.changeTurn && this.scene.cameraAnimDone){
             this.checkIfGameOver();
 
             if(this.gameOver) return;
@@ -121,7 +121,7 @@ class MyGame {
             return;
         }else if(id==200) return;
 
-        if(this.gameOver) return;
+        if(this.gameOver || this.hasPlayed) return;
 
         if(!this.selectedSquareId){
             if(!getPieceWithId(id,this.pieces)) return;
@@ -195,10 +195,9 @@ class MyGame {
         makeRequest(requestString1,data => this.move(data));
 
         this.undoFlag=true;
+        this.hasPlayed = false;
 
-        if(this.playerTurn==1)
-                    this.player1.capturedPieces--;
-                else this.player2.capturedPieces--;
+       this.getPlayerBySymbol(this.playerTurn).capturedPieces--;
                 
     }
 
@@ -239,6 +238,7 @@ class MyGame {
             makeRequest(requestString,data => this.move(data));
             this.scoreboard.lightAppearance.setTexture(this.scoreboard.greenText);
             setTimeout(()=>this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText), 2000);
+            this.hasPlayed = true;
 
         }else{
             console.log("invalid move\n");
@@ -286,6 +286,7 @@ class MyGame {
         this.currentMove.toCoords=[JSON.parse(data.target.response)[2],JSON.parse(data.target.response)[3]];
         this.currentMove.board=this.boardState;
         this.currentMove.selectedPiece = getPieceWithId(this.currentMove.fromCoords[0]*10+this.currentMove.fromCoords[1],this.pieces);
+        this.currentMove.playerType = this.getPlayerBySymbol(this.playerTurn).type;
 
         this.selectedSquareId = this.currentMove.fromCoords[0]*10+this.currentMove.fromCoords[1];
 
@@ -312,6 +313,7 @@ class MyGame {
 
         this.scoreboard.resetTimer();
         this.changeTurn=false;
+        this.hasPlayed=false;
         this.scoreboard.unfreezeTime();
         this.undoFlag=false;
         this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
@@ -324,7 +326,8 @@ class MyGame {
 
                 let removed = this.pieceToRemove;
                 let player = this.getPlayerBySymbol(this.playerTurn);
-                let unitVec = [(this.currentMove.fromCoords[0]-removed.x)/(this.currentMove.fromCoords[0]-removed.x),(this.currentMove.fromCoords[1]-removed.z)/(this.currentMove.fromCoords[1]-removed.z)];
+                let unitVec = [(removed.x-this.currentMove.fromCoords[0])/Math.abs(removed.x-this.currentMove.fromCoords[0]),(removed.z-this.currentMove.fromCoords[1])/Math.abs(removed.z-this.currentMove.fromCoords[1])];
+
                 let type;
 
                 if(this.currentMove.playerType == 0) type = "removeHuman";
@@ -332,12 +335,8 @@ class MyGame {
 
                 removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec,type);
                 this.currentMove.pieceToRemove=removed;
-                //this.scene.animatedObjects.push(removed);
-                //this.pieces.splice(i,1);
 
-                if(this.playerTurn==1)
-                    this.player1.capturedPieces++;
-                else this.player2.capturedPieces++;
+                this.getPlayerBySymbol(this.playerTurn).capturedPieces++;
 
             }
         }

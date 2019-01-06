@@ -1558,7 +1558,7 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.rootNode.display();
+        if(this.rootNode) this.rootNode.display();
     }
 
     updateScene(timePassed){

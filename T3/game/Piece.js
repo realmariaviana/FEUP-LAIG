@@ -4,7 +4,7 @@ class Piece{
         this.scene = scene;
         this.piece = new MyBishop(this.scene);
         this.x=x;
-        this.y=0.1;
+        this.y=0.01;
         this.z=z;
         this.pieceAppearance=pieceAppearance;
         this.animation=null;
@@ -83,12 +83,12 @@ class Piece{
     remove(oldPos,newPos,unitVec,type){
 
         this.nextPos = newPos;    
-        let factor;
-        
-        if(this.pieceAppearance==this.scene.game.blackPieceAppearance) factor = -0.1;
-        else factor = 0.1;
+        let factorz = 0.5*unitVec[1];
+        let factorx = 0.5*unitVec[0];
 
-        let controlPoints = [[oldPos[1],0,oldPos[0]],[oldPos[1]-0.1*unitVec[1],0,oldPos[0]-factor*unitVec[0]],[oldPos[1]-0.1*unitVec[1],3.5,oldPos[0]-factor*unitVec[0]],[this.nextPos[0],3.5,this.nextPos[1]],[this.nextPos[0],0,this.nextPos[1]]];
+        let oldPosDisp = [oldPos[0]*1.1,oldPos[1]*1.1];
+
+        let controlPoints = [[oldPosDisp[1],0,oldPosDisp[0]],[oldPosDisp[1]+factorz,0,oldPosDisp[0]+factorx],[oldPosDisp[1]+factorz,3.5,oldPosDisp[0]+factorx],[this.nextPos[0],3.5,this.nextPos[1]],[this.nextPos[0],0,this.nextPos[1]]];
         let timeRatio = 0.1*(distance(controlPoints[0],controlPoints[1]) + distance(controlPoints[1],controlPoints[2])+distance(controlPoints[2],controlPoints[3])+distance(controlPoints[3],controlPoints[4]));
 
         this.animation = new LinearAnimation(this.scene,type,timeRatio,controlPoints);
