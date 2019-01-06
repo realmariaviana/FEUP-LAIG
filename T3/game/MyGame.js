@@ -288,11 +288,11 @@ class MyGame {
     changePlayerTurn(){
 			if(this.playerTurn==1) {
 					this.playerTurn=2;
-					//this.scene.changeView("player2");
+					this.scene.changeView("player2");
 			}
 			else {
 					this.playerTurn=1;
-					//this.scene.changeView("player1");
+					this.scene.changeView("player1");
 			}
 
         this.scoreboard.resetTimer();
