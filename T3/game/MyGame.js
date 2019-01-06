@@ -30,6 +30,7 @@ class MyGame {
         this.previousPlayer=1;
         this.playerTurn=1;
         this.undoFlag = false;
+        this.hasPlayed = false;
 
         this.currentMove = new Move();
         this.moves=[];
@@ -118,7 +119,7 @@ class MyGame {
             return;
         }else if(id==200) return;
 
-        if(this.gameOver) return;
+        if(this.gameOver || this.hasPlayed) return;
 
         if(!this.selectedSquareId){
             if(!getPieceWithId(id,this.pieces)) return;
@@ -184,10 +185,9 @@ class MyGame {
         makeRequest(requestString1,data => this.move(data));
 
         this.undoFlag=true;
+        this.hasPlayed = false;
 
-        if(this.playerTurn==1)
-                    this.player1.capturedPieces--;
-                else this.player2.capturedPieces--;
+       this.getPlayerBySymbol(this.playerTurn).capturedPieces--;
                 
     }
 
@@ -228,6 +228,7 @@ class MyGame {
             makeRequest(requestString,data => this.move(data));
             this.scoreboard.lightAppearance.setTexture(this.scoreboard.greenText);
             setTimeout(()=>this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText), 2000);
+            this.hasPlayed = true;
 
         }else{
             console.log("invalid move\n");
@@ -302,6 +303,7 @@ class MyGame {
 
         this.scoreboard.resetTimer();
         this.changeTurn=false;
+        this.hasPlayed=false;
         this.scoreboard.unfreezeTime();
         this.undoFlag=false;
         this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
@@ -324,9 +326,7 @@ class MyGame {
                 removed.remove([removed.x,removed.z],[player.getCapturedCoords()[0],player.getCapturedCoords()[1]],unitVec,type);
                 this.currentMove.pieceToRemove=removed;
 
-                if(this.playerTurn==1)
-                    this.player1.capturedPieces++;
-                else this.player2.capturedPieces++;
+                this.getPlayerBySymbol(this.playerTurn).capturedPieces++;
 
             }
         }
