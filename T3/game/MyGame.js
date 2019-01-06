@@ -168,7 +168,7 @@ class MyGame {
             this.gameOver=true;
             this.scoreboard.boardMaterial.setTexture(this.scoreboard.player2);
         }
-        else{
+        else if (this.player2.capturedPieces==25 && this.player1.capturedPieces==25){
             this.winner=2;
             this.gameOver=true;
             this.scoreboard.boardMaterial.setTexture(this.scoreboard.draw);
