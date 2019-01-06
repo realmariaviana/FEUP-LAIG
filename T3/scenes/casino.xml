@@ -788,7 +788,7 @@
 
         <component id="blackboxbottom">
              <transformation>
-                <scale x="0.65" y="0.02" z="2.5"/>
+                <scale x="0.75" y="0.02" z="2.5"/>
                 <rotate axis="y" angle = "180"/>
                 <translate x="-14" y="113" z="-2.9"/>
             </transformation>
@@ -824,7 +824,7 @@
 
            <component id="blackboxside2">
              <transformation>
-                <scale x="0.67" y="0.1" z="0.02"/>
+                <scale x="0.73" y="0.1" z="0.02"/>
                 <rotate axis="y" angle = "-180"/>
                 <translate x="-13.65" y="21" z="-238"/>
             </transformation>
@@ -859,7 +859,7 @@
 
         <component id="whiteboxbottom">
              <transformation>
-                <scale x="0.65" y="0.02" z="2.5"/>
+                <scale x="0.75" y="0.02" z="2.5"/>
                 <rotate axis="y" angle = "180"/>
                 <translate x="-8.3" y="113" z="-2.85"/>
             </transformation>
@@ -895,7 +895,7 @@
 
           <component id="whiteboxside1">
              <transformation>
-                <scale x="0.67" y="0.1" z="0.02"/>
+                <scale x="0.73" y="0.1" z="0.02"/>
                 <rotate axis="y" angle = "-180"/>
                 <translate x="-8.1" y="21" z="-357"/>
             </transformation>

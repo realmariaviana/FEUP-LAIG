@@ -280,7 +280,7 @@
 
         <component id="doneButton">
             <transformation> 
-                <translate x="9.04" y="0.7" z="6"/>
+                <translate x="9.55" y="0.7" z="6"/>
                 <scale x="0.18" y="0.05" z="0.18"/>
                 <rotate axis="x" angle = "-90"/>
 
@@ -410,8 +410,8 @@
         <!-- Table -->
         <component id="table">
             <transformation>
-                <translate x="-5.5" y="0.2" z="3"/> 
-                <scale x="6.5" y="0.8" z="6"/>
+                <translate x="-7.5" y="0.2" z="3"/> 
+                <scale x="7.5" y="0.8" z="6"/>
                 <transformationref id = "to_origin"/>
             </transformation>
             <materials>
@@ -754,7 +754,7 @@
 
          <component id="seat3">
             <transformation>
-                <translate x="1.7" y="0" z="6"/>
+                <translate x="1.3" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
                  <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -769,7 +769,7 @@
 
          <component id="seat4">
             <transformation>
-                <translate x="10.4" y="0" z="6"/>
+                <translate x="10.7" y="0" z="6"/>
                 <rotate axis="x" angle= "90"/> 
                 <scale x="0.42" y="0.42" z="0.42" />
             </transformation>
@@ -954,9 +954,9 @@
 
         <component id="blackboxbottom">
              <transformation>
-                <scale x="0.75" y="0.02" z="3.9"/>
+                <scale x="1.25" y="0.02" z="3.9"/>
                 <rotate axis="y" angle = "180"/>
-                <translate x="-13.25" y="34" z="-2.05"/>
+                <translate x="-8.95" y="34" z="-2.05"/>
             </transformation>
 
             <materials>
@@ -972,9 +972,9 @@
 
          <component id="blackboxback">
              <transformation>
-                <scale x="0.02" y="0.1" z="3.9"/>
+                <scale x="0.02" y="0.1" z="3.8"/>
                 <rotate axis="y" angle = "-180"/>
-                <translate x="-442.5" y="5.6" z="-2.05"/>
+                <translate x="-467.5" y="5.6" z="-2.08"/>
             </transformation>
 
             <materials>
@@ -990,9 +990,9 @@
 
            <component id="blackboxside2">
              <transformation>
-                <scale x="0.73" y="0.1" z="0.02"/>
+                <scale x="1.2" y="0.1" z="0.02"/>
                 <rotate axis="y" angle = "-180"/>
-                <translate x="-13.55" y="5.6" z="-205"/>
+                <translate x="-9.25" y="5.6" z="-205"/>
             </transformation>
 
             <materials>
@@ -1025,9 +1025,9 @@
 
         <component id="whiteboxbottom">
              <transformation>
-                <scale x="0.75" y="0.02" z="3.9"/>
+                <scale x="1.25" y="0.02" z="3.9"/>
                 <rotate axis="y" angle = "180"/>
-                <translate x="-6.5" y="34" z="-1.98"/>
+                <translate x="-4.5" y="34" z="-1.98"/>
             </transformation>
 
             <materials>
@@ -1043,9 +1043,9 @@
 
          <component id="whiteboxback">
              <transformation>
-                <scale x="0.02" y="0.1" z="3.9"/>
+                <scale x="0.02" y="0.1" z="3.95"/>
                 <rotate axis="y" angle = "-180"/>
-                <translate x="-153" y="6" z="-1.98"/>
+                <translate x="-127.5" y="6" z="-1.98"/>
             </transformation>
 
             <materials>
@@ -1061,9 +1061,9 @@
 
           <component id="whiteboxside1">
              <transformation>
-                <scale x="0.73" y="0.1" z="0.02"/>
+                <scale x="1.25" y="0.1" z="0.02"/>
                 <rotate axis="y" angle = "-180"/>
-                <translate x="-6.63" y="6" z="-389"/>
+                <translate x="-4.5" y="6" z="-390"/>
             </transformation>
 
             <materials>

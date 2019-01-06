@@ -364,7 +364,7 @@ class XMLscene extends CGFscene {
         if (this.scoreboard){
             this.pushMatrix();
             if(this.graph.file_name == "sala.xml"){
-                this.translate(-3.3,0,11);
+                this.translate(-5,0,11);
                 this.rotate(Math.PI/2, 0, 1, 0);
                 
             } else {
