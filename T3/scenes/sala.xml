@@ -105,15 +105,15 @@
         <texture id="vistatxt" file="scenes/images/vista.jpg"/>
         <texture id="cactustxt" file="scenes/images/cactus.jpg"/>
         <texture id="velourtxt" file="scenes/images/velour.jpg"/>
-        <texture id="marbletxt" file="scenes/images/marble.jpg"/>
         <texture id="tabletxt" file="scenes/images/table.jpg"/>
         <texture id="pinktxt" file="scenes/images/pink.jpg"/>
         <texture id="terraintxt" file="scenes/images/terrain.jpg"/>
         <texture id="heightmaptxt" file="scenes/images/terrain-height-map.jpg"/>
         <texture id="water" file="scenes/images/water.jpg"/>
         <texture id="wavemap" file="scenes/images/wavemap.png"/>
-         <texture id="tabuleiro" file="scenes/images/tabuleiro.png"/>
-
+        <texture id="tabuleiro" file="scenes/images/tabuleiro.png"/>
+        <texture id="whitemarbletxt" file="scenes/images/whitemarble.jpg"/>
+        <texture id="blackmarbletxt" file="scenes/images/blackmarble.jpg"/>
     </textures>
 
      <materials>
@@ -269,6 +269,8 @@
                <componentref id="mirrors"/>
                <componentref id="board"/>
                <componentref id="doneButton"/>
+               <componentref id="blackbox"/>
+                <componentref id="whitebox"/>
             </children>
 
             <animations>
@@ -278,7 +280,7 @@
 
         <component id="doneButton">
             <transformation> 
-                <translate x="9" y="0.7" z="6"/>
+                <translate x="9.04" y="0.7" z="6"/>
                 <scale x="0.18" y="0.05" z="0.18"/>
                 <rotate axis="x" angle = "-90"/>
 
@@ -913,11 +915,15 @@
             </children>
          </component>
 
-        
+        <component id="cube">
+            <transformation>
+            </transformation>
 
+            <materials>
+                <material id="inherit"/>
             </materials>
-        
-            <texture id="whitetxt" length_s="1" length_t="1"/>
+                
+            <texture id="inherit" length_s="1" length_t="1"/>
 
             <children>
                 <componentref id="cube-lado1"/>
@@ -926,6 +932,148 @@
                 <componentref id="cube-lado4"/>
                 <componentref id="cube-lado5"/>
                 <componentref id="cube-lado6"/>
+            </children>
+        </component>
+
+         <component id="blackbox">
+             <transformation>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="blackmarbletxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="blackboxbottom"/>
+                <componentref id="blackboxback"/>
+                <componentref id="blackboxside2"/>
+            </children>
+         </component>
+
+        <component id="blackboxbottom">
+             <transformation>
+                <scale x="0.75" y="0.02" z="3.9"/>
+                <rotate axis="y" angle = "180"/>
+                <translate x="-13.25" y="34" z="-2.05"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="inherit" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube"/>
+            </children>
+         </component>
+
+         <component id="blackboxback">
+             <transformation>
+                <scale x="0.02" y="0.1" z="3.9"/>
+                <rotate axis="y" angle = "-180"/>
+                <translate x="-442.5" y="5.6" z="-2.05"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="inherit" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube"/>
+            </children>
+         </component>
+
+           <component id="blackboxside2">
+             <transformation>
+                <scale x="0.73" y="0.1" z="0.02"/>
+                <rotate axis="y" angle = "-180"/>
+                <translate x="-13.55" y="5.6" z="-205"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="inherit" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube"/>
+            </children>
+         </component>
+
+        <component id="whitebox">
+             <transformation>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="whitemarbletxt" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="whiteboxbottom"/>
+                <componentref id="whiteboxback"/>
+                <componentref id="whiteboxside1"/>
+            </children>
+         </component>
+
+        <component id="whiteboxbottom">
+             <transformation>
+                <scale x="0.75" y="0.02" z="3.9"/>
+                <rotate axis="y" angle = "180"/>
+                <translate x="-6.5" y="34" z="-1.98"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="inherit" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube"/>
+            </children>
+         </component>
+
+         <component id="whiteboxback">
+             <transformation>
+                <scale x="0.02" y="0.1" z="3.9"/>
+                <rotate axis="y" angle = "-180"/>
+                <translate x="-153" y="6" z="-1.98"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="inherit" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube"/>
+            </children>
+         </component>
+
+          <component id="whiteboxside1">
+             <transformation>
+                <scale x="0.73" y="0.1" z="0.02"/>
+                <rotate axis="y" angle = "-180"/>
+                <translate x="-6.63" y="6" z="-389"/>
+            </transformation>
+
+            <materials>
+                <material id="inherit"/>
+            </materials>
+        
+            <texture id="inherit" length_s="1" length_t="1"/>
+
+            <children>
+                <componentref id="cube"/>
             </children>
          </component>
     </components>

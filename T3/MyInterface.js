@@ -39,7 +39,7 @@ class MyInterface extends CGFinterface {
         this.menu.add(this.scene, 'playTime', 1, 30);
         this.scenes = this.gui.addFolder("Scenes");
   	    //this.scenes.open();
-    	this.gui.scene = 'casino';
+    	this.gui.scene = 'sala';
   	    this.gui.sceneList = this.scenes.add(this.gui, 'scene', ['sala', 'casino']);
         this.gui.sceneList.onFinishChange(function(){
         this.removeFolder("Lights", this.gui);

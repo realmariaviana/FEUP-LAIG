@@ -281,7 +281,7 @@ class XMLscene extends CGFscene {
         let typeP1 = this.typeToCode(this.interface.gui.typeP1);
         let typeP2 = this.typeToCode(this.interface.gui.typeP2);
         let difficulty = this.difficultyToLevel(this.interface.gui.difficulty);
-        
+        //this.scoreboard = new MyScoreBoard(this.scene);
         this.game = new MyGame(this, this.scoreboard,this.playTime, typeP1,typeP2,difficulty);
         this.changeView("player2");
     }

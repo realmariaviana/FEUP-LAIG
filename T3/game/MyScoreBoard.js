@@ -45,8 +45,12 @@ class MyScoreBoard extends CGFobject
         this.regularText=new CGFtexture(this.scene,"../scenes/images/white.jpg");
         this.redText = new CGFtexture(this.scene,"../scenes/images/red.png");
         this.greenText = new CGFtexture(this.scene,"../scenes/images/selected.jpg");
+        this.player1=new CGFtexture(this.scene,"../scenes/images/player1.png");
+        this.player2=new CGFtexture(this.scene,"../scenes/images/player2.png");
+        this.draw=new CGFtexture(this.scene,"../scenes/images/draw.png");
 
         this.lightAppearance.setTexture(this.regularText);
+        this.gameOver=false;
         
 
     }
@@ -56,7 +60,7 @@ class MyScoreBoard extends CGFobject
      * Displays the board.
      */
 	display(){
-
+        if(!this.gameOver){
         var pointDigits = [['-','-'],['-','-']];
         if(this.points[0] >= 0){
             pointDigits[0][0] = String(Math.floor(this.points[0]/10));
@@ -123,8 +127,9 @@ class MyScoreBoard extends CGFobject
             this.scene.popMatrix();
 
             this.scene.setActiveShader(this.scene.defaultShader);
-            this.scene.scale(3.5, 2.7, 0.4);
-
+          
+        }
+        this.scene.scale(3.5, 2.7, 0.4);
             this.scene.pushMatrix();
                 this.scene.translate(0, 0, 0.6);
                 this.scene.scale(2, 1.5, 1);
@@ -140,6 +145,7 @@ class MyScoreBoard extends CGFobject
         this.scene.translate(5.3, 1, 0.1);
         this.scene.scale(0.4, 0.4, 0.3);
         this.lightAppearance.apply();
+        if(!this.gameOver)
         this.cil.display();
         this.scene.popMatrix();
     };

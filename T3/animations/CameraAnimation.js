@@ -30,8 +30,8 @@ constructor (scene, initialView, finalView){
           this.initialTarget=[6,-70,-35];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
-          this.initialPosition= [6,15,8];
-          this.initialTarget=[6,-30,1];
+          this.initialPosition= [6,15,7];
+          this.initialTarget=[6,-60,1];
         }
       }
       else if(initialView == "player2"){
@@ -40,8 +40,8 @@ constructor (scene, initialView, finalView){
           this.initialTarget=[5,-60,80];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
-          this.initialPosition= [6,15,2.5];
-          this.initialTarget=[5,-300,80];
+          this.initialPosition= [6,15,5];
+          this.initialTarget=[5,-1000,80];
         }
       }
   
@@ -66,8 +66,8 @@ constructor (scene, initialView, finalView){
           this.finalTarget=[6,-70,-35];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
-          this.finalPosition=[6,15,8];
-          this.finalTarget=[6,-30,1];
+          this.finalPosition=[6,15,7];
+          this.finalTarget=[6,-60,1];
         }
       }
       else if(finalView == "player2"){
@@ -76,8 +76,8 @@ constructor (scene, initialView, finalView){
           this.finalTarget=[5,-60,80];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
-          this.finalPosition=[6,15,2.5];
-          this.finalTarget=[5,-300,80];
+          this.finalPosition=[6,15,5];
+          this.finalTarget=[5,-1000,80];
         }
       }
 

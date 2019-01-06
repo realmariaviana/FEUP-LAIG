@@ -5,7 +5,8 @@ class MyGame {
         this.timer = timer;
         this.typeP1=typeP1;
         this.typeP2=typeP2;
-        this.scoreboard = scoreboard;
+        this.scoreboard = new MyScoreBoard(this.scene);
+        this.scene.scoreboard=this.scoreboard;
         this.botDifficulty=botDifficulty;
         this.pieces = [];
 
@@ -157,12 +158,20 @@ class MyGame {
         //let requestString = `game_over(${this.player1.pieces},${this.player2.pieces})`;
         //makeRequest(requestString,data => this.setGameOver(data));
 
-        if(this.player1.capturedPieces==25){
+        if(this.player1.capturedPieces==25 && this.player2.capturedPieces!=25){
             this.winner=1;
             this.gameOver=true;
-        }else if(this.player2.capturedPieces==25){
+            this.scoreboard.boardMaterial.setTexture(this.scoreboard.player1);
+            this.scoreboard.gameOver=true;
+        }else if(this.player2.capturedPieces==25 && this.player1.capturedPieces!=25){
             this.winner=2;
             this.gameOver=true;
+            this.scoreboard.boardMaterial.setTexture(this.scoreboard.player2);
+        }
+        else{
+            this.winner=2;
+            this.gameOver=true;
+            this.scoreboard.boardMaterial.setTexture(this.scoreboard.draw);
         }
     }
 
@@ -294,11 +303,11 @@ class MyGame {
     changePlayerTurn(){
 			if(this.playerTurn==1) {
 					this.playerTurn=2;
-					//this.scene.changeView("player2");
+					this.scene.changeView("player2");
 			}
 			else {
 					this.playerTurn=1;
-					//this.scene.changeView("player1");
+					this.scene.changeView("player1");
 			}
 
         this.scoreboard.resetTimer();
