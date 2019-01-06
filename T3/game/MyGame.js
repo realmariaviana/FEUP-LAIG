@@ -55,8 +55,6 @@ class MyGame {
 
     update(deltaTime){
 
-        console.log(this.moves);
-
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
         }
@@ -294,11 +292,11 @@ class MyGame {
     changePlayerTurn(){
 			if(this.playerTurn==1) {
 					this.playerTurn=2;
-					//this.scene.changeView("player2");
+					this.scene.changeView("player2");
 			}
 			else {
 					this.playerTurn=1;
-					//this.scene.changeView("player1");
+					this.scene.changeView("player1");
 			}
 
         this.scoreboard.resetTimer();
@@ -315,7 +313,10 @@ class MyGame {
 
                 let removed = this.pieceToRemove;
                 let player = this.getPlayerBySymbol(this.playerTurn);
-                let unitVec = [(this.currentMove.fromCoords[0]-removed.x)/(this.currentMove.fromCoords[0]-removed.x),(this.currentMove.fromCoords[1]-removed.z)/(this.currentMove.fromCoords[1]-removed.z)];
+                console.log([removed.x,removed.z],this.currentMove.fromCoords);
+                let unitVec = [(removed.x-this.currentMove.fromCoords[0])/Math.abs(removed.x-this.currentMove.fromCoords[0]),(removed.z-this.currentMove.fromCoords[1])/Math.abs(removed.z-this.currentMove.fromCoords[1])];
+                console.log(unitVec);
+
                 let type;
 
                 if(this.currentMove.playerType == 0) type = "removeHuman";
