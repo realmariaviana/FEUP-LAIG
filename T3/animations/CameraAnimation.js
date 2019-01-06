@@ -40,8 +40,8 @@ constructor (scene, initialView, finalView){
           this.initialTarget=[5,-60,80];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
-          this.initialPosition= [6,15,0];
-          this.initialTarget=[5,-160,80];
+          this.initialPosition= [6,15,2.5];
+          this.initialTarget=[5,-300,80];
         }
       }
   
@@ -76,8 +76,8 @@ constructor (scene, initialView, finalView){
           this.finalTarget=[5,-60,80];
         }
         else if(this.scene.graph.file_name == "casino.xml"){
-          this.finalPosition=[6,15,0];
-          this.finalTarget=[5,-160,80];
+          this.finalPosition=[6,15,2.5];
+          this.finalTarget=[5,-300,80];
         }
       }
 
@@ -128,5 +128,6 @@ constructor (scene, initialView, finalView){
         this.scene.camera.setPosition(vec3.fromValues(this.currXPosition,this.currYPosition,this.currZPosition));
         this.scene.camera.setTarget(vec3.fromValues(this.currXTarget,this.currYTarget,this.currZTarget));
     }
+  
   };
 }
