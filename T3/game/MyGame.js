@@ -32,6 +32,7 @@ class MyGame {
         this.undoFlag = false;
 
         this.currentMove = new Move();
+        this.moves=[];
 
         makeRequest("initial_state",data => this.initializeBoard(data));
     }
@@ -53,6 +54,8 @@ class MyGame {
     }
 
     update(deltaTime){
+
+        console.log(this.moves);
 
         for(let i=0;i<this.pieces.length;i++){
             this.pieces[i].update(deltaTime);
@@ -139,7 +142,7 @@ class MyGame {
             this.currentMove.toCoords = newPos;
             this.currentMove.playerType = this.getPlayerBySymbol(this.playerTurn).type;
             this.currentMove.board=this.boardState;
-
+            
             makeRequest(requestString,data => this.checkValidMove(data));
         }
     }
@@ -187,6 +190,7 @@ class MyGame {
         if(this.playerTurn==1)
                     this.player1.capturedPieces--;
                 else this.player2.capturedPieces--;
+                
     }
 
     resetRemPieceCoords(){
@@ -256,6 +260,8 @@ class MyGame {
         this.currentMove.selectedPiece.updateCoords(this.currentMove.fromCoords,this.currentMove.toCoords,this.moveType);
 
         this.selectedSquareId=null;
+        this.moves.push(this.currentMove);
+
     }
 
     getMove(data){
@@ -298,7 +304,6 @@ class MyGame {
         this.scoreboard.resetTimer();
         this.changeTurn=false;
         this.scoreboard.unfreezeTime();
-        this.currentMove.setNull();
         this.undoFlag=false;
         this.scoreboard.lightAppearance.setTexture(this.scoreboard.regularText);
     }
